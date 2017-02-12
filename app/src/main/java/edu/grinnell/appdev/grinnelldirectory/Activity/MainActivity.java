@@ -1,7 +1,9 @@
-package edu.grinnell.appdev.grinnelldirectory;
+package edu.grinnell.appdev.grinnelldirectory.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import edu.grinnell.appdev.grinnelldirectory.R;
 
 public class MainActivity extends AppCompatActivity {
 
