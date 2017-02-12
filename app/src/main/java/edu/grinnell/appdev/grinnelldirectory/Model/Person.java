@@ -1,8 +1,53 @@
 package edu.grinnell.appdev.grinnelldirectory.Model;
 
-/**
- * Created by prabir on 2/12/17, AppDev Grinnell.
- */
-
 public class Person {
+    String firstName;
+    String nickName;
+    String lastName;
+    String classYear;
+    String reunionYear;
+    String box;
+    String email;
+    String major;
+    String minor;
+    String address;
+    String address1;
+    String address2;
+    String address3;
+    String address4;
+    String phone;
+    String homePhone;
+    String city;
+    String state;
+    String zip;
+    String country;
+    String bldg;
+    String room;
+    String spouse;
+    String alienStatus;
+    String hiatus;
+    String imgPath;
+    String office_phone;
+    String office_email;
+    String office_addr;
+    String office_box;
+    String type;
+    String page_order;
+    String crs_ID;
+    String position_name;
+    String office_hours_1;
+    String office_hours_2;
+    String office_hours_3;
+    String office_hours_4;
+    String personType;
+    String deptMajorClass;
+    String title;
+    String title2;
+    String title3;
+    String title4;
+    String title5;
+    String title6;
+    String title7;
+    String title8;
+
 }
