@@ -33,6 +33,15 @@ public interface DatabaseAPI {
                                    @Query("campusAddress") String campusAddress,
                                    @Query("bldgDorm") String bldgDorm,
                                    @Query("positionDescription") String positionDescription);
+
+    Call<List<Person>> simpleSearch(@Body User user,
+                                    @Query("firstName") String fname,
+                                    @Query("lastName") String lname,
+                                    @Query("major") String major,
+                                    @Query("classYr") String classYr);
+
+    Call<List<Person>> authenticateUser(@Body User user,
+                                        @Query("userName") String userName);
 }
 
 /*
