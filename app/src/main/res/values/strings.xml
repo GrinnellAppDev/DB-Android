@@ -16,4 +16,8 @@
     </string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password_required">Password</string>
+
+    <!-- Strings related to search -->
+    <string name="search_bar">Search...</string>
+    <string name="search_button">Search</string>
 </resources>
