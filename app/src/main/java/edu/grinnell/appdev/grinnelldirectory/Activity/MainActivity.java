@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public void makeAPICall(User user) {
         constructCall();
 
-        Call<List<Person>> personQuery = dbAPI.getStudents(user,"Prabir","Pradhan");
+        Call<List<Person>> personQuery = dbAPI.getStudents(user,"Prabir","Pradhan","","");
         personQuery.enqueue(new Callback<List<Person>>() {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("API_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
-
+                    Log.e("TEST",people.get(0).getClassYear().toString());
                 } else {
                     Log.e("API_FAILURE", "onResult() called but fields were null");
                 }
