@@ -1,15 +1,18 @@
-package edu.grinnell.appdev.grinnelldirectory;
+package edu.grinnell.appdev.grinnelldirectory.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.DatabaseAPI;
+import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import edu.grinnell.appdev.grinnelldirectory.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.e("RESPONSE",response.body().getClassYear());
                 if (response.body() != null) {
                     Log.d("API_SUCCESS", "!");
-                    Log.e("SOME_SHIT",response.body().getClassYear());
+                    Log.e("SOME_SHIT",response.body().toString());
                     //startWeatherOverview(response);
                 } else {
                     Log.e("API_FAILURE", "onResult() called but fields were null");
