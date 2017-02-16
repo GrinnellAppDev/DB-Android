@@ -4,8 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.List;
+
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.DatabaseAPI;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
+import edu.grinnell.appdev.grinnelldirectory.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,7 +19,7 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String baseUrl = "https://itwebappstest.grinnell.edu/";
+    public String baseUrl = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
     public Retrofit retrofit;
     public  DatabaseAPI dbAPI;
 
@@ -31,28 +34,30 @@ public class MainActivity extends AppCompatActivity {
                 build();
 
         Log.e("STARTED_MAIN","MAIN ACTIVITY STARTED");
-        makeAPICall("Prabir","Pradhan");
+        User user = new User("test1stu","selfserv1");
+        makeAPICall(user);
     }
 
-    public void makeAPICall(String fname, String lname) {
+    public void makeAPICall(User user) {
         constructCall();
 
-        Call<Person> personQuery = dbAPI.getStudent(fname,lname);
-        personQuery.enqueue(new Callback<Person>() {
+        Call<List<Person>> personQuery = dbAPI.getStudents(user,"Prabir","Pradhan");
+        personQuery.enqueue(new Callback<List<Person>>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 //Log.e("RESPONSE",response.body().getClassYear());
                 if (response.body() != null) {
-                    Log.d("API_SUCCESS", "!");
-                    Log.e("SOME_SHIT",response.body().toString());
-                    //startWeatherOverview(response);
+                    Log.d("API_SUCCESS", "API returned list of people.");
+                    // response.body() is the list of people, set to 'people'
+                    List<Person> people = response.body();
+
                 } else {
                     Log.e("API_FAILURE", "onResult() called but fields were null");
                 }
             }
 
             @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+            public void onFailure(Call<List<Person>> call, Throwable t) {
                 Log.e("API_FAILURE", t.toString());
             }
         });

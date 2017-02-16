@@ -6,6 +6,8 @@ import android.content.SharedPreferences.Editor;
 
 import android.content.Context;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by alsrfo on 2/10/17.
  */
@@ -15,6 +17,24 @@ public class User {
     private final static String SHARED_PREFERENCES = "user";
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
+
+    @SerializedName("un")
+    private String username;
+    @SerializedName("pw")
+    private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
 
     public static String getUsername(Context context) {
         return getSharedPreferences(context).getString(USERNAME, null);
