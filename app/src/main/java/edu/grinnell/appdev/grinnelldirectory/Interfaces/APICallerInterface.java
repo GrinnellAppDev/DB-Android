@@ -10,9 +10,9 @@ import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 
 public interface APICallerInterface {
 
-    List<Person> simpleSearchCall();
+    List<Person> simpleSearchCall(List<Person> people);
 
-    List<Person> advancedSearchCall();
+    List<Person> advancedSearchCall(List<Person> people);
 
-    List<Person> authenticateUserCall();
+    List<Person> authenticateUserCall(List<Person> people);
 }

@@ -34,14 +34,19 @@ public interface DatabaseAPI {
                                    @Query("bldgDorm") String bldgDorm,
                                    @Query("positionDescription") String positionDescription);
 
+    @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
+    @POST("db")
     Call<List<Person>> simpleSearch(@Body User user,
                                     @Query("firstName") String fname,
                                     @Query("lastName") String lname,
                                     @Query("major") String major,
                                     @Query("classYr") String classYr);
 
+    @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
+    @POST("db")
     Call<List<Person>> authenticateUser(@Body User user,
                                         @Query("userName") String userName);
+
 }
 
 /*

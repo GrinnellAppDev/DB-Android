@@ -5,6 +5,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.List;
 
+import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.DatabaseAPI;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 import edu.grinnell.appdev.grinnelldirectory.User;
@@ -18,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by nicholasroberson on 2/15/17.
  */
 
-public class APICaller {
+public class APICaller implements APICallerInterface {
 
     private String baseUrl = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
     private Retrofit retrofit;
@@ -46,6 +47,7 @@ public class APICaller {
                     Log.d("API_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
+                    simpleSearchCall(people);
                 } else {
                     try {
                         Log.e("ERROR", response.errorBody().string());
@@ -76,6 +78,7 @@ public class APICaller {
                     Log.d("API_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
+                    advancedSearchCall(people);
                 } else {
                     try {
                         Log.e("ERROR", response.errorBody().string());
@@ -103,6 +106,8 @@ public class APICaller {
                     Log.d("API_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
+                    authenticateUserCall(people);
+
                 } else {
                     try {
                         Log.e("ERROR", response.errorBody().string());
@@ -117,6 +122,24 @@ public class APICaller {
                 Log.e("API_FAILURE", t.toString());
             }
         });
+    }
+
+    @Override
+    public List<Person> simpleSearchCall(List<Person> people) {
+        Log.e("TEST_INTERFACE_API",people.get(0).getClassYear().toString());
+        return people;
+    }
+
+    @Override
+    public List<Person> advancedSearchCall(List<Person> people) {
+        Log.e("TEST_INTERFACE_API",people.get(0).getClassYear().toString());
+        return people;
+    }
+
+    @Override
+    public List<Person> authenticateUserCall(List<Person> people) {
+        Log.e("TEST_INTERFACE_API",people.get(0).getClassYear().toString());
+        return people;
     }
 }
 
