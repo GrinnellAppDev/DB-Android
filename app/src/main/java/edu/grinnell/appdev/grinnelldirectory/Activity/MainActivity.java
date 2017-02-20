@@ -2,15 +2,18 @@ package edu.grinnell.appdev.grinnelldirectory.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.User;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements APICallerInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,29 @@ public class MainActivity extends AppCompatActivity {
         test_list_3.add(13, "");
         test_list_3.add(14, "");
 
+        // Works
         apiCaller.simpleSearch(user, test_list_1);
+        // Works
         apiCaller.advancedSearch(user, test_list_3);
+
+        // doesn't work currently, need to figure out how to get info from the user field.
         // apiCaller.authenticateUser(user, test_list_2);
+    }
+
+
+    @Override
+    public List<Person> simpleSearchCall(List<Person> people) {
+        Log.d("TEST_INTERFACE_API_MAIN", people.get(0).getClassYear().toString());
+        return null;
+    }
+
+    @Override
+    public List<Person> advancedSearchCall(List<Person> people) {
+        return null;
+    }
+
+    @Override
+    public boolean authenticateUserCall(List<Person> people) {
+        return false;
     }
 }
