@@ -26,7 +26,7 @@ public class APICaller {
     private Call<List<Person>> personQuery;
     private User user;
 
-    public APICaller() {
+    public APICaller(User user) {
         retrofit = new Retrofit.Builder().
                 baseUrl(baseUrl).
                 addConverterFactory(GsonConverterFactory.create()).
