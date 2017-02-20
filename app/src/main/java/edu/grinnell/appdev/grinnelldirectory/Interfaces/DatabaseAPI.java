@@ -18,7 +18,7 @@ public interface DatabaseAPI {
 
     @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
     @POST("db")
-    Call<List<Person>> getStudents(@Body User user,
+    Call<List<Person>> advancedSearch(@Body User user,
                                    @Query("firstName") String fname,
                                    @Query("lastName") String lname,
                                    @Query("major") String major,
