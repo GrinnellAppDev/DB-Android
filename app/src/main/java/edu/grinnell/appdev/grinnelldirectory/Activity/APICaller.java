@@ -44,13 +44,13 @@ public class APICaller implements APICallerInterface {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.body() != null) {
-                    Log.d("API_SUCCESS", "API returned list of people.");
+                    Log.d("API_SIMPLE_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
                     simpleSearchCall(people);
                 } else {
                     try {
-                        Log.e("ERROR", response.errorBody().string());
+                        Log.e("ERROR_SIMPLE_SEARCH", response.errorBody().string());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
                     }
@@ -59,7 +59,7 @@ public class APICaller implements APICallerInterface {
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
-                Log.e("API_FAILURE", t.toString());
+                Log.e("API_SIMPLE_FAILURE", t.toString());
             }
         });
     }
@@ -75,13 +75,13 @@ public class APICaller implements APICallerInterface {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.body() != null) {
-                    Log.d("API_SUCCESS", "API returned list of people.");
+                    Log.d("API_ADV_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
                     advancedSearchCall(people);
                 } else {
                     try {
-                        Log.e("ERROR", response.errorBody().string());
+                        Log.e("ERROR_ADV_SEARCH", response.errorBody().string());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
                     }
@@ -90,27 +90,27 @@ public class APICaller implements APICallerInterface {
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
-                Log.e("API_FAILURE", t.toString());
+                Log.e("API_ADV_FAILURE", t.toString());
             }
         });
     }
 
     public void authenticateUser(User user, List<String> fields) {
-        personQuery = dbAPI.authenticateUser(user, fields.get(0));
+        personQuery = dbAPI.authenticateUser(user, "roberson");
 
         personQuery.enqueue(new Callback<List<Person>>() {
 
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.body() != null) {
-                    Log.d("API_SUCCESS", "API returned list of people.");
+                    Log.d("API_AUTH_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
                     authenticateUserCall(people);
 
                 } else {
                     try {
-                        Log.e("ERROR", response.errorBody().string());
+                        Log.e("ERROR_AUTH_USER_SEARCH", response.errorBody().string());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
                     }
@@ -126,20 +126,31 @@ public class APICaller implements APICallerInterface {
 
     @Override
     public List<Person> simpleSearchCall(List<Person> people) {
-        Log.e("TEST_INTERFACE_API",people.get(0).getClassYear().toString());
+        Log.d("TEST_INTERFACE_API", people.get(0).getClassYear().toString());
         return people;
     }
 
     @Override
     public List<Person> advancedSearchCall(List<Person> people) {
-        Log.e("TEST_INTERFACE_API",people.get(0).getClassYear().toString());
+        Log.d("TEST_INTERFACE_API", people.get(0).getClassYear().toString());
         return people;
     }
 
     @Override
-    public List<Person> authenticateUserCall(List<Person> people) {
-        Log.e("TEST_INTERFACE_API",people.get(0).getClassYear().toString());
-        return people;
+    public boolean authenticateUserCall(List<Person> people) {
+        // get username from the email field of the result
+        String username = people.get(0).getEmail().split("@")[0];
+        Log.d("TEST_INTERFACE_API", username + " : " + this.user.getUsername());
+
+        if (user.getUsername().equals(username)) {
+            Log.d("AUTH_USER_SUCCESS", "Success " + people.get(0).getUserName() + " vs. " +
+                    user.getUsername() + " : matched. Returning true.");
+            return true;
+        } else {
+            Log.d("AUTH_USER_CONFLICT", "Conflict : " + people.get(0).getUserName() + " vs. " +
+                    user.getUsername() + " : did not match. Returning false.");
+            return false;
+        }
     }
 }
 
