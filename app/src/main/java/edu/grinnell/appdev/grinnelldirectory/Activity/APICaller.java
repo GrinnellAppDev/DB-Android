@@ -45,7 +45,7 @@ public class APICaller {
 
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
-                if (response.body() != null) {
+                if (response.isSuccessful()) {
                     Log.d("API_SIMPLE_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
@@ -53,10 +53,10 @@ public class APICaller {
                 } else {
                     try {
                         Log.e("ERROR_SIMPLE_SEARCH", response.errorBody().string());
-                        apiCallerInterface.simpleSearchCallFailure(response.raw().message());
+                        apiCallerInterface.onServerFailure(response.raw().message());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
-                        apiCallerInterface.simpleSearchCallFailure(e.toString());
+                        apiCallerInterface.onServerFailure(e.toString());
                     }
                 }
             }
@@ -64,7 +64,7 @@ public class APICaller {
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 Log.e("API_SIMPLE_FAILURE", t.toString());
-                apiCallerInterface.connectionError(t.toString());
+                apiCallerInterface.onNetworkingError(t.toString());
             }
         });
     }
@@ -79,7 +79,7 @@ public class APICaller {
 
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
-                if (response.body() != null) {
+                if (response.isSuccessful()) {
                     Log.d("API_ADV_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
@@ -87,10 +87,10 @@ public class APICaller {
                 } else {
                     try {
                         Log.e("ERROR_ADV_SEARCH", response.errorBody().string());
-                        apiCallerInterface.advancedSearchCallFailure(response.raw().message());
+                        apiCallerInterface.onServerFailure(response.raw().message());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
-                        apiCallerInterface.advancedSearchCallFailure(e.toString());
+                        apiCallerInterface.onServerFailure(e.toString());
                     }
                 }
             }
@@ -98,19 +98,19 @@ public class APICaller {
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 Log.e("API_ADV_FAILURE", t.toString());
-                apiCallerInterface.connectionError(t.toString());
+                apiCallerInterface.onNetworkingError(t.toString());
             }
         });
     }
 
     public void authenticateUser(User user, List<String> fields) {
-        personQuery = dbAPI.authenticateUser(user, user.getUsername());
+        personQuery = dbAPI.authenticateUser(user, fields.get(0));
 
         personQuery.enqueue(new Callback<List<Person>>() {
 
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
-                if (response.body() != null) {
+                if (response.isSuccessful()) {
                     Log.d("API_AUTH_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
@@ -118,10 +118,10 @@ public class APICaller {
                 } else {
                     try {
                         Log.e("ERROR_AUTH_USER_SEARCH", response.errorBody().string());
-                        apiCallerInterface.authenticateUserCallFailure(response.raw().message());
+                        apiCallerInterface.onServerFailure(response.raw().message());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
-                        apiCallerInterface.authenticateUserCallFailure(e.toString());
+                        apiCallerInterface.onServerFailure(e.toString());
                     }
                 }
             }
@@ -129,7 +129,7 @@ public class APICaller {
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 Log.e("API_FAILURE", t.toString());
-                apiCallerInterface.connectionError(t.toString());
+                apiCallerInterface.onNetworkingError(t.toString());
             }
         });
     }

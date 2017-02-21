@@ -17,11 +17,7 @@ public interface APICallerInterface {
 
     boolean authenticateUserCallSuccess(List<Person> people);
 
-    String simpleSearchCallFailure(String fail_message);
+    String onServerFailure(String fail_message);
 
-    String advancedSearchCallFailure(String fail_message);
-
-    boolean authenticateUserCallFailure(String fail_message);
-
-    boolean connectionError(String fail_message);
+    boolean onNetworkingError(String fail_message);
 }

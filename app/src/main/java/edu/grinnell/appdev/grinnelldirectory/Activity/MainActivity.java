@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
         user = new User("test1stu", "selfserv1");
         apiCaller = new APICaller(user, this);
 
-        //runSuccessfulTests();
+
+        runSuccessfulTests();
         runFailingTests();
     }
 
@@ -40,13 +41,14 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
         test_list_1.add(3, "");
 
         List<String> test_list_2 = new ArrayList();
-        test_list_2.add(0, "test1stu");
+        test_list_2.add(0, user.getUsername());
 
         List<String> test_list_3 = new ArrayList();
         test_list_3.add(0, "Nicholas");
         test_list_3.add(1, "Roberson");
         test_list_3.add(2, "");
         test_list_3.add(3, "");
+
         test_list_3.add(4, "");
         test_list_3.add(5, "");
         test_list_3.add(6, "");
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
 
         // Username doesnt exist
         List<String> test_list_2 = new ArrayList();
-        test_list_2.add(0, "test1stu!!!!");
+        test_list_2.add(0, "roberson");
 
         // not real class year for another century
         List<String> test_list_3 = new ArrayList();
@@ -135,42 +137,30 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
     @Override
     public boolean authenticateUserCallSuccess(List<Person> people) {
 
-        User sample_user = new User("roberson", "password");
-
         // get username from the email field of the result
         String username = people.get(0).getEmail().split("@")[0];
 
-        if (sample_user.getUsername().equals(username)) {
+        Log.d("USERNAME_COMP",username + " vs. "  + user.getUsername());
+
+        if (user.getUsername().equals(username)) {
             Log.d("AUTH_USER_SUCCESS", "Success " + username + " vs. " +
-                    sample_user.getUsername() + " : matched. Returning true.");
+                    user.getUsername() + " : matched. Returning true.");
             return true;
         } else {
             Log.d("AUTH_USER_FAIL", "Conflict : " + username + " vs. " +
-                    sample_user.getUsername() + " : did not match. Returning false.");
+                    user.getUsername() + " : did not match. Returning false.");
             return false;
         }
     }
 
     @Override
-    public String simpleSearchCallFailure(String fail_message) {
-        Log.e("SIMPLE_SEARCH_FAIL", fail_message);
+    public String onServerFailure(String fail_message) {
+        Log.e("ON_SERVER_FAIL", fail_message);
         return null;
     }
 
     @Override
-    public String advancedSearchCallFailure(String fail_message) {
-        Log.e("ADV_SEARCH_FAIL", fail_message);
-        return null;
-    }
-
-    @Override
-    public boolean authenticateUserCallFailure(String fail_message) {
-        Log.e("AUTH_USER_FAIL", fail_message);
-        return false;
-    }
-
-    @Override
-    public boolean connectionError(String fail_message) {
+    public boolean onNetworkingError(String fail_message) {
         Log.e("API_CONNECTION_ERROR", fail_message);
         return false;
     }
