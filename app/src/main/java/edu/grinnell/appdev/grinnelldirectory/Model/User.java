@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory;
+package edu.grinnell.appdev.grinnelldirectory.Model;
 // package conventions?
 
 import android.content.SharedPreferences;
