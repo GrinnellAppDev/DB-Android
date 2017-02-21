@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
     private APICaller apiCaller;
     private User user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

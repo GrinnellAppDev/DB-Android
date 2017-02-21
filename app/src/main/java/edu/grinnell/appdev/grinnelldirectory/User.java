@@ -8,10 +8,6 @@ import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by alsrfo on 2/10/17.
- */
-
 public class User {
 
     private final static String SHARED_PREFERENCES = "user";
