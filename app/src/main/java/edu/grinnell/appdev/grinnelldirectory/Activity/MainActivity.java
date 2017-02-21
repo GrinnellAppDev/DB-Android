@@ -16,13 +16,22 @@ import edu.grinnell.appdev.grinnelldirectory.User;
 public class MainActivity extends AppCompatActivity implements APICallerInterface {
 
 
+    private APICaller apiCaller;
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        User user = new User("test1stu", "selfserv1");
 
-        APICaller apiCaller = new APICaller(user, this);
+        user = new User("test1stu", "selfserv1");
+        apiCaller = new APICaller(user, this);
+
+        //runSuccessfulTests();
+        runFailingTests();
+    }
+
+    public void runSuccessfulTests() {
 
         List<String> test_list_1 = new ArrayList();
         test_list_1.add(0, "Nicholas");
@@ -59,6 +68,57 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
         apiCaller.authenticateUser(user, test_list_2);
     }
 
+    public void runFailingTests() {
+
+        // Not real major
+        List<String> test_list_1 = new ArrayList();
+        test_list_1.add(0, "Nicholas");
+        test_list_1.add(1, "Roberson");
+        test_list_1.add(2, "bananas");
+        test_list_1.add(3, "");
+
+        // Username doesnt exist
+        List<String> test_list_2 = new ArrayList();
+        test_list_2.add(0, "test1stu!!!!");
+
+        // not real class year for another century
+        List<String> test_list_3 = new ArrayList();
+        test_list_3.add(0, "Nicholas");
+        test_list_3.add(1, "Roberson");
+        test_list_3.add(2, "");
+        test_list_3.add(3, "");
+        test_list_3.add(4, "");
+        test_list_3.add(5, "");
+        test_list_3.add(6, "");
+        test_list_3.add(7, "");
+        test_list_3.add(8, "");
+        test_list_3.add(9, "");
+        test_list_3.add(10, "");
+        test_list_3.add(11, "2117");
+        test_list_3.add(12, "aaaa");
+        test_list_3.add(13, "");
+        test_list_3.add(14, "");
+
+        // will return too many results
+        List<String> test_list_4 = new ArrayList();
+        test_list_4.add(0, "");
+        test_list_4.add(1, "");
+        test_list_4.add(2, "");
+        test_list_4.add(3, "");
+
+        // "Bad request"
+        apiCaller.simpleSearch(user, test_list_1);
+
+        // "Bad request"
+        apiCaller.advancedSearch(user, test_list_3);
+
+        // "Bad request"
+        apiCaller.authenticateUser(user, test_list_2);
+
+        // "Search returned too many records.  Please narrow your search and try again."
+        apiCaller.simpleSearch(user, test_list_4);
+    }
+
 
     @Override
     public List<Person> simpleSearchCallSuccess(List<Person> people) {
@@ -75,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
     @Override
     public boolean authenticateUserCallSuccess(List<Person> people) {
 
-        User sample_user = new User("roberson","password");
+        User sample_user = new User("roberson", "password");
 
         // get username from the email field of the result
         String username = people.get(0).getEmail().split("@")[0];
@@ -85,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
                     sample_user.getUsername() + " : matched. Returning true.");
             return true;
         } else {
-            Log.d("AUTH_USER_CONFLICT", "Conflict : " + username + " vs. " +
+            Log.d("AUTH_USER_FAIL", "Conflict : " + username + " vs. " +
                     sample_user.getUsername() + " : did not match. Returning false.");
             return false;
         }

@@ -53,7 +53,7 @@ public class APICaller {
                 } else {
                     try {
                         Log.e("ERROR_SIMPLE_SEARCH", response.errorBody().string());
-                        apiCallerInterface.simpleSearchCallFailure(response.errorBody().toString());
+                        apiCallerInterface.simpleSearchCallFailure(response.raw().message());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
                         apiCallerInterface.simpleSearchCallFailure(e.toString());
@@ -87,7 +87,7 @@ public class APICaller {
                 } else {
                     try {
                         Log.e("ERROR_ADV_SEARCH", response.errorBody().string());
-                        apiCallerInterface.advancedSearchCallFailure(response.errorBody().toString());
+                        apiCallerInterface.advancedSearchCallFailure(response.raw().message());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
                         apiCallerInterface.advancedSearchCallFailure(e.toString());
@@ -104,7 +104,7 @@ public class APICaller {
     }
 
     public void authenticateUser(User user, List<String> fields) {
-        personQuery = dbAPI.authenticateUser(user, "roberson");
+        personQuery = dbAPI.authenticateUser(user, user.getUsername());
 
         personQuery.enqueue(new Callback<List<Person>>() {
 
@@ -118,7 +118,7 @@ public class APICaller {
                 } else {
                     try {
                         Log.e("ERROR_AUTH_USER_SEARCH", response.errorBody().string());
-                        apiCallerInterface.authenticateUserCallFailure(response.errorBody().string());
+                        apiCallerInterface.authenticateUserCallFailure(response.raw().message());
                     } catch (IOException e) {
                         Log.e("API_FAILURE_EXCEPTION", e.toString());
                         apiCallerInterface.authenticateUserCallFailure(e.toString());
