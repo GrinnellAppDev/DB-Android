@@ -15,27 +15,26 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by nicholasroberson on 2/15/17.
- */
+
 
 public class APICaller {
 
-    private String baseUrl = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
+    private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
+
     private Retrofit retrofit;
     private DatabaseAPI dbAPI;
     private Call<List<Person>> personQuery;
     private APICallerInterface apiCallerInterface;
     private User user;
 
-    public APICaller(User user, APICallerInterface apiInterface) {
+    public APICaller(User user1, APICallerInterface apiInterface) {
         retrofit = new Retrofit.Builder().
-                baseUrl(baseUrl).
+                baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).
                 build();
         dbAPI = retrofit.create(DatabaseAPI.class);
-        user = new User("test1stu", "selfserv1");
         apiCallerInterface = apiInterface;
+        user = user1;
     }
 
     public void simpleSearch(User user, List<String> fields) {

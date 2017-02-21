@@ -124,13 +124,13 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
 
     @Override
     public List<Person> simpleSearchCallSuccess(List<Person> people) {
-        Log.d("SIMPLE_SEARCH_SUCCESS", people.get(0).getClassYear().toString());
+        Log.d("SIMPLE_SEARCH_SUCCESS", "Returned " + people.size() + " result(s).");
         return people;
     }
 
     @Override
     public List<Person> advancedSearchCallSuccess(List<Person> people) {
-        Log.d("ADV_SEARCH_SUCCESS", people.get(0).getClassYear().toString());
+        Log.d("ADV_SEARCH_SUCCESS", "Returned " + people.size() + " result(s).");
         return people;
     }
 
@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
         Log.d("USERNAME_COMP",username + " vs. "  + user.getUsername());
 
         if (user.getUsername().equals(username)) {
-            Log.d("AUTH_USER_SUCCESS", "Success " + username + " vs. " +
+            Log.d("AUTH_USER_SUCCESS", "SUCCESS " + username + " vs. " +
                     user.getUsername() + " : matched. Returning true.");
             return true;
         } else {
-            Log.d("AUTH_USER_FAIL", "Conflict : " + username + " vs. " +
+            Log.e("AUTH_USER_FAIL", "CONFLICT : " + username + " vs. " +
                     user.getUsername() + " : did not match. Returning false.");
             return false;
         }
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
 
     @Override
     public boolean onNetworkingError(String fail_message) {
-        Log.e("API_CONNECTION_ERROR", fail_message);
+        Log.e("ON_NETWORK_FAIL", fail_message);
         return false;
     }
 }
