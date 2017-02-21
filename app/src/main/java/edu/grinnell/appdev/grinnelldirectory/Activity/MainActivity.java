@@ -15,13 +15,15 @@ import edu.grinnell.appdev.grinnelldirectory.User;
 
 public class MainActivity extends AppCompatActivity implements APICallerInterface {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         User user = new User("test1stu", "selfserv1");
 
-        APICaller apiCaller = new APICaller(user);
+        APICaller apiCaller = new APICaller(user, this);
+
         List<String> test_list_1 = new ArrayList();
         test_list_1.add(0, "Nicholas");
         test_list_1.add(1, "Roberson");
@@ -54,23 +56,62 @@ public class MainActivity extends AppCompatActivity implements APICallerInterfac
         apiCaller.advancedSearch(user, test_list_3);
 
         // doesn't work currently, need to figure out how to get info from the user field.
-        // apiCaller.authenticateUser(user, test_list_2);
+        apiCaller.authenticateUser(user, test_list_2);
     }
 
 
     @Override
-    public List<Person> simpleSearchCall(List<Person> people) {
-        Log.d("TEST_INTERFACE_API_MAIN", people.get(0).getClassYear().toString());
+    public List<Person> simpleSearchCallSuccess(List<Person> people) {
+        Log.d("SIMPLE_SEARCH_SUCCESS", people.get(0).getClassYear().toString());
+        return people;
+    }
+
+    @Override
+    public List<Person> advancedSearchCallSuccess(List<Person> people) {
+        Log.d("ADV_SEARCH_SUCCESS", people.get(0).getClassYear().toString());
+        return people;
+    }
+
+    @Override
+    public boolean authenticateUserCallSuccess(List<Person> people) {
+
+        User sample_user = new User("roberson","password");
+
+        // get username from the email field of the result
+        String username = people.get(0).getEmail().split("@")[0];
+
+        if (sample_user.getUsername().equals(username)) {
+            Log.d("AUTH_USER_SUCCESS", "Success " + username + " vs. " +
+                    sample_user.getUsername() + " : matched. Returning true.");
+            return true;
+        } else {
+            Log.d("AUTH_USER_CONFLICT", "Conflict : " + username + " vs. " +
+                    sample_user.getUsername() + " : did not match. Returning false.");
+            return false;
+        }
+    }
+
+    @Override
+    public String simpleSearchCallFailure(String fail_message) {
+        Log.e("SIMPLE_SEARCH_FAIL", fail_message);
         return null;
     }
 
     @Override
-    public List<Person> advancedSearchCall(List<Person> people) {
+    public String advancedSearchCallFailure(String fail_message) {
+        Log.e("ADV_SEARCH_FAIL", fail_message);
         return null;
     }
 
     @Override
-    public boolean authenticateUserCall(List<Person> people) {
+    public boolean authenticateUserCallFailure(String fail_message) {
+        Log.e("AUTH_USER_FAIL", fail_message);
+        return false;
+    }
+
+    @Override
+    public boolean connectionError(String fail_message) {
+        Log.e("API_CONNECTION_ERROR", fail_message);
         return false;
     }
 }

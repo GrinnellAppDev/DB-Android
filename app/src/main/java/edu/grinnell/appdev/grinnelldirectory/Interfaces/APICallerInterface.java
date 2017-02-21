@@ -11,9 +11,17 @@ import edu.grinnell.appdev.grinnelldirectory.User;
 
 public interface APICallerInterface {
 
-    List<Person> simpleSearchCall(List<Person> people);
+    List<Person> simpleSearchCallSuccess(List<Person> people);
 
-    List<Person> advancedSearchCall(List<Person> people);
+    List<Person> advancedSearchCallSuccess(List<Person> people);
 
-    boolean authenticateUserCall(List<Person> people);
+    boolean authenticateUserCallSuccess(List<Person> people);
+
+    String simpleSearchCallFailure(String fail_message);
+
+    String advancedSearchCallFailure(String fail_message);
+
+    boolean authenticateUserCallFailure(String fail_message);
+
+    boolean connectionError(String fail_message);
 }
