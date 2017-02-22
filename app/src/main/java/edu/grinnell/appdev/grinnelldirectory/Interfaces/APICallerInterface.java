@@ -11,9 +11,7 @@ import edu.grinnell.appdev.grinnelldirectory.User;
 
 public interface APICallerInterface {
 
-    List<Person> simpleSearchCallSuccess(List<Person> people);
-
-    List<Person> advancedSearchCallSuccess(List<Person> people);
+    List<Person> onSearchSuccess(List<Person> people);
 
     boolean authenticateUserCallSuccess(List<Person> people);
 

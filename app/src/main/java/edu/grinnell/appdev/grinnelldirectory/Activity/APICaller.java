@@ -37,6 +37,7 @@ public class APICaller {
         user = user1;
     }
 
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void simpleSearch(User user, List<String> fields) {
         personQuery = dbAPI.simpleSearch(user, fields.get(0), fields.get(1), fields.get(2), fields.get(3));
 
@@ -48,7 +49,7 @@ public class APICaller {
                     Log.d("API_SIMPLE_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
-                    apiCallerInterface.simpleSearchCallSuccess(people);
+                    apiCallerInterface.onSearchSuccess(people);
                 } else {
                     try {
                         Log.e("ERROR_SIMPLE_SEARCH", response.errorBody().string());
@@ -68,6 +69,7 @@ public class APICaller {
         });
     }
 
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void advancedSearch(User user, List<String> fields) {
         personQuery = dbAPI.advancedSearch(user, fields.get(0), fields.get(1), fields.get(2)
                 , fields.get(3), fields.get(4), fields.get(5), fields.get(6), fields.get(7)
@@ -82,7 +84,7 @@ public class APICaller {
                     Log.d("API_ADV_SUCCESS", "API returned list of people.");
                     // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
-                    apiCallerInterface.advancedSearchCallSuccess(people);
+                    apiCallerInterface.onSearchSuccess(people);
                 } else {
                     try {
                         Log.e("ERROR_ADV_SEARCH", response.errorBody().string());
@@ -102,6 +104,7 @@ public class APICaller {
         });
     }
 
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void authenticateUser(User user, List<String> fields) {
         personQuery = dbAPI.authenticateUser(user, fields.get(0));
 
