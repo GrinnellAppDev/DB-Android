@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory.Activity;
+package edu.grinnell.appdev.grinnelldirectory;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.DatabaseAPI;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
-import edu.grinnell.appdev.grinnelldirectory.User;
+import edu.grinnell.appdev.grinnelldirectory.Model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

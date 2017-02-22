@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory;
+package edu.grinnell.appdev.grinnelldirectory.Model;
 // package conventions?
 
 import android.content.SharedPreferences;
@@ -7,10 +7,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
-
-/**
- * Created by alsrfo on 2/10/17.
- */
 
 public class User {
 
