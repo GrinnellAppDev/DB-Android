@@ -64,7 +64,7 @@ public class APICaller {
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 Log.e("API_SIMPLE_FAILURE", t.toString());
-                apiCallerInterface.onNetworkingError(t.toString());
+                apiCallerInterface.onNetworkingError(t.getMessage());
             }
         });
     }
@@ -136,9 +136,3 @@ public class APICaller {
         });
     }
 }
-
-/*
-Make simpleSearch, advancedSearch, and authenticateUser functions for both.
-
-New interface: serverResponse, serverError, connectionError.
- */
