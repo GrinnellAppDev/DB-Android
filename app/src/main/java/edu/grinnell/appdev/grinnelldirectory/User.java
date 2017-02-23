@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 /**
  * The User class represents the user of the app.
  * It handles storage of username and password in shared preferences.
+ * User objects are immutable. They will not change when the user's credentials are changed using
+ * <code>saveCredentials</code> or <code>deleteCredentials</code>.
  */
 
 public class User {
