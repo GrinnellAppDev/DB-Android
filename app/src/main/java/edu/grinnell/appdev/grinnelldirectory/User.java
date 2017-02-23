@@ -24,22 +24,21 @@ public class User {
     @SerializedName("pw")
     private String password;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     /**
-     * Create a new User object with username, password from shared preferences.
-     * @param context context of the activity that calls this constructor
-     */
-    public User(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        username = preferences.getString(USERNAME, null);
-        password = preferences.getString(PASSWORD, null);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    * Get a User object with username and password from shared preferences
+    * @param context context of the activity that calls this method
+    * @return User object with saved username and password
+    */
+    public static User getUser(Context context) {
+        SharedPreferences preferences = getSharedPreferences(context);
+        String username = preferences.getString(USERNAME, null);
+        String password = preferences.getString(PASSWORD, null);
+        return new User(username, password);
     }
 
     /**
