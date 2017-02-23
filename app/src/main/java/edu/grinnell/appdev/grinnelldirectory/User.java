@@ -1,13 +1,15 @@
 package edu.grinnell.appdev.grinnelldirectory;
-// package conventions?
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import android.content.Context;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Created by alsrfo on 2/10/17.
+ * The User class represents the user of the app.
+ * User apps are used for gson?
  */
 
 public class User {
@@ -16,14 +18,35 @@ public class User {
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
 
-    public static String getUsername(Context context) {
-        return getSharedPreferences(context).getString(USERNAME, null);
+    @SerializedName("un")
+    private String username;
+
+    @SerializedName("pw")
+    private String password;
+
+    /**
+     * Create a new User object with username, password from shared preferences.
+     * @param context context of the activity that calls this constructor
+     */
+    public User(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        username = preferences.getString(USERNAME, null);
+        password = preferences.getString(PASSWORD, null);
     }
 
-    public static String getPassword(Context context) {
-        return getSharedPreferences(context).getString(PASSWORD, null);
+    public String getUsername() {
+        return username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Determine whether a user is currently logged in
+     * @param context context of the activity that calls this method
+     * @return whether a user is logged in
+     */
     public static boolean isLoggedIn(Context context) {
         SharedPreferences preferences = getSharedPreferences(context);
         String username = preferences.getString(USERNAME, null);
@@ -31,7 +54,12 @@ public class User {
         return username != null && password != null;
     }
 
-    /* Sets new username and password if they are valid */
+    /**
+     * Save the username and password in shared preferences
+     * @param context context of the activity that calls this method
+     * @param username the user's new username
+     * @param password the user's new password
+     */
     public static void saveCredentials(Context context, String username, String password) {
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
@@ -40,6 +68,10 @@ public class User {
         editor.apply();
     }
 
+    /**
+     * Remove the current username and password from shared preferences
+     * @param context context of the activity that calls this method
+     */
     public static void deleteCredentials(Context context) {
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
@@ -47,22 +79,12 @@ public class User {
         editor.apply();
     }
 
+    /**
+     * Get the shared preferences object
+     * @param context context of the activity that calls this method
+     * @return the shared preferences object
+     */
     private static SharedPreferences getSharedPreferences(Context context) {
-        // same thing as context.getApplicationContext().getSharedPreferences(...)?
         return context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-    }
-
-    private static void setUsername(Context context, String username) {
-        SharedPreferences preferences = getSharedPreferences(context);
-        Editor editor = preferences.edit();
-        editor.putString(USERNAME, username);
-        editor.apply();
-    }
-
-    private static void setPassword(Context context, String password) {
-        SharedPreferences preferences = getSharedPreferences(context);
-        Editor editor = preferences.edit();
-        editor.putString(PASSWORD, password);
-        editor.apply();
     }
 }
