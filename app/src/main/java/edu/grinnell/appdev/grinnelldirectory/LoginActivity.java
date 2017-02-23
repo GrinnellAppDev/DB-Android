@@ -30,9 +30,5 @@ public class LoginActivity extends AppCompatActivity {
     public void signin(View view) {
         String usernameTxt = username.getText().toString();
         String passwordTxt = password.getText().toString();
-
-        // toast username for testing
-        Toast.makeText(this, usernameTxt, Toast.LENGTH_SHORT).show();
-        // TODO send username & password to API
     }
 }
