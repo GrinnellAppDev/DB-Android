@@ -5,4 +5,5 @@
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
     <string name="prompt_password_required">Password</string>
+    <string name="login_button">Sign In</string>
 </resources>
