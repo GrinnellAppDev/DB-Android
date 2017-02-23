@@ -91,9 +91,9 @@ public class APICaller {
 
         if (user != null && fields != null) {
             personQuery = dbAPI.advancedSearch(user, fields.get(FIRST_NAME_FIELD), fields.get(LAST_NAME_FIELD),
-                    fields.get(MAJOR_FIELD), fields.get(FAC_STAFF_OFFICE_FIELD), fields.get(CONCENTRATION_FIELD),
+                    fields.get(MAJOR_FIELD), fields.get(CLASS_YEAR_FIELD), fields.get(CONCENTRATION_FIELD),
                     fields.get(SGA_FIELD), fields.get(USERNAME_FIELD), fields.get(CAMPUS_PHONE_FIELD),
-                    fields.get(HIATUS_FIELD), fields.get(HOME_ADDRESS_FIELD), fields.get(CLASS_YEAR_FIELD),
+                    fields.get(HIATUS_FIELD), fields.get(HOME_ADDRESS_FIELD), fields.get(FAC_STAFF_OFFICE_FIELD),
                     fields.get(CAMPUS_ADDRESS_FIELD), fields.get(BUILDING_DORM_FIELD), fields.get(POSITION_DESCRIPTION_FIELD));
 
             personQuery.enqueue(new Callback<List<Person>>() {
