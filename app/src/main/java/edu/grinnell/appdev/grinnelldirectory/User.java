@@ -14,19 +14,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    private final static String SHARED_PREFERENCES = "user";
+    private final static String PREF_USER = "PREF_USER";
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
 
     @SerializedName("un")
-    private final String username;
+    private final String mUsername;
 
     @SerializedName("pw")
-    private final String password;
+    private final String mPassword;
 
     public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+        mUsername = username;
+        mPassword = password;
     }
 
     /**
@@ -84,6 +84,6 @@ public class User {
      * @return the shared preferences object
      */
     private static SharedPreferences getSharedPreferences(Context context) {
-        return context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(PREF_USER, Context.MODE_PRIVATE);
     }
 }
