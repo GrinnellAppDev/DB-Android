@@ -99,11 +99,10 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
         test_list_3.add(7, "");
         test_list_3.add(8, "");
         test_list_3.add(9, "");
-        test_list_3.add(10, "");
-        test_list_3.add(11, "2117");
-        test_list_3.add(12, "aaaa");
+        test_list_3.add(10, "2117");
+        test_list_3.add(11, "1aaaadsfhsfd");
+        test_list_3.add(12, "");
         test_list_3.add(13, "");
-        test_list_3.add(14, "");
 
         // will return too many results
         List<String> test_list_4 = new ArrayList();
