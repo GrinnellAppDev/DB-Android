@@ -61,6 +61,8 @@ public class APICaller {
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 apiCallerInterface.onNetworkingError(t.toString());
+                Log.e("API_SIMPLE_FAILURE", t.toString());
+                apiCallerInterface.onNetworkingError(t.getMessage());
             }
         });
     }

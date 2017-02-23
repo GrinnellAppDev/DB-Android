@@ -18,6 +18,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.LoginActivity"></activity>
+        <activity android:name=".Activity.TestActivity"></activity>
     </application>
-
 </manifest>
