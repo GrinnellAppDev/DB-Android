@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * The User class represents the user of the app.
- * User apps are used for gson?
+ * It handles storage of username and password in shared preferences.
  */
 
 public class User {
@@ -19,10 +19,10 @@ public class User {
     private final static String PASSWORD = "password";
 
     @SerializedName("un")
-    private String username;
+    private final String username;
 
     @SerializedName("pw")
-    private String password;
+    private final String password;
 
     public User(String username, String password) {
         this.username = username;
