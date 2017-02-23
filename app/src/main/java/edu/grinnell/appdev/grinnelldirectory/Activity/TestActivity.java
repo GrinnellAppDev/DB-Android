@@ -3,6 +3,7 @@ package edu.grinnell.appdev.grinnelldirectory.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,6 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
         runFailingTests();
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void runSuccessfulTests() {
 
         List<String> test_list_1 = new ArrayList();
@@ -74,7 +74,6 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
         apiCaller.authenticateUser(user, test_list_2);
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void runFailingTests() {
 
         // Not real major
@@ -127,44 +126,35 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
     }
 
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     @Override
     public List<Person> onSearchSuccess(List<Person> people) {
-        Log.d("API_SEARCH_SUCCESS", "API returned a list of " + people.size() + " length.");
         return people;
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     @Override
     public boolean authenticateUserCallSuccess(List<Person> people) {
-
         // get username from the email field of the result
         String username = people.get(0).getEmail().split("@")[0];
-
-        Log.d("USERNAME_COMP",username + " vs. "  + user.getUsername());
 
         if (user.getUsername().equals(username)) {
             Log.d("AUTH_USER_SUCCESS", "SUCCESS " + username + " vs. " +
                     user.getUsername() + " : matched. Returning true.");
             return true;
         } else {
-            Log.e("AUTH_USER_FAIL", "CONFLICT : " + username + " vs. " +
-                    user.getUsername() + " : did not match. Returning false.");
+            Toast.makeText(this, "Error: User authentication failed." , Toast.LENGTH_SHORT).show();
             return false;
         }
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     @Override
     public String onServerFailure(String fail_message) {
-        Log.e("ON_SERVER_FAIL", fail_message);
+        Toast.makeText(this, "Server Failure: " + fail_message, Toast.LENGTH_SHORT).show();
         return null;
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     @Override
     public boolean onNetworkingError(String fail_message) {
-        Log.e("ON_NETWORK_FAIL", fail_message);
+        Toast.makeText(this, "Networking Error: " + fail_message, Toast.LENGTH_SHORT).show();
         return false;
     }
 }

@@ -21,23 +21,22 @@ public class APICaller {
 
     private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
 
-    private Retrofit retrofit;
+    private Retrofit mRetrofit;
     private DatabaseAPI dbAPI;
     private Call<List<Person>> personQuery;
     private APICallerInterface apiCallerInterface;
     private User user;
 
     public APICaller(User user1, APICallerInterface apiInterface) {
-        retrofit = new Retrofit.Builder().
+        mRetrofit = new Retrofit.Builder().
                 baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).
                 build();
-        dbAPI = retrofit.create(DatabaseAPI.class);
+        dbAPI = mRetrofit.create(DatabaseAPI.class);
         apiCallerInterface = apiInterface;
         user = user1;
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void simpleSearch(User user, List<String> fields) {
         personQuery = dbAPI.simpleSearch(user, fields.get(0), fields.get(1), fields.get(2), fields.get(3));
 
@@ -46,8 +45,6 @@ public class APICaller {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("API_SIMPLE_SUCCESS", "API returned list of people.");
-                    // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
                     apiCallerInterface.onSearchSuccess(people);
                 } else {
@@ -63,13 +60,11 @@ public class APICaller {
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
-                Log.e("API_SIMPLE_FAILURE", t.toString());
                 apiCallerInterface.onNetworkingError(t.toString());
             }
         });
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void advancedSearch(User user, List<String> fields) {
         personQuery = dbAPI.advancedSearch(user, fields.get(0), fields.get(1), fields.get(2)
                 , fields.get(3), fields.get(4), fields.get(5), fields.get(6), fields.get(7)
@@ -81,8 +76,6 @@ public class APICaller {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("API_ADV_SUCCESS", "API returned list of people.");
-                    // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
                     apiCallerInterface.onSearchSuccess(people);
                 } else {
@@ -98,13 +91,11 @@ public class APICaller {
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
-                Log.e("API_ADV_FAILURE", t.toString());
                 apiCallerInterface.onNetworkingError(t.toString());
             }
         });
     }
 
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     public void authenticateUser(User user, List<String> fields) {
         personQuery = dbAPI.authenticateUser(user, fields.get(0));
 
@@ -113,8 +104,6 @@ public class APICaller {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("API_AUTH_SUCCESS", "API returned list of people.");
-                    // response.body() is the list of people, set to 'people'
                     List<Person> people = response.body();
                     apiCallerInterface.authenticateUserCallSuccess(people);
                 } else {
@@ -130,15 +119,8 @@ public class APICaller {
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
-                Log.e("API_FAILURE", t.toString());
                 apiCallerInterface.onNetworkingError(t.toString());
             }
         });
     }
 }
-
-/*
-Make simpleSearch, advancedSearch, and authenticateUser functions for both.
-
-New interface: serverResponse, serverError, connectionError.
- */

@@ -19,8 +19,8 @@ public interface DatabaseAPI {
     @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
     @POST("db")
     Call<List<Person>> advancedSearch(@Body User user,
-                                   @Query("firstName") String fname,
-                                   @Query("lastName") String lname,
+                                   @Query("firstName") String firstName,
+                                   @Query("lastName") String lastName,
                                    @Query("major") String major,
                                    @Query("facStaffOffice") String facStaffOffice,
                                    @Query("concentration") String concentration,
@@ -29,18 +29,18 @@ public interface DatabaseAPI {
                                    @Query("campusPhone") String campusPhone,
                                    @Query("hiatus") String hiatus,
                                    @Query("homeAddress") String homeAddress,
-                                   @Query("classYr") String classYr,
+                                   @Query("classYr") String classYear,
                                    @Query("campusAddress") String campusAddress,
-                                   @Query("bldgDorm") String bldgDorm,
+                                   @Query("bldgDorm") String buildingDorm,
                                    @Query("positionDescription") String positionDescription);
 
     @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
     @POST("db")
     Call<List<Person>> simpleSearch(@Body User user,
-                                    @Query("firstName") String fname,
-                                    @Query("lastName") String lname,
+                                    @Query("firstName") String firstName,
+                                    @Query("lastName") String lastName,
                                     @Query("major") String major,
-                                    @Query("classYr") String classYr);
+                                    @Query("classYr") String classYear);
 
     @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
     @POST("db")
@@ -48,22 +48,3 @@ public interface DatabaseAPI {
                                         @Query("userName") String userName);
 
 }
-
-/*
-Fields of API that we can use:
-
-lastName
-firstName
-major
-facStaffOffice
-concentration
-sga
-userName
-campusPhone
-hiatus
-homeAddress
-classYr
-campusAddress
-bldgDorm
-positionDescription
- */
