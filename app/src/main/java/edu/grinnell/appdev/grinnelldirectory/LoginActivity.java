@@ -11,8 +11,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.username) EditText username;
-    @BindView(R.id.password) EditText password;
+    @BindView(R.id.username) private EditText mUsernameEditText;
+    @BindView(R.id.password) private EditText mPasswordEditText;
     @BindView(R.id.signin) Button signin;
 
     @Override
@@ -23,8 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.signin)
-    public void signin(View view) {
-        String usernameTxt = username.getText().toString();
-        String passwordTxt = password.getText().toString();
+    private void signIn(View view) {
+        String usernameTxt = mUsernameEditText.getText().toString();
+        String passwordTxt = mPasswordEditText.getText().toString();
     }
 }
