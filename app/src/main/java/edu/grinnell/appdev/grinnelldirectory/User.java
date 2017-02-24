@@ -62,6 +62,9 @@ public class User {
      * @param password the user's new password
      */
     public static void saveCredentials(Context context, String username, String password) {
+        if (username == null || password == null) {
+            return;
+        }
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
         editor.putString(USERNAME, username);
