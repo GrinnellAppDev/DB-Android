@@ -68,10 +68,8 @@ public class APICaller {
                         apiCallerInterface.onSearchSuccess(people);
                     } else {
                         try {
-                            Log.e("ERROR_SIMPLE_SEARCH", response.errorBody().string());
-                            apiCallerInterface.onServerFailure(response.raw().message());
+                            apiCallerInterface.onServerFailure(response.errorBody().string());
                         } catch (IOException e) {
-                            Log.e("API_FAILURE_EXCEPTION", e.toString());
                             apiCallerInterface.onServerFailure(e.toString());
                         }
                     }
@@ -105,10 +103,8 @@ public class APICaller {
                         apiCallerInterface.onSearchSuccess(people);
                     } else {
                         try {
-                            Log.e("ERROR_ADV_SEARCH", response.errorBody().string());
-                            apiCallerInterface.onServerFailure(response.raw().message());
+                            apiCallerInterface.onServerFailure(response.errorBody().string());
                         } catch (IOException e) {
-                            Log.e("API_FAILURE_EXCEPTION", e.toString());
                             apiCallerInterface.onServerFailure(e.toString());
                         }
                     }
