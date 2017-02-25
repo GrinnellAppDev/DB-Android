@@ -10,6 +10,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * LoginActivity prompts the user to sign in.
+ */
+
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.username) private EditText mUsernameEditText;
     @BindView(R.id.password) private EditText mPasswordEditText;
@@ -22,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    /**
+     * Sign in when the sign in button is clicked
+     * @param view LoginActivity's view
+     */
     @OnClick(R.id.signin)
     private void signIn(View view) {
         String usernameTxt = mUsernameEditText.getText().toString();
