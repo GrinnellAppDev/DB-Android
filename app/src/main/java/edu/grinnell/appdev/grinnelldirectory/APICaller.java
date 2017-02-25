@@ -130,10 +130,8 @@ public class APICaller {
                         apiCallerInterface.authenticateUserCallSuccess(people);
                     } else {
                         try {
-                            Log.e("ERROR_AUTH_USER_SEARCH", response.errorBody().string());
-                            apiCallerInterface.onServerFailure(response.raw().message());
+                            apiCallerInterface.onServerFailure(response.errorBody().string());
                         } catch (IOException e) {
-                            Log.e("API_FAILURE_EXCEPTION", e.toString());
                             apiCallerInterface.onServerFailure(e.toString());
                         }
                     }
