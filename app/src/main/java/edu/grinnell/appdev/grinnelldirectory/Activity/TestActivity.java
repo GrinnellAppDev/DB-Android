@@ -3,11 +3,15 @@ package edu.grinnell.appdev.grinnelldirectory.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.APICaller;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
@@ -23,17 +27,25 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
     private APICaller apiCaller;
     private User user;
 
+    @BindView(R.id.button_test)
+    Button testButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
+        ButterKnife.bind(this);
 
         user = new User("test1stu", "selfserv1");
         apiCaller = new APICaller(user, this);
 
-
-        runSuccessfulTests();
-        runFailingTests();
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runSuccessfulTests();
+                runFailingTests();
+            }
+        });
     }
 
     public void runSuccessfulTests() {
