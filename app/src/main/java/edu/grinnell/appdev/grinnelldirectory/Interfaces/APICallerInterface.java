@@ -10,11 +10,11 @@ import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 
 public interface APICallerInterface {
 
-    List<Person> onSearchSuccess(List<Person> people);
+    void onSearchSuccess(List<Person> people);
 
-    boolean authenticateUserCallSuccess(List<Person> people);
+    void authenticateUserCallSuccess(List<Person> people);
 
-    String onServerFailure(String fail_message);
+    void onServerFailure(String fail_message);
 
-    boolean onNetworkingError(String fail_message);
+    void onNetworkingError(String fail_message);
 }
