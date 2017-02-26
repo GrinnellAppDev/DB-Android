@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APICaller {
 
     private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
+    private static final int RESPONSE_FORBIDDEN = 403;
 
     // Just for Simple Search
     private static final int FIRST_NAME_FIELD = 0;
@@ -118,16 +119,18 @@ public class APICaller {
         }
     }
 
-    public void authenticateUser(User user, List<String> fields) {
-        if (user != null && fields != null) {
-            personQuery = dbAPI.authenticateUser(user, fields.get(0));
+    public void authenticateUser(User user) {
+        if (user != null) {
+            personQuery = dbAPI.authenticateUser(user, user.getUsername());
 
             personQuery.enqueue(new Callback<List<Person>>() {
                 @Override
                 public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                     if (response.isSuccessful()) {
-                        List<Person> people = response.body();
-                        apiCallerInterface.authenticateUserCallSuccess(people);
+                        // TODO: 2/26/17 return the Person associated with the username instead of null
+                        apiCallerInterface.authenticateUserCallSuccess(true, null);
+                    } else if (response.code() == RESPONSE_FORBIDDEN) {
+                        apiCallerInterface.authenticateUserCallSuccess(false, null);
                     } else {
                         try {
                             apiCallerInterface.onServerFailure(response.errorBody().string());
