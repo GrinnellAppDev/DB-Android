@@ -11,6 +11,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 
+/**
+ * SimpleSearchActivity allows the user to search with one text field.
+ */
+
 public class SimpleSearchActivity extends AppCompatActivity {
   @BindView(R.id.query) private EditText mQueryEditText;
 
@@ -20,6 +24,10 @@ public class SimpleSearchActivity extends AppCompatActivity {
     ButterKnife.bind(this);
   }
 
+  /**
+   * Search when the search button is pressed
+   * @param view SimpleSearchActvity's view
+     */
   @OnClick(R.id.search)
   private void seach(View view) {
     String queryText = mQueryEditText.getText().toString();
