@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.grinnell.appdev.grinnelldirectory.APICaller;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 import edu.grinnell.appdev.grinnelldirectory.R;
@@ -20,8 +21,9 @@ import edu.grinnell.appdev.grinnelldirectory.Model.User;
 
 public class TestActivity extends AppCompatActivity implements APICallerInterface {
 
-    private APICaller apiCaller;
+    private DBAPICaller mDBApiCaller;
     private User user;
+    private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,7 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
         setContentView(R.layout.activity_main);
 
         user = new User("test1stu", "selfserv1");
-        apiCaller = new APICaller(user, this);
+        mDBApiCaller = new DBAPICaller(user, this);
 
 
         runSuccessfulTests();
@@ -66,12 +68,12 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
         test_list_3.add(14, "");
 
         // Works
-        apiCaller.simpleSearch(user, test_list_1);
+        mDBApiCaller.simpleSearch(user, test_list_1);
         // Works
-        apiCaller.advancedSearch(user, test_list_3);
+        mDBApiCaller.advancedSearch(user, test_list_3);
 
         // doesn't work currently, need to figure out how to get info from the user field.
-        apiCaller.authenticateUser(user, test_list_2);
+        mDBApiCaller.authenticateUser(user, test_list_2);
     }
 
     public void runFailingTests() {
@@ -112,16 +114,16 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
         test_list_4.add(3, "");
 
         // "Bad request"
-        apiCaller.simpleSearch(user, test_list_1);
+        mDBApiCaller.simpleSearch(user, test_list_1);
 
         // "Bad request"
-        apiCaller.advancedSearch(user, test_list_3);
+        mDBApiCaller.advancedSearch(user, test_list_3);
 
         // "Bad request"
-        apiCaller.authenticateUser(user, test_list_2);
+        mDBApiCaller.authenticateUser(user, test_list_2);
 
         // "Search returned too many records.  Please narrow your search and try again."
-        apiCaller.simpleSearch(user, test_list_4);
+        mDBApiCaller.simpleSearch(user, test_list_4);
     }
 
 
