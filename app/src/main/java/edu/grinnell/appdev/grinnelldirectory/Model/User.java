@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory;
+package edu.grinnell.appdev.grinnelldirectory.Model;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
