@@ -45,7 +45,7 @@ public class NetworkingTest {
             }
 
             @Override
-            public void authenticateUserCallSuccess(List<Person> people) {
+            public void authenticateUserCallSuccess(boolean success, Person person) {
                 fail("Test Failed: Not testing authentication.");
                 latch.countDown();
             }
@@ -87,9 +87,9 @@ public class NetworkingTest {
         test_list_3.add(14, "");
 
         // Works
-        apiCaller.simpleSearch(user, test_list_1);
+        apiCaller.simpleSearch(test_list_1);
         // Works
-        apiCaller.advancedSearch(user, test_list_3);
+        apiCaller.advancedSearch(test_list_3);
 
         latch.await();
     }
@@ -108,8 +108,7 @@ public class NetworkingTest {
             }
 
             @Override
-            public void authenticateUserCallSuccess(List<Person> people) {
-
+            public void authenticateUserCallSuccess(boolean success, Person person) {
                 fail("Test Failed: search should not return successful results");
                 latch.countDown();
             }
@@ -156,10 +155,10 @@ public class NetworkingTest {
         test_list_3.add(13, "");
 
         // "Bad request"
-        apiCaller.simpleSearch(user, test_list_1);
+        apiCaller.simpleSearch(test_list_1);
 
         // "No "
-        apiCaller.advancedSearch(user, test_list_3);
+        apiCaller.advancedSearch(test_list_3);
 
         latch.await();
 
@@ -168,7 +167,7 @@ public class NetworkingTest {
     @Test
     public void tooManyResultsTest() throws Exception {
 
-        final CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(2);
 
         User user = new User("test1stu", "selfserv1");
         DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
@@ -179,8 +178,7 @@ public class NetworkingTest {
             }
 
             @Override
-            public void authenticateUserCallSuccess(List<Person> people) {
-
+            public void authenticateUserCallSuccess(boolean success, Person person) {
                 fail("Test Failed: authenticate not called");
                 latch.countDown();
             }
@@ -204,9 +202,20 @@ public class NetworkingTest {
         test_list_4.add(1, "");
         test_list_4.add(2, "");
         test_list_4.add(3, "");
+        test_list_4.add(4, "");
+        test_list_4.add(5, "");
+        test_list_4.add(6, "");
+        test_list_4.add(7, "");
+        test_list_4.add(8, "");
+        test_list_4.add(9, "");
+        test_list_4.add(10, "");
+        test_list_4.add(11, "");
+        test_list_4.add(12, "");
+        test_list_4.add(13, "");
 
         // "Search returned too many records.  Please narrow your search and try again."
-        apiCaller.simpleSearch(user, test_list_4);
+        apiCaller.simpleSearch(test_list_4);
+        apiCaller.advancedSearch(test_list_4);
 
         latch.await();
     }

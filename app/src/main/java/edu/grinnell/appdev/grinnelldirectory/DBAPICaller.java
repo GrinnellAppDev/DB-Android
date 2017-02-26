@@ -16,9 +16,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class DBAPICaller { // extends APICaller
+public class DBAPICaller {
 
     private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
+    private static final int RESPONSE_FORBIDDEN = 403;
 
     // Just for Simple Search
     private static final int FIRST_NAME_FIELD = 0;
@@ -61,7 +62,7 @@ public class DBAPICaller { // extends APICaller
         this.user = user;
     }
 
-    public void simpleSearch(User user, List<String> fields) {
+    public void simpleSearch(List<String> fields) {
         if (user != null && fields != null) {
             personQuery = dbAPI.simpleSearch(user, fields.get(FIRST_NAME_FIELD), fields.get(LAST_NAME_FIELD),
                     fields.get(MAJOR_FIELD), fields.get(CLASS_YEAR_FIELD));
@@ -75,10 +76,8 @@ public class DBAPICaller { // extends APICaller
                         apiCallerInterface.onSearchSuccess(people);
                     } else {
                         try {
-                            Log.e("ERROR_SIMPLE_SEARCH", response.errorBody().string());
-                            apiCallerInterface.onServerFailure(response.raw().message());
+                            apiCallerInterface.onServerFailure(response.errorBody().string());
                         } catch (IOException e) {
-                            Log.e("API_FAILURE_EXCEPTION", e.toString());
                             apiCallerInterface.onServerFailure(e.toString());
                         }
                     }
@@ -94,7 +93,7 @@ public class DBAPICaller { // extends APICaller
         }
     }
 
-    public void advancedSearch(User user, List<String> fields) {
+    public void advancedSearch(List<String> fields) {
 
         if (user != null && fields != null) {
             personQuery = dbAPI.advancedSearch(user, fields.get(FIRST_NAME_FIELD), fields.get(LAST_NAME_FIELD),
@@ -112,10 +111,8 @@ public class DBAPICaller { // extends APICaller
                         apiCallerInterface.onSearchSuccess(people);
                     } else {
                         try {
-                            Log.e("ERROR_ADV_SEARCH", response.errorBody().string());
-                            apiCallerInterface.onServerFailure(response.raw().message());
+                            apiCallerInterface.onServerFailure(response.errorBody().string());
                         } catch (IOException e) {
-                            Log.e("API_FAILURE_EXCEPTION", e.toString());
                             apiCallerInterface.onServerFailure(e.toString());
                         }
                     }
@@ -129,22 +126,22 @@ public class DBAPICaller { // extends APICaller
         }
     }
 
-    public void authenticateUser(User user, List<String> fields) {
-        if (user != null && fields != null) {
-            personQuery = dbAPI.authenticateUser(user, fields.get(0));
+    public void authenticateUser() {
+        if (user != null) {
+            personQuery = dbAPI.authenticateUser(user, user.getUsername());
 
             personQuery.enqueue(new Callback<List<Person>>() {
                 @Override
                 public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                     if (response.isSuccessful()) {
-                        List<Person> people = response.body();
-                        apiCallerInterface.authenticateUserCallSuccess(people);
+                        // TODO: 2/26/17 return the Person associated with the username instead of null
+                        apiCallerInterface.authenticateUserCallSuccess(true, null);
+                    } else if (response.code() == RESPONSE_FORBIDDEN) {
+                        apiCallerInterface.authenticateUserCallSuccess(false, null);
                     } else {
                         try {
-                            Log.e("ERROR_AUTH_USER_SEARCH", response.errorBody().string());
-                            apiCallerInterface.onServerFailure(response.raw().message());
+                            apiCallerInterface.onServerFailure(response.errorBody().string());
                         } catch (IOException e) {
-                            Log.e("API_FAILURE_EXCEPTION", e.toString());
                             apiCallerInterface.onServerFailure(e.toString());
                         }
                     }
