@@ -1,10 +1,9 @@
 package edu.grinnell.appdev.grinnelldirectory.Model;
 // package conventions?
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-
-import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 

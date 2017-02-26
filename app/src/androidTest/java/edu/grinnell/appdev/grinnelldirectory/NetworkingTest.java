@@ -36,7 +36,7 @@ public class NetworkingTest {
         final CountDownLatch latch = new CountDownLatch(2);
 
         User user = new User("test1stu", "selfserv1");
-        APICaller apiCaller = new APICaller(user, new APICallerInterface() {
+        DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
             @Override
             public List<Person> onSearchSuccess(List<Person> people) {
                 assertNotNull(people);
@@ -104,7 +104,7 @@ public class NetworkingTest {
         final CountDownLatch latch = new CountDownLatch(2);
 
         User user = new User("test1stu", "selfserv1");
-        APICaller apiCaller = new APICaller(user, new APICallerInterface() {
+        DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
             @Override
             public List<Person> onSearchSuccess(List<Person> people) {
                 fail("Test Failed: search should not return successful results");
@@ -179,7 +179,7 @@ public class NetworkingTest {
         final CountDownLatch latch = new CountDownLatch(1);
 
         User user = new User("test1stu", "selfserv1");
-        APICaller apiCaller = new APICaller(user, new APICallerInterface() {
+        DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
             @Override
             public List<Person> onSearchSuccess(List<Person> people) {
                 fail("Test Failed: search should not return successful results");

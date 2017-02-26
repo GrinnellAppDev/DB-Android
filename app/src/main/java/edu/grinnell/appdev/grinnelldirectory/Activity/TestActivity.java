@@ -8,15 +8,18 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.grinnell.appdev.grinnelldirectory.APICaller;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
-import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.Model.User;
+import edu.grinnell.appdev.grinnelldirectory.R;
 
 /**
  * Created by nicholasroberson on 2/22/17.
+ */
+
+/*
+    NOT DECLARED IN MANIFEST ANYMORE
  */
 
 public class TestActivity extends AppCompatActivity implements APICallerInterface {
@@ -142,7 +145,7 @@ public class TestActivity extends AppCompatActivity implements APICallerInterfac
                     user.getUsername() + " : matched. Returning true.");
             return true;
         } else {
-            Toast.makeText(this, "Error: User authentication failed." , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: User authentication failed.", Toast.LENGTH_SHORT).show();
             return false;
         }
     }

@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class DBAPICaller  { // extends APICaller
+public class DBAPICaller { // extends APICaller
 
     private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
 
