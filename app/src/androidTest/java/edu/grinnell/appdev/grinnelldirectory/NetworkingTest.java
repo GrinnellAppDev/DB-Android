@@ -38,32 +38,28 @@ public class NetworkingTest {
         User user = new User("test1stu", "selfserv1");
         DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
             @Override
-            public List<Person> onSearchSuccess(List<Person> people) {
+            public void onSearchSuccess(List<Person> people) {
                 assertNotNull(people);
                 assertNotEquals(people.size(), 0);
                 latch.countDown();
-                return null;
             }
 
             @Override
-            public boolean authenticateUserCallSuccess(List<Person> people) {
+            public void authenticateUserCallSuccess(List<Person> people) {
                 fail("Test Failed: Not testing authentication.");
                 latch.countDown();
-                return false;
             }
 
             @Override
-            public String onServerFailure(String fail_message) {
+            public void onServerFailure(String fail_message) {
                 fail("Test Failed: " + fail_message);
                 latch.countDown();
-                return null;
             }
 
             @Override
-            public boolean onNetworkingError(String fail_message) {
+            public void onNetworkingError(String fail_message) {
                 fail("Test Failed: " + fail_message);
                 latch.countDown();
-                return false;
             }
         });
 
@@ -106,32 +102,28 @@ public class NetworkingTest {
         User user = new User("test1stu", "selfserv1");
         DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
             @Override
-            public List<Person> onSearchSuccess(List<Person> people) {
+            public void onSearchSuccess(List<Person> people) {
                 fail("Test Failed: search should not return successful results");
                 latch.countDown();
-                return null;
             }
 
             @Override
-            public boolean authenticateUserCallSuccess(List<Person> people) {
+            public void authenticateUserCallSuccess(List<Person> people) {
 
                 fail("Test Failed: search should not return successful results");
                 latch.countDown();
-                return false;
             }
 
             @Override
-            public String onServerFailure(String fail_message) {
+            public void onServerFailure(String fail_message) {
                 assertEquals("\"No records returned\"", fail_message);
                 latch.countDown();
-                return null;
             }
 
             @Override
-            public boolean onNetworkingError(String fail_message) {
+            public void onNetworkingError(String fail_message) {
                 fail("Test Failed: " + fail_message);
                 latch.countDown();
-                return false;
             }
         });
 
@@ -181,32 +173,28 @@ public class NetworkingTest {
         User user = new User("test1stu", "selfserv1");
         DBAPICaller apiCaller = new DBAPICaller(user, new APICallerInterface() {
             @Override
-            public List<Person> onSearchSuccess(List<Person> people) {
+            public void onSearchSuccess(List<Person> people) {
                 fail("Test Failed: search should not return successful results");
                 latch.countDown();
-                return null;
             }
 
             @Override
-            public boolean authenticateUserCallSuccess(List<Person> people) {
+            public void authenticateUserCallSuccess(List<Person> people) {
 
                 fail("Test Failed: authenticate not called");
                 latch.countDown();
-                return false;
             }
 
             @Override
-            public String onServerFailure(String fail_message) {
+            public void onServerFailure(String fail_message) {
                 assertEquals("\"Search returned too many records.  Please narrow your search and try again.\"", fail_message);
                 latch.countDown();
-                return null;
             }
 
             @Override
-            public boolean onNetworkingError(String fail_message) {
+            public void onNetworkingError(String fail_message) {
                 fail("Test Failed: " + fail_message);
                 latch.countDown();
-                return false;
             }
         });
 
