@@ -13,7 +13,6 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 
 public class SimpleSearchActivity extends AppCompatActivity {
   @BindView(R.id.query) private EditText mQueryEditText;
-  @BindView(R.id.search) private Button mSearchButton;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
