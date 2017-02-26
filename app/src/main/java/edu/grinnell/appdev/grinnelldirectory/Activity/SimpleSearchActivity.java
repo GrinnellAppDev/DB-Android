@@ -16,20 +16,20 @@ import edu.grinnell.appdev.grinnelldirectory.R;
  */
 
 public class SimpleSearchActivity extends AppCompatActivity {
-  @BindView(R.id.query) private EditText mQueryEditText;
+    @BindView(R.id.query) private EditText mQueryEditText;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_simple_search);
-    ButterKnife.bind(this);
-  }
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_simple_search);
+        ButterKnife.bind(this);
+    }
 
-  /**
-   * Search when the search button is pressed
-   * @param view SimpleSearchActvity's view
+    /**
+     * Search when the search button is pressed
+     *
+     * @param view SimpleSearchActvity's view
      */
-  @OnClick(R.id.search)
-  private void seach(View view) {
-    String queryText = mQueryEditText.getText().toString();
-  }
+    @OnClick(R.id.search) private void seach(View view) {
+        String queryText = mQueryEditText.getText().toString();
+    }
 }
