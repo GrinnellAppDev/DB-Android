@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="edu.grinnell.appdev.grinnelldirectory.LoginActivity">
+    tools:context="edu.grinnell.appdev.grinnelldirectory.Activity.LoginActivity">
 
     <EditText
         android:id="@+id/username"
@@ -25,8 +25,8 @@
         android:layout_below="@id/username" />
 
     <Button
-        android:id="@+id/login"
-        android:text="@string/action_sign_in_short"
+        android:id="@+id/signin"
+        android:text="@string/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/password" />
