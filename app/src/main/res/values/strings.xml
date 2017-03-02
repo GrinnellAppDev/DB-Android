@@ -10,4 +10,8 @@
     <!-- Strings related to search -->
     <string name="search_bar">Search...</string>
     <string name="search_button">Search</string>
+
+    <!-- Strings for error messages -->
+    <string name="server_failure">Server failure: </string>
+    <string name="networking_error">Networking error: </string>
 </resources>

@@ -1,6 +1,7 @@
 package edu.grinnell.appdev.grinnelldirectory.Activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,12 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
+import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.Model.Person;
+import edu.grinnell.appdev.grinnelldirectory.Model.User;
 import edu.grinnell.appdev.grinnelldirectory.R;
+import java.util.List;
 
 /**
  * LoginActivity prompts the user to sign in.
@@ -20,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText mUsernameEditText;
     @BindView(R.id.password)
     EditText mPasswordEditText;
-    @BindView(R.id.signin)
+    @BindView(R.id.login)
     Button mSignInButton;
 
     @Override
@@ -35,9 +41,33 @@ public class LoginActivity extends AppCompatActivity {
      *
      * @param view LoginActivity's view
      */
-    @OnClick(R.id.signin)
-    public void signIn(View view) {
-        String usernameTxt = mUsernameEditText.getText().toString();
-        String passwordTxt = mPasswordEditText.getText().toString();
+    @OnClick(R.id.login)
+    private void signIn(View view) {
+        final String username = mUsernameEditText.getText().toString();
+        final String password = mPasswordEditText.getText().toString();
+        User user = new User(username, password);
+        DBAPICaller dbapiCaller = new DBAPICaller(user, new APICallerInterface() {
+            @Override public void onSearchSuccess(List<Person> people) {
+                // never supposed to get called
+            }
+
+            @Override public void authenticateUserCallSuccess(boolean success, Person person) {
+                User.saveCredentials(getApplicationContext(), username, password);
+                // move to MainActivity
+            }
+
+            @Override public void onServerFailure(String fail_message) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setMessage(R.string.server_failure + fail_message);
+                builder.show();
+            }
+
+            @Override public void onNetworkingError(String fail_message) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setMessage(R.string.networking_error + fail_message);
+                builder.show();
+            }
+        });
+        dbapiCaller.authenticateUser();
     }
 }
