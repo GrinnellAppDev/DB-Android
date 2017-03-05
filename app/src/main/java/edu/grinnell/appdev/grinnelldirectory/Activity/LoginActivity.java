@@ -52,8 +52,14 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override public void authenticateUserCallSuccess(boolean success, Person person) {
-                User.saveCredentials(getApplicationContext(), username, password);
-                // move to MainActivity
+                if (success) {
+                    User.saveCredentials(getApplicationContext(), username, password);
+                    // move to MainActivity
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setMessage(R.string.authentication_failure);
+                    builder.show();
+                }
             }
 
             @Override public void onServerFailure(String fail_message) {
