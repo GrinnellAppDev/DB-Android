@@ -1,7 +1,8 @@
-package edu.grinnell.appdev.grinnelldirectory;
+package edu.grinnell.appdev.grinnelldirectory.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -9,11 +10,10 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.grinnell.appdev.grinnelldirectory.R;
 
-import static edu.grinnell.appdev.grinnelldirectory.R.styleable.View;
 
-
-public class AdvancedSearch extends AppCompatActivity {
+public class AdvancedSearchActivity extends AppCompatActivity {
 
     @BindView(R.id.first_text)
     TextView firstNameText;
@@ -45,7 +45,7 @@ public class AdvancedSearch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.advanced_search);
+        setContentView(R.layout.activity_advanced_search);
         ButterKnife.bind(this);
     }
 
