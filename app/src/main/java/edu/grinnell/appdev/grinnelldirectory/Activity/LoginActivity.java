@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override public void authenticateUserCallSuccess(boolean success, Person person) {
                 if (success) {
                     User.saveCredentials(getApplicationContext(), username, password);
+                    User.saveUserDetails(getApplicationContext(), person);
 
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
