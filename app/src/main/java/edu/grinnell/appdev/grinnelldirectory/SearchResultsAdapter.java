@@ -27,23 +27,17 @@ public class SearchResultsAdapter extends
     // Store the context for easy access
     private Context mContext;
 
-    // Pass in the contact array into the constructor
+    // Pass in the Person array into the constructor
     public SearchResultsAdapter(Context context, List<Person> persons) {
         mPersons = persons;
         mContext = context;
     }
-    private Context getContext() {
-        return mContext;
-    }
 
     @Override
     public SearchResultsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         // Inflate the custom layout
         View personView = inflater.inflate(R.layout.item_searchresult, parent, false);
-
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(personView);
         return viewHolder;
@@ -53,7 +47,6 @@ public class SearchResultsAdapter extends
     public void onBindViewHolder(SearchResultsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         Person person = mPersons.get(position);
-
         // Set item views based on your views and data model
         ImageView imageView = viewHolder.personImage;
         Picasso.with(mContext).load(person.getImgPath()).into(imageView);
@@ -67,7 +60,12 @@ public class SearchResultsAdapter extends
 
     @Override
     public int getItemCount() {
-        return mPersons.size();
+        if(mPersons == null) {
+            return 0;
+        }
+        else {
+            return mPersons.size();
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

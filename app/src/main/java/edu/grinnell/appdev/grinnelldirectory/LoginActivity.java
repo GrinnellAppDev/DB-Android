@@ -15,8 +15,8 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.username) private EditText mUsernameEditText;
-    @BindView(R.id.password) private EditText mPasswordEditText;
+    @BindView(R.id.username) EditText mUsernameEditText;
+    @BindView(R.id.password) EditText mPasswordEditText;
     @BindView(R.id.signin) Button signin;
 
     @Override
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param view LoginActivity's view
      */
     @OnClick(R.id.signin)
-    private void signIn(View view) {
+    public void signIn(View view) {
         String usernameTxt = mUsernameEditText.getText().toString();
         String passwordTxt = mPasswordEditText.getText().toString();
     }
