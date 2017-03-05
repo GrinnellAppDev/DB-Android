@@ -1,5 +1,6 @@
 package edu.grinnell.appdev.grinnelldirectory.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.List;
  * LoginActivity prompts the user to sign in.
  */
 
+// make this activity default?
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.username)
     EditText mUsernameEditText;
@@ -51,10 +53,17 @@ public class LoginActivity extends AppCompatActivity {
                 // never supposed to get called
             }
 
+            /**
+             * Save credentials and move to MainActivity if login succeeded
+             * @param success whether the login was successful
+             * @param person model for the logged in user
+             */
             @Override public void authenticateUserCallSuccess(boolean success, Person person) {
                 if (success) {
                     User.saveCredentials(getApplicationContext(), username, password);
-                    // move to MainActivity
+
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(intent);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
                     builder.setMessage(R.string.authentication_failure);
