@@ -22,7 +22,6 @@ import java.util.List;
  * LoginActivity prompts the user to sign in.
  */
 
-// make this activity default?
 public class LoginActivity extends AppCompatActivity implements APICallerInterface {
     @BindView(R.id.username)
     EditText mUsernameEditText;
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.authentication_failure);
             builder.show();
         }
@@ -82,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      * @param fail_message error description
      */
     @Override public void onServerFailure(String fail_message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.server_failure + fail_message);
         builder.show();
     }
@@ -93,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      * @param fail_message error description
      */
     @Override public void onNetworkingError(String fail_message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.networking_error + fail_message);
         builder.show();
     }
