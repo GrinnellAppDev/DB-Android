@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -80,9 +81,10 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      *
      * @param fail_message error description
      */
+    @BindString(R.string.server_failure) String serverFailure;
     @Override public void onServerFailure(String fail_message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.server_failure + fail_message);
+        builder.setMessage(serverFailure + fail_message);
         builder.show();
     }
 
@@ -91,9 +93,10 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      *
      * @param fail_message error description
      */
+    @BindString(R.string.networking_error) String networkingError;
     @Override public void onNetworkingError(String fail_message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.networking_error + fail_message);
+        builder.setMessage(networkingError + fail_message);
         builder.show();
     }
 }
