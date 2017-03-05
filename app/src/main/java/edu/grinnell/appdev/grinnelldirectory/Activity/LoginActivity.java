@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param view LoginActivity's view
      */
     @OnClick(R.id.login)
-    private void signIn(View view) {
+    void signIn(View view) {
         final String username = mUsernameEditText.getText().toString();
         final String password = mPasswordEditText.getText().toString();
         User user = new User(username, password);
