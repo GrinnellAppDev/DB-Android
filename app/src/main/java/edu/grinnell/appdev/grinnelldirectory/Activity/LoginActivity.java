@@ -19,6 +19,9 @@ import edu.grinnell.appdev.grinnelldirectory.Model.User;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import java.util.List;
 
+import static edu.grinnell.appdev.grinnelldirectory.Model.User.saveCredentials;
+import static edu.grinnell.appdev.grinnelldirectory.Model.User.saveUserDetails;
+
 /**
  * LoginActivity prompts the user to sign in.
  */
@@ -65,8 +68,8 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
         final String username = mUsernameEditText.getText().toString();
         final String password = mPasswordEditText.getText().toString();
         if (success) {
-            User.saveCredentials(this, username, password);
-            User.saveUserDetails(this, person);
+            saveCredentials(this, username, password);
+            saveUserDetails(this, person);
 
             final Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
