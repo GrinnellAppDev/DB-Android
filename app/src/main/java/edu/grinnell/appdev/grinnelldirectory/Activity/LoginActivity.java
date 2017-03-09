@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      * @param success whether the login was successful
      * @param person model for the logged in user
      */
+    @BindString(R.string.authentication_failure) String authenticationFailure;
     @Override public void authenticateUserCallSuccess(boolean success, Person person) {
         String username = mUsernameEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
@@ -70,9 +71,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.authentication_failure);
-            builder.show();
+            showAlert(authenticationFailure);
         }
     }
 
@@ -83,9 +82,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      */
     @BindString(R.string.server_failure) String serverFailure;
     @Override public void onServerFailure(String fail_message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(serverFailure + fail_message);
-        builder.show();
+        showAlert(serverFailure + fail_message);
     }
 
     /**
@@ -95,8 +92,12 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      */
     @BindString(R.string.networking_error) String networkingError;
     @Override public void onNetworkingError(String fail_message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(networkingError + fail_message);
+        showAlert(networkingError + fail_message);
+    }
+
+    private void showAlert(String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message);
         builder.show();
     }
 }
