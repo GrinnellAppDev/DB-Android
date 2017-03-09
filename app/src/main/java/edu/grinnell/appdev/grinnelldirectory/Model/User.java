@@ -93,7 +93,7 @@ public class User {
      * @param person model of logged in user
      */
     public static void saveUserDetails(Context context, Person person) {
-        if (person == null) {
+        if (context == null || person == null) {
             return;
         }
         Gson gson = new Gson();
@@ -109,6 +109,9 @@ public class User {
      * @param context context of the activity that calls this method
      */
     public static void deleteCredentials(Context context) {
+        if (context == null) {
+            return;
+        }
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
         editor.clear();
