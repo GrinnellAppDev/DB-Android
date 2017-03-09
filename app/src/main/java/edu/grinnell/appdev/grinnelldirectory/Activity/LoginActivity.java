@@ -62,13 +62,13 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      */
     @BindString(R.string.authentication_failure) String authenticationFailure;
     @Override public void authenticateUserCallSuccess(boolean success, Person person) {
-        String username = mUsernameEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
+        final String username = mUsernameEditText.getText().toString();
+        final String password = mPasswordEditText.getText().toString();
         if (success) {
-            User.saveCredentials(getApplicationContext(), username, password);
-            User.saveUserDetails(getApplicationContext(), person);
+            User.saveCredentials(this, username, password);
+            User.saveUserDetails(this, person);
 
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            final Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
             showAlert(authenticationFailure);
