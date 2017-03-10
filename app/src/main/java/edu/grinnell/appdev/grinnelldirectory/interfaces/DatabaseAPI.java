@@ -1,9 +1,9 @@
-package edu.grinnell.appdev.grinnelldirectory.Interfaces;
+package edu.grinnell.appdev.grinnelldirectory.interfaces;
 
 import java.util.List;
 
-import edu.grinnell.appdev.grinnelldirectory.Model.Person;
-import edu.grinnell.appdev.grinnelldirectory.Model.User;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
