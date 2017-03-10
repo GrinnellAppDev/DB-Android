@@ -12,17 +12,24 @@
     tools:context="edu.grinnell.appdev.grinnelldirectory.Activity.SimpleSearchActivity"
     >
 
-  <EditText
-      android:id="@+id/query"
-      android:hint="@string/search_bar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/first_name_field"
+        android:hint="@string/first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/last_name_field"
+        android:hint="@string/last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first_name_field" />
 
   <Button
       android:id="@+id/search"
       android:text="@string/search_button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_below="@+id/query" />
+      android:layout_below="@+id/last_name_field" />
 
 </RelativeLayout>

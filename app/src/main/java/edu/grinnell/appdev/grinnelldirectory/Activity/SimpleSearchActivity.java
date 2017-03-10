@@ -16,7 +16,8 @@ import edu.grinnell.appdev.grinnelldirectory.R;
  */
 
 public class SimpleSearchActivity extends AppCompatActivity {
-    @BindView(R.id.query) EditText mQueryEditText;
+    @BindView(R.id.first_name_field) EditText mFirstNameEditText;
+    @BindView(R.id.last_name_field) EditText mLastNameEditText;
     @BindView(R.id.search) Button mSearchButton;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class SimpleSearchActivity extends AppCompatActivity {
      */
     @OnClick(R.id.search)
     void search(View view) {
-        String queryText = mQueryEditText.getText().toString();
+        String firstName = mFirstNameEditText.getText().toString();
+        String lastName = mLastNameEditText.getText().toString();
     }
 }
