@@ -1,9 +1,9 @@
-package edu.grinnell.appdev.grinnelldirectory;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+package edu.grinnell.appdev.grinnelldirectory.Model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -32,10 +32,20 @@ public class User {
     }
 
     /**
-    * Get a User object with username and password from shared preferences
-    * @param context context of the activity that calls this method
-    * @return User object with saved username and password
-    */
+     * Getter for mUsername
+     *
+     * @return mUsername
+     */
+    public String getUsername() {
+        return mUsername;
+    }
+
+    /**
+     * Get a User object with username and password from shared preferences
+     *
+     * @param context context of the activity that calls this method
+     * @return User object with saved username and password
+     */
     public static User getUser(Context context) {
         SharedPreferences preferences = getSharedPreferences(context);
         String username = preferences.getString(USERNAME, null);
@@ -45,6 +55,7 @@ public class User {
 
     /**
      * Determine whether a user is currently logged in
+     *
      * @param context context of the activity that calls this method
      * @return whether a user is logged in
      */
@@ -57,7 +68,8 @@ public class User {
 
     /**
      * Save the username and password in shared preferences
-     * @param context context of the activity that calls this method
+     *
+     * @param context  context of the activity that calls this method
      * @param username the user's new username
      * @param password the user's new password
      */
@@ -74,6 +86,7 @@ public class User {
 
     /**
      * Remove the current username and password from shared preferences
+     *
      * @param context context of the activity that calls this method
      */
     public static void deleteCredentials(Context context) {
@@ -85,6 +98,7 @@ public class User {
 
     /**
      * Get the shared preferences object
+     *
      * @param context context of the activity that calls this method
      * @return the shared preferences object
      */
