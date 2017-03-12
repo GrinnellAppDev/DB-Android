@@ -1,4 +1,12 @@
 <resources>
+    <string name="app_name">Grinnell Directory</string>
+    <string name="title_activity_default_login">Sign in</string>
+
+ +strings and arrays related to advanced search-->
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password_required">Password</string>
+    <string name="login_button">Sign In</string>
 <!--
 strings and arrays related to advanced search-->
 
