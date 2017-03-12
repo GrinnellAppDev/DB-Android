@@ -1,14 +1,9 @@
 <resources>
-<string name="app_name">Grinnell Directory</string>
-<string name="title_activity_default_login">Sign in</string>
-
-<!-- Strings related to login -->
-<string name="prompt_username">Username</string>
-<string name="prompt_password_required">Password</string>
-<string name="login_button">Sign In</string>
+<!--
+strings and arrays related to advanced search-->
 
 <string name="action_settings">Settings</string>
-<string name="hello_world">Hello world!</string>
+<string name="search_toast">Searching</string>
 <string name="title_profile_detail">Profile Detail</string>
 <string name="title_profile_list">Profiles</string>
 <string name="menu_settings">Settings</string>
@@ -184,21 +179,9 @@
 
 <string-array name="classyeararray">
     <item>Any Class Year</item>
-    <item>2015</item>
-    <item>2016</item>
     <item>2017</item>
     <item>2018</item>
     <item>2019</item>
+    <item>2020</item>
 </string-array>
-
-<string name="Reset">Reset</string>
-<string name="search">Search</string>
-<string name="Name">Name</string>
-<string name="MajorDepartment">Major/Department</string>
-<string name="POBox">Box Number</string>
-<string name="image">pcard image</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-<string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
