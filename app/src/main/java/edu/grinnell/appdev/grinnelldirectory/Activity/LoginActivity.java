@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     @BindView(R.id.login)
     Button mSignInButton;
 
+    private String username;
+    private String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +51,8 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      */
     @OnClick(R.id.login)
     void signIn(View view) {
-        String username = mUsernameEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
+        username = mUsernameEditText.getText().toString();
+        password = mPasswordEditText.getText().toString();
         User user = new User(username, password);
         DBAPICaller dbapiCaller = new DBAPICaller(user, this);
         dbapiCaller.authenticateUser();
@@ -65,8 +68,6 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      */
     @BindString(R.string.authentication_failure) String authenticationFailure;
     @Override public void authenticateUserCallSuccess(boolean success, Person person) {
-        final String username = mUsernameEditText.getText().toString();
-        final String password = mPasswordEditText.getText().toString();
         if (success) {
             saveCredentials(this, username, password);
             saveUserDetails(this, person);
