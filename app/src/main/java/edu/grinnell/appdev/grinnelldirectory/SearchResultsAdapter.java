@@ -5,90 +5,68 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
+import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 import java.util.List;
 
-import edu.grinnell.appdev.grinnelldirectory.Model.Person;
 
-/**
- * Created by ritikaagarwal on 2/26/17.
- */
+public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
 
-public class SearchResultsAdapter extends
-        RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
+  private List<Person> mPersons;
+  private Context mContext;
 
-    // Store a member variable for the Persons list
-    private List<Person> mPersons;
-    // Store the context for easy access
-    private Context mContext;
 
-    // Pass in the Person array into the constructor
-    public SearchResultsAdapter(Context context, List<Person> persons) {
-        mPersons = persons;
-        mContext = context;
+  public SearchResultsAdapter(Context context, List<Person> persons) {
+    if (persons != null) {
+      mPersons = persons;
+      mContext = context;
     }
+  }
 
-    @Override
-    public SearchResultsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        // Inflate the custom layout
-        View personView = inflater.inflate(R.layout.item_searchresult, parent, false);
-        // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(personView);
-        return viewHolder;
+  @Override
+  public SearchResultsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    final LayoutInflater inflater = LayoutInflater.from(mContext);
+    View personView = inflater.inflate(R.layout.item_searchresult, parent, false);
+    return new ViewHolder(personView);
+  }
+
+  @Override public void onBindViewHolder(SearchResultsAdapter.ViewHolder viewHolder, int position) {
+    Person person = mPersons.get(position);
+
+    ImageView personImageView = viewHolder.personImage;
+    TextView nameTextView = viewHolder.name;
+    TextView majorTextView = viewHolder.major;
+    TextView locationTextView = viewHolder.location;
+
+    Picasso.with(mContext).load(person.getImgPath()).into(personImageView);
+    nameTextView.setText(person.getFirstName() + " " + person.getLastName());
+    majorTextView.setText(person.getMajor());
+    locationTextView.setText(person.getAddress());
+  }
+
+  @Override public int getItemCount() {
+    return mPersons == null ? 0 : mPersons.size();
+  }
+
+  /**
+   * ViewHolder class to hold the views from the inflated layout for each list item
+   */
+  public static class ViewHolder extends RecyclerView.ViewHolder {
+    public ImageView personImage;
+    public TextView name;
+    public TextView major;
+    public TextView location;
+
+    public ViewHolder(View itemView) {
+
+      super(itemView);
+
+      name = (TextView) itemView.findViewById(R.id.tv_name);
+      major = (TextView) itemView.findViewById(R.id.tv_major);
+      location = (TextView) itemView.findViewById(R.id.tv_location);
+      personImage = (ImageView) itemView.findViewById(R.id.iv_personImage);
     }
-
-    @Override
-    public void onBindViewHolder(SearchResultsAdapter.ViewHolder viewHolder, int position) {
-        // Get the data model based on position
-        Person person = mPersons.get(position);
-        // Set item views based on your views and data model
-        ImageView imageView = viewHolder.personImage;
-        Picasso.with(mContext).load(person.getImgPath()).into(imageView);
-        TextView textView1 = viewHolder.name;
-        textView1.setText(person.getFirstName() + " " + person.getLastName());
-        TextView textView2 = viewHolder.major;
-        textView2.setText(person.getMajor());
-        TextView textView3 = viewHolder.location;
-        textView3.setText(person.getAddress());
-    }
-
-    @Override
-    public int getItemCount() {
-        if(mPersons == null) {
-            return 0;
-        }
-        else {
-            return mPersons.size();
-        }
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
-        public ImageView personImage;
-        public TextView name;
-        public TextView major;
-        public TextView location;
-
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
-            super(itemView);
-
-            name = (TextView) itemView.findViewById(R.id.tv_name);
-            major = (TextView) itemView.findViewById(R.id.tv_major);
-            location = (TextView) itemView.findViewById(R.id.tv_location);
-            personImage = (ImageView) itemView.findViewById(R.id.iv_personImage);
-        }
-    }
-
-
+  }
 }
