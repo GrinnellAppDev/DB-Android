@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -19,6 +20,7 @@ public class User {
     private final static String PREF_USER = "PREF_USER";
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
+    private final static String PERSON = "person";
 
     @SerializedName("un")
     private final String mUsername;
@@ -85,11 +87,31 @@ public class User {
     }
 
     /**
+     * Save the user details of the logged in user in shared preferences
+     *
+     * @param context context of the activity that calls this method
+     * @param person model of logged in user
+     */
+    public static void saveUserDetails(Context context, Person person) {
+        if (context == null || person == null) {
+            return;
+        }
+        Gson gson = new Gson();
+        String personJson = gson.toJson(person);
+        SharedPreferences preferences = getSharedPreferences(context);
+        Editor editor = preferences.edit();
+        editor.putString(PERSON, personJson);
+    }
+
+    /**
      * Remove the current username and password from shared preferences
      *
      * @param context context of the activity that calls this method
      */
     public static void deleteCredentials(Context context) {
+        if (context == null) {
+            return;
+        }
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
         editor.clear();

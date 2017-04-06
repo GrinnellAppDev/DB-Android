@@ -6,4 +6,14 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_password_required">Password</string>
     <string name="login_button">Sign In</string>
+
+    <!-- Strings related to search -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="search_button">Search</string>
+
+    <!-- Strings for error messages -->
+    <string name="server_failure">Server failure: </string>
+    <string name="networking_error">Networking error: </string>
+    <string name="authentication_failure">Wrong username or password</string>
 </resources>

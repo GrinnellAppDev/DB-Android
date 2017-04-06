@@ -25,7 +25,7 @@
         android:layout_below="@id/username" />
 
     <Button
-        android:id="@+id/signin"
+        android:id="@+id/login"
         android:text="@string/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
