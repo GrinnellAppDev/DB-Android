@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SimpleResult implements Parcelable {
 
-    List<Person> people;
+    List<Person> mPeople;
 
     static Parcelable.Creator CREATOR = new Parcelable.Creator<SimpleResult>() {
         @Override public SimpleResult createFromParcel(Parcel parcel) {
@@ -19,11 +19,11 @@ public class SimpleResult implements Parcelable {
     };
 
     public SimpleResult(List<Person> people) {
-        this.people = people;
+        this.mPeople = people;
     }
 
     public SimpleResult(Parcel parcel) {
-        people = (List<Person>) parcel.readValue(SimpleResult.class.getClassLoader());
+        mPeople = (List<Person>) parcel.readValue(SimpleResult.class.getClassLoader());
     }
 
     @Override public int describeContents() {
@@ -31,6 +31,6 @@ public class SimpleResult implements Parcelable {
     }
 
     @Override public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeValue(people);
+        parcel.writeValue(mPeople);
     }
 }
