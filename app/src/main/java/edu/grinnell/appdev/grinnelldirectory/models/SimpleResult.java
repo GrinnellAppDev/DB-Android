@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory.Model;
+package edu.grinnell.appdev.grinnelldirectory.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

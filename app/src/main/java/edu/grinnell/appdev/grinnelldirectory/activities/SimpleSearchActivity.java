@@ -1,7 +1,6 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.content.Intent;
-import android.os.Parcel;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,12 +12,11 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.google.gson.Gson;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.Model.Person;
-import edu.grinnell.appdev.grinnelldirectory.Model.SimpleResult;
-import edu.grinnell.appdev.grinnelldirectory.Model.User;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
+import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +66,7 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
      * @param people List of person models
      */
     @Override public void onSearchSuccess(List<Person> people) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SearchResultsActivity.class);
         Bundle bundle = new Bundle();
 
         bundle.putParcelable(BUNDLE_KEY, new SimpleResult(people));
