@@ -83,8 +83,8 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
      * @param fail_message error description
      */
     @BindString(R.string.server_failure) String serverFailure;
-    @Override public void onServerFailure(String fail_message) {
-        showAlert(serverFailure + fail_message);
+    @Override public void onServerFailure(String failMessage) {
+        showAlert(serverFailure + failMessage);
     }
 
     /**
@@ -93,8 +93,8 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
      * @param fail_message error description
      */
     @BindString(R.string.networking_error) String networkingError;
-    @Override public void onNetworkingError(String fail_message) {
-        showAlert(networkingError + fail_message);
+    @Override public void onNetworkingError(String failMessage) {
+        showAlert(networkingError + failMessage);
     }
 
     private void showAlert(String message) {
