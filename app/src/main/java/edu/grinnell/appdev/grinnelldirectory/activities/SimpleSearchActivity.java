@@ -75,6 +75,8 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
     }
 
     @Override public void authenticateUserCallSuccess(boolean success, Person person) {
+        // Intentionally left blank
+        // The api should never call an authentication callback after a search is requested
     }
 
     /**
