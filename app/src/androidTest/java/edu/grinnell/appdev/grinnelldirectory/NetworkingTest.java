@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.Model.Person;
-import edu.grinnell.appdev.grinnelldirectory.Model.User;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

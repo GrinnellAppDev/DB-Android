@@ -1,82 +1,82 @@
-package edu.grinnell.appdev.grinnelldirectory.Activity;
+package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.google.gson.Gson;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.Model.Person;
+import edu.grinnell.appdev.grinnelldirectory.Model.SimpleResult;
 import edu.grinnell.appdev.grinnelldirectory.Model.User;
 import edu.grinnell.appdev.grinnelldirectory.R;
+import java.util.ArrayList;
 import java.util.List;
 
-import static edu.grinnell.appdev.grinnelldirectory.Model.User.saveCredentials;
-import static edu.grinnell.appdev.grinnelldirectory.Model.User.saveUserDetails;
-
 /**
- * LoginActivity prompts the user to sign in.
+ * SimpleSearchActivity allows the user to search with one text field.
  */
 
-public class LoginActivity extends AppCompatActivity implements APICallerInterface {
-    @BindView(R.id.username)
-    EditText mUsernameEditText;
-    @BindView(R.id.password)
-    EditText mPasswordEditText;
-    @BindView(R.id.login)
-    Button mSignInButton;
+public class SimpleSearchActivity extends AppCompatActivity implements APICallerInterface {
+    @BindView(R.id.first_name_field) EditText mFirstNameEditText;
+    @BindView(R.id.last_name_field) EditText mLastNameEditText;
+    @BindView(R.id.search) Button mSearchButton;
 
-    private String username;
-    private String password;
+    public static final String BUNDLE_KEY = "BUNDLE_KEY";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_simple_search);
         ButterKnife.bind(this);
     }
 
     /**
-     * Sign in when the sign in button is clicked
+     * Search when the search button is pressed
      *
-     * @param view LoginActivity's view
+     * @param view SimpleSearchActvity's view
      */
-    @OnClick(R.id.login)
-    void signIn(View view) {
-        username = mUsernameEditText.getText().toString();
-        password = mPasswordEditText.getText().toString();
-        User user = new User(username, password);
+    @OnClick(R.id.search) void search(View view) {
+        User user = User.getUser(this);
+
+        String firstName = mFirstNameEditText.getText().toString();
+        String lastName = mLastNameEditText.getText().toString();
+
         DBAPICaller dbapiCaller = new DBAPICaller(user, this);
-        dbapiCaller.authenticateUser();
+
+        List<String> query = new ArrayList<>();
+        query.add(firstName);
+        query.add(lastName);
+        query.add("");
+        query.add("");
+
+        dbapiCaller.simpleSearch(query);
     }
 
-    @Override public void onSearchSuccess(List<Person> people) {}
-
     /**
-     * Save credentials and move to MainActivity if login succeeded
+     * Bundle people and move to SearchResults Activity if search successful
      *
-     * @param success whether the login was successful
-     * @param person model for the logged in user
+     * @param people List of person models
      */
-    @BindString(R.string.authentication_failure) String authenticationFailure;
-    @Override public void authenticateUserCallSuccess(boolean success, Person person) {
-        if (success) {
-            saveCredentials(this, username, password);
-            saveUserDetails(this, person);
+    @Override public void onSearchSuccess(List<Person> people) {
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = new Bundle();
 
-            final Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        } else {
-            showAlert(authenticationFailure);
-        }
+        bundle.putParcelable(BUNDLE_KEY, new SimpleResult(people));
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override public void authenticateUserCallSuccess(boolean success, Person person) {
     }
 
     /**

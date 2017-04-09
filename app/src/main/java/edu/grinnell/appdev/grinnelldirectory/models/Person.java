@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory.Model;
+package edu.grinnell.appdev.grinnelldirectory.models;
 
 
 import com.google.gson.annotations.Expose;
@@ -11,19 +11,19 @@ public class Person {
     private String firstName;
     @SerializedName("nickName")
     @Expose
-    private Object nickName;
+    private String nickName;
     @SerializedName("lastName")
     @Expose
     private String lastName;
     @SerializedName("userName")
     @Expose
-    private Object userName;
+    private String userName;
     @SerializedName("classYear")
     @Expose
-    private Object classYear;
+    private String classYear;
     @SerializedName("reunionYear")
     @Expose
-    private Object reunionYear;
+    private String reunionYear;
     @SerializedName("box")
     @Expose
     private String box;
@@ -32,10 +32,10 @@ public class Person {
     private String email;
     @SerializedName("major")
     @Expose
-    private Object major;
+    private String major;
     @SerializedName("minor")
     @Expose
-    private Object minor;
+    private String minor;
     @SerializedName("address")
     @Expose
     private String address;
@@ -44,13 +44,13 @@ public class Person {
     private String address1;
     @SerializedName("address2")
     @Expose
-    private Object address2;
+    private String address2;
     @SerializedName("address3")
     @Expose
-    private Object address3;
+    private String address3;
     @SerializedName("address4")
     @Expose
-    private Object address4;
+    private String address4;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -68,91 +68,91 @@ public class Person {
     private String zip;
     @SerializedName("country")
     @Expose
-    private Object country;
+    private String country;
     @SerializedName("bldg")
     @Expose
-    private Object bldg;
+    private String bldg;
     @SerializedName("room")
     @Expose
-    private Object room;
+    private String room;
     @SerializedName("spouse")
     @Expose
     private String spouse;
     @SerializedName("alienStatus")
     @Expose
-    private Object alienStatus;
+    private String alienStatus;
     @SerializedName("hiatus")
     @Expose
-    private Object hiatus;
+    private String hiatus;
     @SerializedName("imgPath")
     @Expose
     private String imgPath;
     @SerializedName("office_phone")
     @Expose
-    private Object officePhone;
+    private String officePhone;
     @SerializedName("office_email")
     @Expose
-    private Object officeEmail;
+    private String officeEmail;
     @SerializedName("office_addr")
     @Expose
-    private Object officeAddr;
+    private String officeAddr;
     @SerializedName("office_box")
     @Expose
-    private Object officeBox;
+    private String officeBox;
     @SerializedName("type")
     @Expose
-    private Object type;
+    private String type;
     @SerializedName("page_order")
     @Expose
-    private Object pageOrder;
+    private String pageOrder;
     @SerializedName("crs_ID")
     @Expose
-    private Object crsID;
+    private String crsID;
     @SerializedName("position_name")
     @Expose
-    private Object positionName;
+    private String positionName;
     @SerializedName("office_hours_1")
     @Expose
-    private Object officeHours1;
+    private String officeHours1;
     @SerializedName("office_hours_2")
     @Expose
-    private Object officeHours2;
+    private String officeHours2;
     @SerializedName("office_hours_3")
     @Expose
-    private Object officeHours3;
+    private String officeHours3;
     @SerializedName("office_hours_4")
     @Expose
-    private Object officeHours4;
+    private String officeHours4;
     @SerializedName("personType")
     @Expose
     private String personType;
     @SerializedName("deptMajorClass")
     @Expose
-    private Object deptMajorClass;
+    private String deptMajorClass;
     @SerializedName("title")
     @Expose
     private String title;
     @SerializedName("title2")
     @Expose
-    private Object title2;
+    private String title2;
     @SerializedName("title3")
     @Expose
-    private Object title3;
+    private String title3;
     @SerializedName("title4")
     @Expose
-    private Object title4;
+    private String title4;
     @SerializedName("title5")
     @Expose
     private String title5;
     @SerializedName("title6")
     @Expose
-    private Object title6;
+    private String title6;
     @SerializedName("title7")
     @Expose
-    private Object title7;
+    private String title7;
     @SerializedName("title8")
     @Expose
-    private Object title8;
+    private String title8;
 
     public String getFirstName() {
         return firstName;
@@ -162,11 +162,11 @@ public class Person {
         this.firstName = firstName;
     }
 
-    public Object getNickName() {
+    public String getNickName() {
         return nickName;
     }
 
-    public void setNickName(Object nickName) {
+    public void setNickName(String nickName) {
         this.nickName = nickName;
     }
 
@@ -178,27 +178,27 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Object getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(Object userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public Object getClassYear() {
+    public String getClassYear() {
         return classYear;
     }
 
-    public void setClassYear(Object classYear) {
+    public void setClassYear(String classYear) {
         this.classYear = classYear;
     }
 
-    public Object getReunionYear() {
+    public String getReunionYear() {
         return reunionYear;
     }
 
-    public void setReunionYear(Object reunionYear) {
+    public void setReunionYear(String reunionYear) {
         this.reunionYear = reunionYear;
     }
 
@@ -218,19 +218,19 @@ public class Person {
         this.email = email;
     }
 
-    public Object getMajor() {
+    public String getMajor() {
         return major;
     }
 
-    public void setMajor(Object major) {
+    public void setMajor(String major) {
         this.major = major;
     }
 
-    public Object getMinor() {
+    public String getMinor() {
         return minor;
     }
 
-    public void setMinor(Object minor) {
+    public void setMinor(String minor) {
         this.minor = minor;
     }
 
@@ -250,27 +250,27 @@ public class Person {
         this.address1 = address1;
     }
 
-    public Object getAddress2() {
+    public String getAddress2() {
         return address2;
     }
 
-    public void setAddress2(Object address2) {
+    public void setAddress2(String address2) {
         this.address2 = address2;
     }
 
-    public Object getAddress3() {
+    public String getAddress3() {
         return address3;
     }
 
-    public void setAddress3(Object address3) {
+    public void setAddress3(String address3) {
         this.address3 = address3;
     }
 
-    public Object getAddress4() {
+    public String getAddress4() {
         return address4;
     }
 
-    public void setAddress4(Object address4) {
+    public void setAddress4(String address4) {
         this.address4 = address4;
     }
 
@@ -314,27 +314,27 @@ public class Person {
         this.zip = zip;
     }
 
-    public Object getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Object country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public Object getBldg() {
+    public String getBldg() {
         return bldg;
     }
 
-    public void setBldg(Object bldg) {
+    public void setBldg(String bldg) {
         this.bldg = bldg;
     }
 
-    public Object getRoom() {
+    public String getRoom() {
         return room;
     }
 
-    public void setRoom(Object room) {
+    public void setRoom(String room) {
         this.room = room;
     }
 
@@ -346,19 +346,19 @@ public class Person {
         this.spouse = spouse;
     }
 
-    public Object getAlienStatus() {
+    public String getAlienStatus() {
         return alienStatus;
     }
 
-    public void setAlienStatus(Object alienStatus) {
+    public void setAlienStatus(String alienStatus) {
         this.alienStatus = alienStatus;
     }
 
-    public Object getHiatus() {
+    public String getHiatus() {
         return hiatus;
     }
 
-    public void setHiatus(Object hiatus) {
+    public void setHiatus(String hiatus) {
         this.hiatus = hiatus;
     }
 
@@ -370,99 +370,99 @@ public class Person {
         this.imgPath = imgPath;
     }
 
-    public Object getOfficePhone() {
+    public String getOfficePhone() {
         return officePhone;
     }
 
-    public void setOfficePhone(Object officePhone) {
+    public void setOfficePhone(String officePhone) {
         this.officePhone = officePhone;
     }
 
-    public Object getOfficeEmail() {
+    public String getOfficeEmail() {
         return officeEmail;
     }
 
-    public void setOfficeEmail(Object officeEmail) {
+    public void setOfficeEmail(String officeEmail) {
         this.officeEmail = officeEmail;
     }
 
-    public Object getOfficeAddr() {
+    public String getOfficeAddr() {
         return officeAddr;
     }
 
-    public void setOfficeAddr(Object officeAddr) {
+    public void setOfficeAddr(String officeAddr) {
         this.officeAddr = officeAddr;
     }
 
-    public Object getOfficeBox() {
+    public String getOfficeBox() {
         return officeBox;
     }
 
-    public void setOfficeBox(Object officeBox) {
+    public void setOfficeBox(String officeBox) {
         this.officeBox = officeBox;
     }
 
-    public Object getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Object type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Object getPageOrder() {
+    public String getPageOrder() {
         return pageOrder;
     }
 
-    public void setPageOrder(Object pageOrder) {
+    public void setPageOrder(String pageOrder) {
         this.pageOrder = pageOrder;
     }
 
-    public Object getCrsID() {
+    public String getCrsID() {
         return crsID;
     }
 
-    public void setCrsID(Object crsID) {
+    public void setCrsID(String crsID) {
         this.crsID = crsID;
     }
 
-    public Object getPositionName() {
+    public String getPositionName() {
         return positionName;
     }
 
-    public void setPositionName(Object positionName) {
+    public void setPositionName(String positionName) {
         this.positionName = positionName;
     }
 
-    public Object getOfficeHours1() {
+    public String getOfficeHours1() {
         return officeHours1;
     }
 
-    public void setOfficeHours1(Object officeHours1) {
+    public void setOfficeHours1(String officeHours1) {
         this.officeHours1 = officeHours1;
     }
 
-    public Object getOfficeHours2() {
+    public String getOfficeHours2() {
         return officeHours2;
     }
 
-    public void setOfficeHours2(Object officeHours2) {
+    public void setOfficeHours2(String officeHours2) {
         this.officeHours2 = officeHours2;
     }
 
-    public Object getOfficeHours3() {
+    public String getOfficeHours3() {
         return officeHours3;
     }
 
-    public void setOfficeHours3(Object officeHours3) {
+    public void setOfficeHours3(String officeHours3) {
         this.officeHours3 = officeHours3;
     }
 
-    public Object getOfficeHours4() {
+    public String getOfficeHours4() {
         return officeHours4;
     }
 
-    public void setOfficeHours4(Object officeHours4) {
+    public void setOfficeHours4(String officeHours4) {
         this.officeHours4 = officeHours4;
     }
 
@@ -474,11 +474,11 @@ public class Person {
         this.personType = personType;
     }
 
-    public Object getDeptMajorClass() {
+    public String getDeptMajorClass() {
         return deptMajorClass;
     }
 
-    public void setDeptMajorClass(Object deptMajorClass) {
+    public void setDeptMajorClass(String deptMajorClass) {
         this.deptMajorClass = deptMajorClass;
     }
 
@@ -490,27 +490,27 @@ public class Person {
         this.title = title;
     }
 
-    public Object getTitle2() {
+    public String getTitle2() {
         return title2;
     }
 
-    public void setTitle2(Object title2) {
+    public void setTitle2(String title2) {
         this.title2 = title2;
     }
 
-    public Object getTitle3() {
+    public String getTitle3() {
         return title3;
     }
 
-    public void setTitle3(Object title3) {
+    public void setTitle3(String title3) {
         this.title3 = title3;
     }
 
-    public Object getTitle4() {
+    public String getTitle4() {
         return title4;
     }
 
-    public void setTitle4(Object title4) {
+    public void setTitle4(String title4) {
         this.title4 = title4;
     }
 
@@ -522,27 +522,27 @@ public class Person {
         this.title5 = title5;
     }
 
-    public Object getTitle6() {
+    public String getTitle6() {
         return title6;
     }
 
-    public void setTitle6(Object title6) {
+    public void setTitle6(String title6) {
         this.title6 = title6;
     }
 
-    public Object getTitle7() {
+    public String getTitle7() {
         return title7;
     }
 
-    public void setTitle7(Object title7) {
+    public void setTitle7(String title7) {
         this.title7 = title7;
     }
 
-    public Object getTitle8() {
+    public String getTitle8() {
         return title8;
     }
 
-    public void setTitle8(Object title8) {
+    public void setTitle8(String title8) {
         this.title8 = title8;
     }
 

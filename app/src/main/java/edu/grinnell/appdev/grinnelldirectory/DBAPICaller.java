@@ -5,10 +5,10 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.List;
 
-import edu.grinnell.appdev.grinnelldirectory.Interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.Interfaces.DatabaseAPI;
-import edu.grinnell.appdev.grinnelldirectory.Model.Person;
-import edu.grinnell.appdev.grinnelldirectory.Model.User;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DatabaseAPI;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

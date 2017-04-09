@@ -1,8 +1,8 @@
-package edu.grinnell.appdev.grinnelldirectory.Interfaces;
+package edu.grinnell.appdev.grinnelldirectory.interfaces;
 
 import java.util.List;
 
-import edu.grinnell.appdev.grinnelldirectory.Model.Person;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
 
 public interface APICallerInterface {

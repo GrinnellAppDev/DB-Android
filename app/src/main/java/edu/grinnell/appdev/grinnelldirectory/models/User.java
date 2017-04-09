@@ -1,5 +1,5 @@
 
-package edu.grinnell.appdev.grinnelldirectory.Model;
+package edu.grinnell.appdev.grinnelldirectory.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
