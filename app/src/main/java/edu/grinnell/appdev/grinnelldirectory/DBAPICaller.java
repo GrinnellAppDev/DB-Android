@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.DatabaseAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DbRetrofitAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
 import retrofit2.Call;
@@ -16,48 +17,23 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class DBAPICaller {
+public class DBAPICaller implements NetworkAPI {
 
     private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
     private static final int RESPONSE_FORBIDDEN = 403;
 
-    // Just for Simple Search
-    private static final int FIRST_NAME_FIELD = 0;
-    private static final int LAST_NAME_FIELD = 1;
-    private static final int MAJOR_FIELD = 2;
-    private static final int CLASS_YEAR_FIELD = 3;
-    // Additional constants for Advanced Search
-    private static final int CONCENTRATION_FIELD = 4;
-    private static final int SGA_FIELD = 5;
-    private static final int USERNAME_FIELD = 6;
-    private static final int CAMPUS_PHONE_FIELD = 7;
-    private static final int HIATUS_FIELD = 8;
-    private static final int HOME_ADDRESS_FIELD = 9;
-    private static final int FAC_STAFF_OFFICE_FIELD = 10;
-    private static final int CAMPUS_ADDRESS_FIELD = 11;
-    private static final int BUILDING_DORM_FIELD = 12;
-    private static final int POSITION_DESCRIPTION_FIELD = 13;
-
-
     private Retrofit mRetrofit;
-    private DatabaseAPI dbAPI;
+    private DbRetrofitAPI dbAPI;
     private Call<List<Person>> personQuery;
     private APICallerInterface apiCallerInterface;
     private User user;
-
-    /*
-    public DBAPICaller(User user, APICallerInterface apiInterface, String BASE_URL) {
-        super(user,apiInterface,BASE_URL);
-    }
-
-    */
 
     public DBAPICaller(User user, APICallerInterface apiInterface) {
         mRetrofit = new Retrofit.Builder().
                 baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).
                 build();
-        dbAPI = mRetrofit.create(DatabaseAPI.class);
+        dbAPI = mRetrofit.create(DbRetrofitAPI.class);
         apiCallerInterface = apiInterface;
         this.user = user;
     }
