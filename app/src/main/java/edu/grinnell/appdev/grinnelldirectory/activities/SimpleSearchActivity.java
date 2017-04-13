@@ -33,7 +33,7 @@ public class SimpleSearchActivity extends AppCompatActivity {
      */
     @OnClick(R.id.search)
     void search(View view) {
-        String firstName = mFirstNameEditText.getText().toString();
-        String lastName = mLastNameEditText.getText().toString();
+        String firstName = mFirstNameEditText.getText().toString().trim();
+        String lastName = mLastNameEditText.getText().toString().trim();
     }
 }
