@@ -1,72 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dp" >
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
 
-        <EditText
-            android:id="@+id/first_text"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:inputType="text" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/last_text"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/first_text"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/hint_first_name"
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/phone_text"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:inputType="phone" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/username_text"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/last_text"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/hint_last_name"
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/home_address_text"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:inputType="text" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_phone_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/campus_address_text"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/phone_text"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/hint_phone"
+                android:imeOptions="actionSearch"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_username_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/username_text"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/hint_username"
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_home_address_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/home_address_text"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/hint_home_address"
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_campus_address_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/campus_address_text"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:hint="@string/hint_campus_address"
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
 
         <Spinner
@@ -87,29 +131,29 @@
         <Spinner
             android:id="@+id/concentration_spinner"
             android:layout_width="300dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:entries="@array/studentconcentrationarray" />
 
         <Spinner
             android:id="@+id/sga_spinner"
             android:layout_width="300dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:entries="@array/sgaarray" />
 
         <Spinner
             android:id="@+id/hiatus_spinner"
             android:layout_width="300dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:entries="@array/haitusarray" />
 
         <Spinner
             android:id="@+id/student_class_spinner"
             android:layout_width="300dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:entries="@array/classyeararray" />
 
         <Button
@@ -117,7 +161,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
 
 
 </ScrollView>
