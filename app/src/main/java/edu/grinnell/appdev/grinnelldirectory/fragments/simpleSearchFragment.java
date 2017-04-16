@@ -55,15 +55,4 @@ public class simpleSearchFragment extends Fragment implements Serializable {
             }
         });
     }
-
-    /**
-     * Search when the search button is pressed
-     *
-     * @param view SimpleSearchActvity's view
-     */
-    @OnClick(R.id.search)
-    void search(View view) {
-        String firstName = mFirstNameEditText.getText().toString();
-        String lastName = mLastNameEditText.getText().toString();
-    }
 }
