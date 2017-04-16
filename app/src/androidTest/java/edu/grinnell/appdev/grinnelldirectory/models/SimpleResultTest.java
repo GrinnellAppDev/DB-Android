@@ -13,7 +13,18 @@ public class SimpleResultTest {
 
     @Test
     public void unparceledParcelEqualityTest() {
+        Person personA = new Person();
+        personA.setFirstName("Banana");
+        personA.setLastName("Bread");
+
+        Person personB = new Person();
+        personB.setFirstName("Lorem");
+        personB.setLastName("Ipsum");
+        personB.setMajor("Biology");
+
         List<Person> people = new ArrayList();
+        people.add(personA);
+        people.add(personB);
         Bundle bundle = new Bundle();
         bundle.putParcelable(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
 
