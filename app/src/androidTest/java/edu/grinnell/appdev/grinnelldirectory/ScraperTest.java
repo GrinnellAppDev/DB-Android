@@ -65,8 +65,8 @@ public class ScraperTest {
         });
 
         List<String> test_list_1 = new ArrayList();
-        test_list_1.add(0, "");
-        test_list_1.add(1, "Pradhan");
+        test_list_1.add(0, "Prabir");
+        test_list_1.add(1, "");
         test_list_1.add(2, "");
         test_list_1.add(3, "");
 

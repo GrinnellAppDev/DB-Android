@@ -11,7 +11,7 @@ import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 
 public class DBScraperCaller implements NetworkAPI{
 
-    private static final String BASE_URL = "https://itwebapps.grinnell.edu/classic/asp/campusdirectory/GCdefault.asp?transmit=true&blackboardref=true&";
+    private static final String BASE_URL = "https://itwebapps.grinnell.edu/classic/asp/campusdirectory/GCdefault.asp?transmit=true&blackboardref=true";
     private static final String[] QUERY_KEYS = {
             "FirstName",
             "LastName",
