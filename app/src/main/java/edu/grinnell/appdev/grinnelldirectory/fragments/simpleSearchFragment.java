@@ -12,6 +12,9 @@ import android.widget.EditText;
 
 import java.io.Serializable;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 
 /**
@@ -21,6 +24,10 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 public class simpleSearchFragment extends Fragment implements Serializable {
 
     private View view;
+
+    private EditText mFirstNameEditText;
+    private EditText mLastNameEditText;
+    private Button mSearchButton;
 
     @Nullable
     @Override
@@ -36,6 +43,27 @@ public class simpleSearchFragment extends Fragment implements Serializable {
     }
 
     public void attachUI() {
-        // add code to bind the UI to the activity view
+        mFirstNameEditText = (EditText) view.findViewById(R.id.first_name_field);
+        mLastNameEditText = (EditText) view.findViewById(R.id.last_name_field);
+        mSearchButton = (Button) view.findViewById(R.id.search);
+
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String firstName = mFirstNameEditText.getText().toString();
+                String lastName = mLastNameEditText.getText().toString();
+            }
+        });
+    }
+
+    /**
+     * Search when the search button is pressed
+     *
+     * @param view SimpleSearchActvity's view
+     */
+    @OnClick(R.id.search)
+    void search(View view) {
+        String firstName = mFirstNameEditText.getText().toString();
+        String lastName = mLastNameEditText.getText().toString();
     }
 }
