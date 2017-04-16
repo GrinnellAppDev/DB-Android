@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Grinnell Directory</string>
-    <string name="title_activity_default_login">Sign in</string>
+  <string name="app_name">Grinnell Directory</string>
+  <string name="title_activity_default_login">Sign in</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_username">Username</string>
-    <string name="prompt_password_required">Password</string>
-    <string name="login_button">Sign In</string>
+  <!-- Strings related to login -->
+  <string name="prompt_username">Username</string>
+  <string name="prompt_password_required">Password</string>
+  <string name="login_button">Sign In</string>
+  <string name="title_activity_detail">DetailActivity</string>
 </resources>
