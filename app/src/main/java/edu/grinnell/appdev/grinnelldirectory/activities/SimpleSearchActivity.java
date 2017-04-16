@@ -1,6 +1,7 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.content.Intent;
+import android.net.Network;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
+import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
@@ -44,10 +47,10 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
     @OnClick(R.id.search) void search(View view) {
         User user = User.getUser(this);
 
-        String firstName = mFirstNameEditText.getText().toString();
-        String lastName = mLastNameEditText.getText().toString();
+        String firstName = mFirstNameEditText.getText().toString().trim();
+        String lastName = mLastNameEditText.getText().toString().trim();
 
-        DBAPICaller dbapiCaller = new DBAPICaller(user, this);
+        NetworkAPI api = new DBScraperCaller(this, this);
 
         List<String> query = new ArrayList<>();
         query.add(firstName);
@@ -55,7 +58,7 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
         query.add("");
         query.add("");
 
-        dbapiCaller.simpleSearch(query);
+        api.simpleSearch(query);
     }
 
     /**
