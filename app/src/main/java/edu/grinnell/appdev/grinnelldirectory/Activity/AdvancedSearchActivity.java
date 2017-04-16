@@ -1,7 +1,9 @@
 package edu.grinnell.appdev.grinnelldirectory.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,6 +47,8 @@ import static java.sql.Types.NULL;
  */
 public class AdvancedSearchActivity extends AppCompatActivity
 implements APICallerInterface{
+
+    public static final String SIMPLE_SEARCH_KEY = "SIMPLE_SEARCH_KEY";
     
     //binding the search parameters from layout
     @BindView(R.id.first_text)
@@ -104,8 +109,8 @@ implements APICallerInterface{
         searchObject.add(HOME_ADDRESS_FIELD, homeAddressText.getText().toString());
         searchObject.add(CLASS_YEAR_FIELD, studentClassSpinner.getSelectedItem().toString());
         searchObject.add(CAMPUS_ADDRESS_FIELD, campusAddressText.getText().toString());
-        searchObject.add(BUILDING_DORM_FIELD, ""); //student building
-        searchObject.add(POSITION_DESCRIPTION_FIELD, ""); //position
+        //searchObject.add(BUILDING_DORM_FIELD, ""); //student building
+        //searchObject.add(POSITION_DESCRIPTION_FIELD, ""); //position
 
         if (searchObject != null) {
             apiCaller.advancedSearch(searchObject);
@@ -124,7 +129,13 @@ implements APICallerInterface{
 
     @Override
     public void onSearchSuccess(List<Person> people) {
-        //call to the seach results will be called here
+        Intent intent = new Intent(this, SearchResultsActivity.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelable(SIMPLE_SEARCH_KEY, new SimpleResult(people));
+        intent.putExtras(bundle);
+        startActivity(intent);
+
     }
 
     @Override
@@ -132,13 +143,19 @@ implements APICallerInterface{
 
     }
 
-    @Override
-    public void onServerFailure(String fail_message) {
-
+    @BindString(R.string.server_failure) String serverFailure;
+    @Override public void onServerFailure(String failMessage) {
+        showAlert(serverFailure + failMessage);
     }
 
     @Override
     public void onNetworkingError(String fail_message) {
 
+    }
+
+    private void showAlert(String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message);
+        builder.show();
     }
 }
