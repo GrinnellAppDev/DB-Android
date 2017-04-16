@@ -30,7 +30,7 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
+        Fragment fragment;
         switch (position) {
             case 0:
                 fragment = new simpleSearchFragment();
@@ -44,6 +44,7 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
         }
         return fragment;
     }
+
     @Override
     public int getCount() {
         return 0;
