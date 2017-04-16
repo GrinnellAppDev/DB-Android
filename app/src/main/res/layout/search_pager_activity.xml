@@ -4,21 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/searchTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp" />
-
     <android.support.v4.view.ViewPager
-        android:id="@+id/search_pager"
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v4.view.PagerTabStrip
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:gravity="top" />
 
     </android.support.v4.view.ViewPager>
+
 </LinearLayout>

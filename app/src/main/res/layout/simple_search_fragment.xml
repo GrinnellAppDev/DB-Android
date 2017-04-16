@@ -2,27 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/first_name_field"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:hint="@string/first_name" />
-
-    <EditText
-        android:id="@+id/last_name_field"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:hint="@string/last_name" />
-
-    <Button
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:text="@string/search_button" />
 </LinearLayout>

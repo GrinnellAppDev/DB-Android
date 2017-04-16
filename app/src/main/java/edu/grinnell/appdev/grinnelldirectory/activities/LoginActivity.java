@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,7 +76,9 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
             User.saveCredentials(this, username, password);
             User.saveUserDetails(this, person);
 
-            final Intent intent = new Intent(this, MainActivity.class);
+            //final Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SearchPagerActivity.class);
+            Log.e("START_PAGER_ACTIVITY", "Log-in successful, starting SearchPagerActivity.");
             startActivity(intent);
         } else {
             showAlert(authenticationFailure);
