@@ -1,15 +1,13 @@
 package edu.grinnell.appdev.grinnelldirectory;
 
 import android.util.Log;
-
-import java.io.IOException;
-import java.util.List;
-
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbRetrofitAPI;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
+import java.io.IOException;
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
