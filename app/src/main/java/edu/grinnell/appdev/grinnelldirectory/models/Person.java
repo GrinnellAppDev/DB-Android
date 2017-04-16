@@ -3,8 +3,9 @@ package edu.grinnell.appdev.grinnelldirectory.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Person {
+public class Person implements Serializable {
 
     @SerializedName("firstName")
     @Expose
