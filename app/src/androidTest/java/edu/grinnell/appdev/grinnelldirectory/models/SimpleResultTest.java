@@ -29,7 +29,7 @@ public class SimpleResultTest {
             Gson gson = new Gson();
             String peopleJson = gson.toJson(people);
             String newPeopleJson = gson.toJson(newPeople);
-            assert("Each person should equal each new person", peopleJson.equals(newPeopleJson);
+            assertTrue("Each person should equal each new person", peopleJson.equals(newPeopleJson));
         }
     }
 

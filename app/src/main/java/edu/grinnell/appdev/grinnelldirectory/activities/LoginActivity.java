@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
             User.saveCredentials(this, username, password);
             User.saveUserDetails(this, person);
 
-            final Intent intent = new Intent(this, MainActivity.class);
+            final Intent intent = new Intent(this, SimpleSearchActivity.class);
             startActivity(intent);
         } else {
             showAlert(authenticationFailure);

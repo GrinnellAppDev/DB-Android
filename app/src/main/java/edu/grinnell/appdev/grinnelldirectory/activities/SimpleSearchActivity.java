@@ -30,8 +30,6 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
     @BindView(R.id.last_name_field) EditText mLastNameEditText;
     @BindView(R.id.search) Button mSearchButton;
 
-    public static final String SIMPLE_SEARCH_KEY = "SIMPLE_SEARCH_KEY";
-
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_search);
@@ -69,7 +67,7 @@ public class SimpleSearchActivity extends AppCompatActivity implements APICaller
         Intent intent = new Intent(this, SearchResultsActivity.class);
         Bundle bundle = new Bundle();
 
-        bundle.putParcelable(SIMPLE_SEARCH_KEY, new SimpleResult(people));
+        bundle.putParcelable(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
         intent.putExtras(bundle);
         startActivity(intent);
     }
