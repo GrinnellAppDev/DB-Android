@@ -4,12 +4,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.List;
 
+/**
+ * Wraps a list of Persons in a parcelable class so that it can be passed between activities.
+ */
+
 public class SimpleResult implements Parcelable {
 
     public static final String SIMPLE_KEY = "SIMPLE_KEY";
 
     private List<Person> mPeople;
 
+    /**
+     * Used to generate an instance of SimpleResult from a parcel
+     */
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator<SimpleResult>() {
         /**
          * Create a new SimpleResult by deserializing parcel
