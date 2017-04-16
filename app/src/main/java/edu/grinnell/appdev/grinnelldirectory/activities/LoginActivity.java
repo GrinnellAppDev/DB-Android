@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     }
 
     /**
-     * Save credentials and move to MainActivity if login succeeded
+     * Save credentials and move to SearchPagerActivity if login succeeded
      *
      * @param success whether the login was successful
      * @param person model for the logged in user
@@ -75,8 +75,10 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
             User.saveCredentials(this, username, password);
             User.saveUserDetails(this, person);
 
-            final Intent intent = new Intent(this, SimpleSearchActivity.class);
-            startActivity(intent);
+            // If login was successful, navigate to the SearchPagerActivity which allows you
+            // to tab between simple search and advanced search.
+            navigateToSearchPager();
+
         } else {
             showAlert(authenticationFailure);
         }
@@ -112,5 +114,10 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
         builder.show();
+    }
+
+    private void navigateToSearchPager() {
+        Intent intent = new Intent(this, SearchPagerActivity.class);
+        startActivity(intent);
     }
 }

@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
+import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
