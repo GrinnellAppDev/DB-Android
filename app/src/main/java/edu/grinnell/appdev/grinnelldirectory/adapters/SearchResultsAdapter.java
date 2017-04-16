@@ -21,10 +21,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 
   public SearchResultsAdapter(Context context, List<Person> persons) {
-    if (persons != null) {
-      mPersons = persons;
       mContext = context;
-    }
+  }
+
+  public void updateData(List<Person> persons) {
+      mPersons = persons;
+      notifyDataSetChanged();
   }
 
   @Override

@@ -15,21 +15,18 @@ import edu.grinnell.appdev.grinnelldirectory.adapters.SearchResultsAdapter;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
 public class SearchResultsActivity extends AppCompatActivity {
-  private List<Person> mPeopleList;
+    private List<Person> mPeopleList;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_searchresults);
-    RecyclerView rvSearchResults = (RecyclerView) findViewById(R.id.rvSearchResults);
-    SearchResultsAdapter adapter = new SearchResultsAdapter(this, mPeopleList);
-    rvSearchResults.setAdapter(adapter);
-    rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_searchresults);
 
-      SimpleResult result = getIntent().getParcelableExtra(SimpleResult.SIMPLE_KEY);
-      List<Person>  persons = result.getPeople();
-      for (Person p : persons) {
-          Log.d(SearchResultsActivity.class.getSimpleName(), "Person name is: " + p.getFirstName());
-      }
+        RecyclerView rvSearchResults = (RecyclerView) findViewById(R.id.rvSearchResults);
+        SearchResultsAdapter adapter = new SearchResultsAdapter(this, mPeopleList);
+        rvSearchResults.setAdapter(adapter);
+        rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
 
-  }
+        SimpleResult result = getIntent().getParcelableExtra(SimpleResult.SIMPLE_KEY);
+        adapter.updateData(result.getPeople());
+    }
 }
