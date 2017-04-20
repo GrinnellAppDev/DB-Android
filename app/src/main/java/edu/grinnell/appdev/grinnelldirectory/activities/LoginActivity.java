@@ -1,4 +1,4 @@
-package edu.grinnell.appdev.grinnelldirectory.Activity;
+package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
