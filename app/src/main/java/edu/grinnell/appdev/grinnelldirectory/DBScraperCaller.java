@@ -34,7 +34,7 @@ public class DBScraperCaller implements NetworkAPI{
 
     public DBScraperCaller (Context context, APICallerInterface apiInterface) {
         this.context = context;
-        this. apiInterface = apiInterface;
+        this.apiInterface = apiInterface;
     }
 
     @Override
