@@ -13,51 +13,61 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import butterknife.BindString;
+import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleSearchFragment extends Fragment implements Serializable, APICallerInterface {
 
     private View view;
 
-    private EditText mFirstNameEditText;
-    private EditText mLastNameEditText;
-    private Button mSearchButton;
+    @BindView(R.id.first_name_field) EditText mFirstNameEditText;
+    @BindView(R.id.last_name_field) EditText mLastNameEditText;
+    @BindView(R.id.search) Button mSearchButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.simple_search_fragment, null);
+        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        attachUI();
     }
 
-    public void attachUI() {
-        mFirstNameEditText = (EditText) view.findViewById(R.id.first_name_field);
-        mLastNameEditText = (EditText) view.findViewById(R.id.last_name_field);
-        mSearchButton = (Button) view.findViewById(R.id.search);
+    /**
+     * Search when the search button is pressed
+     *
+     * @param view SimpleSearchActvity's view
+     */
+    @OnClick(R.id.search) void search(View view) {
+        String firstName = mFirstNameEditText.getText().toString().trim();
+        String lastName = mLastNameEditText.getText().toString().trim();
 
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String firstName = mFirstNameEditText.getText().toString();
-                String lastName = mLastNameEditText.getText().toString();
-            }
-        });
+        NetworkAPI api = new DBScraperCaller(getContext(), this);
+
+        List<String> query = new ArrayList();
+        query.add(firstName);
+        query.add(lastName);
+        query.add("");
+        query.add("");
+
+        api.simpleSearch(query);
     }
 
     /**
