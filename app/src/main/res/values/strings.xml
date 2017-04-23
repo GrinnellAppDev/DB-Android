@@ -13,7 +13,7 @@
     <string name="search_button">Search</string>
 
     <!-- Strings for error messages -->
-    <string name="server_failure">Server failure: </string>
-    <string name="networking_error">Networking error: </string>
+    <string name="server_failure">Server failure</string>
+    <string name="networking_error">Networking error</string>
     <string name="authentication_failure">Wrong username or password</string>
 </resources>
