@@ -27,6 +27,8 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
 
         ViewPager searchPager = (ViewPager) findViewById(R.id.pager);
         searchPager.setAdapter(new SearchPagerAdapter(getSupportFragmentManager()));
+
+        setAnimation();
     }
 
     @Override
@@ -46,7 +48,10 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             // send user to the login screen
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
+            // clear the back stack
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra(getString(R.string.calling_class), SearchPagerActivity.class.toString());
             startActivity(intent);
             return true;
         } else if (id == R.id.action_about) {
@@ -54,6 +59,20 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void setAnimation() {
+        try {
+            String callingClass = getIntent().getExtras().getString(getString(R.string.calling_class));
+            if (callingClass != null) {
+                if (callingClass.contains(getString(R.string.login_activity))) {
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

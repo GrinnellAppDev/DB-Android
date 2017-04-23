@@ -16,4 +16,9 @@
     <string name="server_failure">Server failure: </string>
     <string name="networking_error">Networking error: </string>
     <string name="authentication_failure">Wrong username or password</string>
+
+    <!-- Strings for transitions between activities -->
+    <string name="calling_class">calling_class</string>
+    <string name="search_pager_activity">SearchPagerActivity</string>
+    <string name="login_activity">LoginActivity</string>
 </resources>
