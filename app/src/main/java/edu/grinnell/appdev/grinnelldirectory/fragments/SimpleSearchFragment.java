@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.TextView;
 import butterknife.BindString;
+import butterknife.OnEditorAction;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
@@ -29,13 +31,15 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
+
 public class SimpleSearchFragment extends Fragment implements Serializable, APICallerInterface {
 
     private View view;
 
     @BindView(R.id.first_name_field) EditText mFirstNameEditText;
     @BindView(R.id.last_name_field) EditText mLastNameEditText;
-    @BindView(R.id.search) Button mSearchButton;
+    //@BindView(R.id.search) Button mSearchButton;
 
     @Nullable
     @Override
@@ -53,9 +57,15 @@ public class SimpleSearchFragment extends Fragment implements Serializable, APIC
     /**
      * Search when the search button is pressed
      *
-     * @param view SimpleSearchActvity's view
+     * @param view The view that was clicked
+     * @param actionId Identifier of the action - should always be EditorInfo.IME_ACTION_SEARCH
+     * @return true if action was consumed, false otherwise
      */
-    @OnClick(R.id.search) void search(View view) {
+    @OnEditorAction(R.id.last_name_field) boolean search(TextView view, int actionId) {
+        if (actionId != IME_ACTION_SEARCH) {
+            // log smth
+            return false;
+        }
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 
@@ -68,6 +78,8 @@ public class SimpleSearchFragment extends Fragment implements Serializable, APIC
         query.add("");
 
         api.simpleSearch(query);
+
+        return true; // consumed action
     }
 
     /**
