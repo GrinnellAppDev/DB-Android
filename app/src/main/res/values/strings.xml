@@ -16,5 +16,4 @@
     <string name="server_failure">Server failure</string>
     <string name="networking_error">Networking error</string>
     <string name="authentication_failure">Wrong username or password</string>
-    <string name="title_activity_search_tab">SearchTabActivity</string>
 </resources>
