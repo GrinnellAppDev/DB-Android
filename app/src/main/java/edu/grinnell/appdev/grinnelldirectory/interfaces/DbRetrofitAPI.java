@@ -14,7 +14,7 @@ import retrofit2.http.Query;
  * Created by nicholasroberson on 2/10/17.
  */
 
-public interface DatabaseAPI {
+public interface DbRetrofitAPI {
 
     @Headers({"Content-Type: application/json", "Cache-Control: no-cache"})
     @POST("db")
