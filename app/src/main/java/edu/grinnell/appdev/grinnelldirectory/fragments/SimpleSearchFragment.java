@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,16 +19,20 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 
-public class SimpleSearchFragment extends Fragment implements Serializable, APICallerInterface {
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
+
+public class SimpleSearchFragment extends Fragment implements APICallerInterface,
+        SearchFragmentInterface {
 
     private View view;
 
@@ -35,8 +40,6 @@ public class SimpleSearchFragment extends Fragment implements Serializable, APIC
     EditText mFirstNameEditText;
     @BindView(R.id.last_name_field)
     EditText mLastNameEditText;
-    @BindView(R.id.search)
-    Button mSearchButton;
 
     @Nullable
     @Override
@@ -46,18 +49,29 @@ public class SimpleSearchFragment extends Fragment implements Serializable, APIC
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    /**
+     * Search when the last name field is submitted
+     *
+     * @param view     The text view that was submitted from
+     * @param actionId Identifier of the action - should always be EditorInfo.IME_ACTION_SEARCH
+     * @return true if action was consumed, false otherwise
+     */
+    @OnEditorAction(R.id.last_name_field)
+    boolean onSubmit(TextView view, int actionId) {
+        if (actionId != IME_ACTION_SEARCH) {
+            // log smth
+            return false;
+        }
+        search();
+
+        return true; // consumed action
     }
 
     /**
-     * Search when the search button is pressed
-     *
-     * @param view SimpleSearchActvity's view
+     * Execute a simple search
      */
-    @OnClick(R.id.search)
-    void search(View view) {
+    @Override
+    public void search() {
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 

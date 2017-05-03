@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.Serializable;
-
 import edu.grinnell.appdev.grinnelldirectory.R;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 
 
-public class AdvancedSearchFragment extends Fragment implements Serializable {
+public class AdvancedSearchFragment extends Fragment implements SearchFragmentInterface {
 
     private View view;
 
@@ -31,5 +30,10 @@ public class AdvancedSearchFragment extends Fragment implements Serializable {
 
     public void attachUI() {
         // add code to bind the UI to the activity view
+    }
+
+    @Override
+    public void search() {
+
     }
 }

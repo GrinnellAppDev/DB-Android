@@ -3,18 +3,22 @@ package edu.grinnell.appdev.grinnelldirectory.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import edu.grinnell.appdev.grinnelldirectory.fragments.AdvancedSearchFragment;
 import edu.grinnell.appdev.grinnelldirectory.fragments.SimpleSearchFragment;
-
-/**
- * Created by nicholasroberson on 4/16/17.
- */
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 
 public class SearchPagerAdapter extends FragmentPagerAdapter {
 
+    private SearchFragmentInterface mCurrentFragment;
+
     public SearchPagerAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    public SearchFragmentInterface getCurrentFragment() {
+        return mCurrentFragment;
     }
 
     @Override
@@ -48,5 +52,18 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 2;
+    }
+
+    /**
+     * Called to inform the adapter of which item is current
+     *
+     * @param container The containing view from which the page will be removed
+     * @param position  The page position that is being shown
+     * @param object    represents the page, created by PagerAdapter.instantiateItem
+     */
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        mCurrentFragment = (SearchFragmentInterface) object;
+        super.setPrimaryItem(container, position, object);
     }
 }

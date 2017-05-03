@@ -2,9 +2,9 @@ package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 
@@ -26,6 +27,8 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     TabLayout mTabLayout;
     @BindView(R.id.pager)
     ViewPager mViewPager;
+    @BindView(R.id.search_fab)
+    FloatingActionButton mSearchFab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,13 +70,26 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Call the current fragment's search method when the floating action button is clicked
+     */
+    @OnClick(R.id.search_fab)
+    void onClickSearchFab() {
+        ViewPager searchPager = (ViewPager) findViewById(R.id.pager);
+        SearchPagerAdapter searchPagerAdapter = (SearchPagerAdapter) searchPager.getAdapter();
+        searchPagerAdapter.getCurrentFragment().search();
+    }
+
 
     private void setAnimation() {
         try {
-            String callingClass = getIntent().getExtras().getString(getString(R.string.calling_class));
-            if (callingClass != null) {
-                if (callingClass.contains(getString(R.string.login_activity))) {
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String callingClass = extras.getString(getString(R.string.calling_class));
+                if (callingClass != null) {
+                    if (callingClass.contains(getString(R.string.login_activity))) {
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -86,7 +102,5 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
 
         mViewPager.setAdapter(new SearchPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
-
     }
-
 }
