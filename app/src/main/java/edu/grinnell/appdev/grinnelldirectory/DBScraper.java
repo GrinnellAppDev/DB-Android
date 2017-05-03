@@ -198,8 +198,8 @@ public class DBScraper extends AsyncTask<String, Void, List<Person>> {
                 errorCode = NO_ENTRIES;
                 return false;
             }
-            firstName = fullName.substring(0, fullName.indexOf(','));
-            lastName = fullName.substring(fullName.indexOf(',') + 2);
+            lastName = fullName.substring(0, fullName.indexOf(','));
+            firstName = fullName.substring(fullName.indexOf(',') + 2);
             curTok = strTok.nextToken();
 
             if (onCampus) {

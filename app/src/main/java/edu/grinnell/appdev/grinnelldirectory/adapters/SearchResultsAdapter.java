@@ -16,9 +16,7 @@ import java.util.List;
 
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.DetailActivity;
-import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
-import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
 
@@ -50,7 +48,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         TextView majorTextView = viewHolder.major;
         TextView locationTextView = viewHolder.location;
 
-        Picasso.with(mContext).load(person.getImgPath()).into(personImageView);
+        String imgPath = person.getImgPath();
+        if (imgPath != null && !imgPath.isEmpty()) {
+            Picasso.with(mContext).load(person.getImgPath()).into(personImageView);
+        } else {
+            Picasso.with(mContext).load(R.mipmap.ic_launcher).into(personImageView);
+        }
         nameTextView.setText(person.getFirstName() + " " + person.getLastName());
         majorTextView.setText(person.getMajor());
         locationTextView.setText(person.getAddress());

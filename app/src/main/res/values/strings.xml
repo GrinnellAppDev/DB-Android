@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Grinnell DB</string>
-    <string name="title_activity_default_login">Sign in</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_login">Log in</string>
+    <string name="title_activity_detail">Profile</string>
+    <string name="title_activity_search_results">Results</string>
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>

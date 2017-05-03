@@ -2,6 +2,7 @@ package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle extras = getIntent().getExtras();
         p = (Person) extras.getSerializable(Person.PERSON_KEY);
 
@@ -62,7 +64,13 @@ public class DetailActivity extends AppCompatActivity {
     private void setFields() {
         name.setText(p.getFirstName() + ' ' + p.getLastName());
         classYear.setText(p.getClassYear());
-        username.setText(p.getUserName());
+        String un = p.getUserName();
+        if (un == null || un.isEmpty()) {
+            String email = p.getEmail();
+            username.setText(email.substring(0, email.indexOf('@')));
+        } else {
+            username.setText(un);
+        }
 
         String mjr = p.getMajor();
         if (mjr == null || mjr.isEmpty()) {
@@ -71,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             major.setVisibility(View.VISIBLE);
             headingMajor.setVisibility(View.VISIBLE);
-            phone.setText(mjr);
+            major.setText(mjr);
         }
 
         String ph = p.getPhone();
@@ -120,6 +128,17 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             Picasso.with(this).load(p.getImgPath()).into(pic);
         }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

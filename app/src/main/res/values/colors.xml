@@ -5,6 +5,6 @@
     <color name="primaryLight">#ff6659</color>
     <color name="background">#fafafa</color>
 
-    <color name="colorAccentGrey">#787878</color>
+    <color name="accentGrey">#546e7a</color>
     <color name="white">#FFFFFF</color>
 </resources>
