@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Grinnell Directory</string>
+    <string name="app_name">Grinnell DB</string>
     <string name="title_activity_default_login">Sign in</string>
 
     <!-- Strings related to login -->

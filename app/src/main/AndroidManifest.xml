@@ -12,7 +12,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.LoginActivity"></activity>
         <activity android:name=".activities.SearchResultsActivity"></activity>
-        <activity android:name=".activities.SearchPagerActivity">
+        <activity
+            android:name=".activities.SearchPagerActivity"
+            android:theme="@style/SearchActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

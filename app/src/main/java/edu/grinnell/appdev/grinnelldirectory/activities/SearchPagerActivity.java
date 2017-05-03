@@ -2,29 +2,38 @@ package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.Serializable;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 
 
 public class SearchPagerActivity extends AppCompatActivity implements Serializable {
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.tabs)
+    TabLayout mTabLayout;
+    @BindView(R.id.pager)
+    ViewPager mViewPager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pager);
+        ButterKnife.bind(this);
 
-        ViewPager searchPager = (ViewPager) findViewById(R.id.pager);
-        searchPager.setAdapter(new SearchPagerAdapter(getSupportFragmentManager()));
-
-        setupActionBar();
+        setupUiElements();
         setAnimation();
     }
 
@@ -72,10 +81,12 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         }
     }
 
-    private void setupActionBar() {
-        final ActionBar actionBar = getSupportActionBar();
+    private void setupUiElements() {
+        setSupportActionBar(mToolbar);
 
-        actionBar.setNavigationMode();
+        mViewPager.setAdapter(new SearchPagerAdapter(getSupportFragmentManager()));
+        mTabLayout.setupWithViewPager(mViewPager);
+
     }
 
 }
