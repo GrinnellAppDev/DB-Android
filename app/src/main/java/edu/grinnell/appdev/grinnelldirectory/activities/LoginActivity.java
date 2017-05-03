@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,9 +40,22 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setAnimation();
         ButterKnife.bind(this);
     }
 
+    public void setAnimation() {
+        try {
+            String callingClass = getIntent().getExtras().getString(getString(R.string.calling_class));
+            if (callingClass != null) {
+                if (callingClass.contains(getString(R.string.search_pager_activity))) {
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Sign in when the sign in button is clicked
      *
@@ -118,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
 
     private void navigateToSearchPager() {
         Intent intent = new Intent(this, SearchPagerActivity.class);
+        intent.putExtra(getString(R.string.calling_class),getString(R.string.login_activity));
         startActivity(intent);
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Grinnell Directory</string>
+    <string name="app_name">Grinnell DB</string>
     <string name="title_activity_default_login">Sign in</string>
     <string name="title_activity_detail">DetailActivity</string>
 
@@ -11,10 +11,15 @@
     <!-- Strings related to search -->
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="search_button">Search</string>
+    <string name="search_button">SEARCH</string>
 
     <!-- Strings for error messages -->
     <string name="server_failure">Server failure</string>
     <string name="networking_error">Networking error</string>
     <string name="authentication_failure">Wrong username or password</string>
+
+    <!-- Strings for transitions between activities -->
+    <string name="calling_class">calling_class</string>
+    <string name="search_pager_activity">SearchPagerActivity</string>
+    <string name="login_activity">LoginActivity</string>
 </resources>

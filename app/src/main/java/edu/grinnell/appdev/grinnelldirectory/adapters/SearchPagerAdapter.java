@@ -21,11 +21,11 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Simple";
+                return "SIMPLE";
             case 1:
-                return "Advanced";
+                return "ADVANCED";
         }
-        return "Simple";
+        return "SIMPLE";
     }
 
     @Override
