@@ -3,6 +3,7 @@ package edu.grinnell.appdev.grinnelldirectory;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class DBScraperCaller implements NetworkAPI{
 
     public DBScraperCaller (Context context, APICallerInterface apiInterface) {
         this.context = context;
-        this. apiInterface = apiInterface;
+        this.apiInterface = apiInterface;
     }
 
     @Override
@@ -50,7 +51,8 @@ public class DBScraperCaller implements NetworkAPI{
     @Override
     public void advancedSearch(List<String> fields) {
         Uri.Builder builder = Uri.parse(BASE_URL).buildUpon();
-        for (int i = 0; i < QUERY_KEYS.length; i++) {
+        for (int i = 0; i < Math.min(QUERY_KEYS.length, fields.size()); i++) {
+            Log.d("FIELD", QUERY_KEYS[i]+ " " + fields.get(i));
             builder.appendQueryParameter(QUERY_KEYS[i], fields.get(i));
         }
         String uri = builder.build().toString();
