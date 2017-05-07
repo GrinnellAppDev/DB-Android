@@ -84,6 +84,12 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         api.simpleSearch(query);
     }
 
+    @Override
+    public void clear() {
+        mFirstNameEditText.setText("");
+        mLastNameEditText.setText("");
+    }
+
     /**
      * Bundle people and move to SearchResults Activity if search successful
      *
