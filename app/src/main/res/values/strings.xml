@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Grinnell Directory</string>
-    <string name="title_activity_default_login">Sign in</string>
+    <string name="app_name">Grinnell DB</string>
+    <string name="title_activity_login">Log in</string>
+    <string name="title_activity_detail">Profile</string>
+    <string name="title_activity_search_results">Results</string>
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
@@ -10,12 +12,17 @@
     <!-- Strings related to search -->
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="search_button">Search</string>
+    <string name="search_button">SEARCH</string>
 
     <!-- Strings for error messages -->
-    <string name="server_failure">Server failure: </string>
-    <string name="networking_error">Networking error: </string>
+    <string name="server_failure">Server failure</string>
+    <string name="networking_error">Networking error</string>
     <string name="authentication_failure">Wrong username or password</string>
+
+    <!-- Strings for transitions between activities -->
+    <string name="calling_class">calling_class</string>
+    <string name="search_pager_activity">SearchPagerActivity</string>
+    <string name="login_activity">LoginActivity</string>
 
     <!-- Strings for advanced search -->
     <string name="hint_first_name">First Name</string>
@@ -206,4 +213,5 @@
         <item>2019</item>
         <item>2020</item>
     </string-array>
+
 </resources>

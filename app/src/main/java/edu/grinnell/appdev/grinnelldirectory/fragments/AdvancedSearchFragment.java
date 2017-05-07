@@ -20,13 +20,12 @@ import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 
@@ -46,41 +45,47 @@ import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.S
 import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.USERNAME_FIELD;
 
 
-public class AdvancedSearchFragment extends Fragment implements Serializable, APICallerInterface {
+public class AdvancedSearchFragment extends Fragment implements Serializable, APICallerInterface,
+        SearchFragmentInterface {
 
     private View view;
     //binding the search parameters from layout
-    @BindView(R.id.first_text) TextView firstNameText;
-    @BindView(R.id.last_text) TextView lastNameText;
-    @BindView(R.id.username_text) TextView usernameText;
-    @BindView(R.id.phone_text) TextView phoneText;
-    @BindView(R.id.campus_address_text) TextView campusAddressText;
-    @BindView(R.id.home_address_text) TextView homeAddressText;
-    @BindView(R.id.fac_dept_spinner) Spinner facDeptSpinner;
-    @BindView(R.id.student_major_spinner) Spinner studentMajorSpinner;
-    @BindView(R.id.concentration_spinner) Spinner concentrationSpinner;
-    @BindView(R.id.sga_spinner) Spinner sgaSpinner;
-    @BindView(R.id.hiatus_spinner) Spinner hiatusSpinner;
-    @BindView(R.id.student_class_spinner) Spinner studentClassSpinner;
-    @BindView(R.id.search_button) Button submitButton;
+    @BindView(R.id.first_text)
+    TextView firstNameText;
+    @BindView(R.id.last_text)
+    TextView lastNameText;
+    @BindView(R.id.username_text)
+    TextView usernameText;
+    @BindView(R.id.phone_text)
+    TextView phoneText;
+    @BindView(R.id.campus_address_text)
+    TextView campusAddressText;
+    @BindView(R.id.home_address_text)
+    TextView homeAddressText;
+    @BindView(R.id.fac_dept_spinner)
+    Spinner facDeptSpinner;
+    @BindView(R.id.student_major_spinner)
+    Spinner studentMajorSpinner;
+    @BindView(R.id.concentration_spinner)
+    Spinner concentrationSpinner;
+    @BindView(R.id.sga_spinner)
+    Spinner sgaSpinner;
+    @BindView(R.id.hiatus_spinner)
+    Spinner hiatusSpinner;
+    @BindView(R.id.student_class_spinner)
+    Spinner studentClassSpinner;
+    @BindView(R.id.search_button)
+    Button submitButton;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.advanced_search_fragment, null);
-        ButterKnife.bind(this, view);
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search();
-            }
-        });
+        view = inflater.inflate(R.layout.fragment_advanced_search, null);
         return view;
     }
 
-    public void customSpinner (List<String> list, Spinner spinner) {
+    public void customSpinner(List<String> list, Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, list);
         dataAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(dataAdapter);
@@ -98,12 +103,13 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         customSpinner(classYears, studentClassSpinner);
         customSpinner(facDept, facDeptSpinner);
         customSpinner(studMajor, studentMajorSpinner);
-        customSpinner(studConc,concentrationSpinner);
-        customSpinner(sgaPos,sgaSpinner);
-        customSpinner(hiatusStat,hiatusSpinner);
+        customSpinner(studConc, concentrationSpinner);
+        customSpinner(sgaPos, sgaSpinner);
+        customSpinner(hiatusStat, hiatusSpinner);
     }
 
-    void search() {
+    @Override
+    public void search() {
 
         NetworkAPI api = new DBScraperCaller(getContext(), this);
 
@@ -111,21 +117,21 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         List<String> searchObject = new ArrayList(14);
         searchObject.add(FIRST_NAME_FIELD, firstNameText.getText().toString().trim());
         searchObject.add(LAST_NAME_FIELD, lastNameText.getText().toString());
-        getSpinnerWord(searchObject, studentMajorSpinner, MAJOR_FIELD);
-        getSpinnerWord(searchObject, studentClassSpinner, CLASS_YEAR_FIELD);
-        getSpinnerWord(searchObject, concentrationSpinner, CONCENTRATION_FIELD);
-        getSpinnerWord(searchObject, sgaSpinner, SGA_FIELD);
+        addSpinnerWord(searchObject, studentMajorSpinner, MAJOR_FIELD);
+        addSpinnerWord(searchObject, studentClassSpinner, CLASS_YEAR_FIELD);
+        addSpinnerWord(searchObject, concentrationSpinner, CONCENTRATION_FIELD);
+        addSpinnerWord(searchObject, sgaSpinner, SGA_FIELD);
         searchObject.add(USERNAME_FIELD, usernameText.getText().toString());
         searchObject.add(CAMPUS_PHONE_FIELD, phoneText.getText().toString());
-        getSpinnerWord(searchObject, hiatusSpinner, HIATUS_FIELD);
+        addSpinnerWord(searchObject, hiatusSpinner, HIATUS_FIELD);
         searchObject.add(HOME_ADDRESS_FIELD, homeAddressText.getText().toString());
-        getSpinnerWord(searchObject, facDeptSpinner, FAC_STAFF_OFFICE_FIELD);
+        addSpinnerWord(searchObject, facDeptSpinner, FAC_STAFF_OFFICE_FIELD);
         searchObject.add(CAMPUS_ADDRESS_FIELD, campusAddressText.getText().toString());
 
         api.advancedSearch(searchObject);
     }
 
-    public void getSpinnerWord (List<String> searchObject, Spinner spin, int fieldNumber) {
+    public void addSpinnerWord(List<String> searchObject, Spinner spin, int fieldNumber) {
         if (spin.getSelectedItemPosition() == 0)
             searchObject.add(fieldNumber, "");
         else
@@ -152,14 +158,14 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         // The api should never call an authentication callback after a search is requested
     }
 
+    @BindString(R.string.server_failure)
+    String serverFailure;
+
     /**
      * Show an error message if the server returns an error
      *
      * @param failMessage error description
      */
-    @BindString(R.string.server_failure)
-    String serverFailure;
-
     @Override
     public void onServerFailure(String failMessage) {
         showAlert(serverFailure, failMessage);

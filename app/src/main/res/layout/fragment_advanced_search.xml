@@ -24,12 +24,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/colorHint"
-                android:inputType="text"
                 android:hint="@string/hint_first_name"
                 android:imeOptions="actionSearch"
-                android:textSize="18sp"
-                android:textColor="@color/colorText"/>
+                android:inputType="text"
+                android:textSize="18sp" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -45,11 +43,9 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/colorHint"
                 android:hint="@string/hint_last_name"
                 android:imeOptions="actionSearch"
-                android:textSize="18sp"
-                android:textColor="@color/colorText"/>
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -64,12 +60,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/colorHint"
                 android:hint="@string/hint_phone"
                 android:imeOptions="actionSearch"
                 android:inputType="phone"
-                android:textSize="18sp"
-                android:textColor="@color/colorText"/>
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -84,12 +78,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/colorHint"
                 android:hint="@string/hint_username"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:textSize="18sp"
-                android:textColor="@color/colorText"/>
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -104,12 +96,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/colorHint"
                 android:hint="@string/hint_home_address"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:textSize="18sp"
-                android:textColor="@color/colorText"/>
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -124,12 +114,10 @@
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textColorHint="@color/colorHint"
                 android:hint="@string/hint_campus_address"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:textSize="18sp"
-                android:textColor="@color/colorText"/>
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <Spinner
@@ -137,14 +125,14 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
-            android:entries="@array/classyeararray"/>
+            android:entries="@array/classyeararray" />
 
         <Spinner
             android:id="@+id/fac_dept_spinner"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
-            android:entries="@array/facultydeptarray"/>
+            android:entries="@array/facultydeptarray" />
 
         <Spinner
             android:id="@+id/student_major_spinner"
@@ -152,35 +140,34 @@
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
             android:entries="@array/studentmajorarray"
-            android:prompt="@string/app_name"/>
+            android:prompt="@string/app_name" />
 
         <Spinner
             android:id="@+id/concentration_spinner"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
-            android:entries="@array/studentconcentrationarray"/>
+            android:entries="@array/studentconcentrationarray" />
 
         <Spinner
             android:id="@+id/sga_spinner"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
-            android:entries="@array/sgaarray"/>
+            android:entries="@array/sgaarray" />
 
         <Spinner
             android:id="@+id/hiatus_spinner"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
-            android:entries="@array/hiatusarray"/>
+            android:entries="@array/hiatusarray" />
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:text="@string/submit"
-            android:textSize="18sp"
-            android:textColor="@color/colorText"/>
+            android:textSize="18sp" />
     </LinearLayout>
 </ScrollView>

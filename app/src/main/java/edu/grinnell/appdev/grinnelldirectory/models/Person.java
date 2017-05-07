@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 public class Person implements Serializable {
 
+    public final static String PERSON_KEY = "person_key";
+
     @SerializedName("firstName")
     @Expose
     private String firstName;
