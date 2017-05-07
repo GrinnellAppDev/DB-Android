@@ -8,4 +8,6 @@ public interface SearchFragmentInterface {
 
     void search();
 
+    void clear();
+
 }

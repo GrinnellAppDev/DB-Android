@@ -154,6 +154,11 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         api.advancedSearch(searchObject);
     }
 
+    @Override
+    public void clear() {
+
+    }
+
     public void addSpinnerWord(List<String> searchObject, Spinner spin, int fieldNumber) {
         if (spin.getSelectedItemPosition() == 0)
             searchObject.add(fieldNumber, "");
