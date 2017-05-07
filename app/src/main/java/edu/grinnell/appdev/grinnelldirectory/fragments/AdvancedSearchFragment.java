@@ -156,7 +156,18 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
 
     @Override
     public void clear() {
-
+        firstNameText.setText("");
+        lastNameText.setText("");
+        usernameText.setText("");
+        phoneText.setText("");
+        homeAddressText.setText("");
+        campusAddressText.setText("");
+        studentMajorSpinner.setSelection(0);
+        studentClassSpinner.setSelection(0);
+        concentrationSpinner.setSelection(0);
+        sgaSpinner.setSelection(0);
+        hiatusSpinner.setSelection(0);
+        facDeptSpinner.setSelection(0);
     }
 
     public void addSpinnerWord(List<String> searchObject, Spinner spin, int fieldNumber) {
