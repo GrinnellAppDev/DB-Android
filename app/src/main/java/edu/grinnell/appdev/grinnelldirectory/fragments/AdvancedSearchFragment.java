@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
@@ -29,8 +29,6 @@ import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 
-import static edu.grinnell.appdev.grinnelldirectory.R.array.facultydeptarray;
-import static edu.grinnell.appdev.grinnelldirectory.R.array.studentmajorarray;
 import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_ADDRESS_FIELD;
 import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_PHONE_FIELD;
 import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CLASS_YEAR_FIELD;
@@ -48,8 +46,6 @@ import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.U
 public class AdvancedSearchFragment extends Fragment implements Serializable, APICallerInterface,
         SearchFragmentInterface {
 
-    private View view;
-    //binding the search parameters from layout
     @BindView(R.id.first_text)
     TextView firstNameText;
     @BindView(R.id.last_text)
@@ -74,20 +70,28 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
     Spinner hiatusSpinner;
     @BindView(R.id.student_class_spinner)
     Spinner studentClassSpinner;
-    @BindView(R.id.search_button)
-    Button submitButton;
-
+    @BindString(R.string.server_failure)
+    String serverFailure;
+    /**
+     * Show an error message if the network has an error
+     *
+     * @param failMessage error description
+     */
+    @BindString(R.string.networking_error)
+    String networkingError;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_advanced_search, null);
+        ButterKnife.bind(this, view);
         return view;
     }
 
-    public void customSpinner(List<String> list, Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, list);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
+    public void setupSpinner(List<String> list, Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, list);
+        //dataAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(dataAdapter);
     }
 
@@ -100,12 +104,12 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         List<String> studConc = Arrays.asList(getResources().getStringArray(R.array.studentconcentrationarray));
         List<String> sgaPos = Arrays.asList(getResources().getStringArray(R.array.sgaarray));
         List<String> hiatusStat = Arrays.asList(getResources().getStringArray(R.array.hiatusarray));
-        customSpinner(classYears, studentClassSpinner);
-        customSpinner(facDept, facDeptSpinner);
-        customSpinner(studMajor, studentMajorSpinner);
-        customSpinner(studConc, concentrationSpinner);
-        customSpinner(sgaPos, sgaSpinner);
-        customSpinner(hiatusStat, hiatusSpinner);
+        setupSpinner(classYears, studentClassSpinner);
+        setupSpinner(facDept, facDeptSpinner);
+        setupSpinner(studMajor, studentMajorSpinner);
+        setupSpinner(studConc, concentrationSpinner);
+        setupSpinner(sgaPos, sgaSpinner);
+        setupSpinner(hiatusStat, hiatusSpinner);
     }
 
     @Override
@@ -158,9 +162,6 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         // The api should never call an authentication callback after a search is requested
     }
 
-    @BindString(R.string.server_failure)
-    String serverFailure;
-
     /**
      * Show an error message if the server returns an error
      *
@@ -170,14 +171,6 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
     public void onServerFailure(String failMessage) {
         showAlert(serverFailure, failMessage);
     }
-
-    /**
-     * Show an error message if the network has an error
-     *
-     * @param failMessage error description
-     */
-    @BindString(R.string.networking_error)
-    String networkingError;
 
     @Override
     public void onNetworkingError(String failMessage) {

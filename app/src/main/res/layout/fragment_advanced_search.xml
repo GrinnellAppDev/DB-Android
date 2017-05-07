@@ -162,12 +162,5 @@
             android:layout_height="52dp"
             android:layout_marginTop="16dp"
             android:entries="@array/hiatusarray" />
-
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="@string/submit"
-            android:textSize="18sp" />
     </LinearLayout>
 </ScrollView>
