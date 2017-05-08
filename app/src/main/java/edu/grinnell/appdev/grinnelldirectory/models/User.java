@@ -8,11 +8,15 @@ import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import java.security.GeneralSecurityException;
+
+import edu.grinnell.appdev.grinnelldirectory.EncryptionUtils;
+
 /**
  * The User class represents the user of the app.
  * It handles storage of username and password in shared preferences.
  * User objects are immutable. They will not change when the user's credentials are changed using
- * <code>saveCredentials</code> or <code>deleteCredentials</code>.
+ * <code>saveCredentialsEncrypt</code> or <code>deleteCredentials</code>.
  */
 
 public class User {
@@ -30,7 +34,7 @@ public class User {
 
     public User(String username, String password) {
         mUsername = username;
-        mPassword = password;
+        mPassword= password;
     }
 
     /**
@@ -43,15 +47,25 @@ public class User {
     }
 
     /**
+     * Getter for mPassword
+     *
+     * @return mPassword
+     */
+    public String getPassword() {
+        return mPassword;
+    }
+
+    /**
      * Get a User object with username and password from shared preferences
      *
      * @param context context of the activity that calls this method
      * @return User object with saved username and password
      */
-    public static User getUser(Context context) {
+    public static User getUser(Context context) throws GeneralSecurityException {
         SharedPreferences preferences = getSharedPreferences(context);
-        String username = preferences.getString(USERNAME, null);
-        String password = preferences.getString(PASSWORD, null);
+        String username = EncryptionUtils.decrypt(context, preferences.getString(USERNAME, ""));
+        String password = EncryptionUtils.decrypt(context, preferences.getString(PASSWORD, ""));
+
         return new User(username, password);
     }
 
@@ -75,14 +89,17 @@ public class User {
      * @param username the user's new username
      * @param password the user's new password
      */
-    public static void saveCredentials(Context context, String username, String password) {
+    public static void saveCredentialsEncrypt(Context context, String username, String password)
+            throws GeneralSecurityException {
         if (username == null || password == null) {
             return;
         }
+        String encryptedUsername = EncryptionUtils.encrypt(context, username);
+        String encryptedPassword = EncryptionUtils.encrypt(context, password);
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
-        editor.putString(USERNAME, username);
-        editor.putString(PASSWORD, password);
+        editor.putString(USERNAME, encryptedUsername);
+        editor.putString(PASSWORD, encryptedPassword);
         editor.apply();
     }
 
@@ -90,7 +107,7 @@ public class User {
      * Save the user details of the logged in user in shared preferences
      *
      * @param context context of the activity that calls this method
-     * @param person model of logged in user
+     * @param person  model of logged in user
      */
     public static void saveUserDetails(Context context, Person person) {
         if (context == null || person == null) {
@@ -101,6 +118,7 @@ public class User {
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
         editor.putString(PERSON, personJson);
+        editor.apply();
     }
 
     /**

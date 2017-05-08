@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "edu.grinnell.appdev.grinnelldirectory"
-        minSdkVersion 9
+        minSdkVersion 10
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -47,4 +47,7 @@ dependencies {
     // BUTTERKNIFE
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    // ENCRYPTION
+    compile 'com.scottyab:aescrypt:0.0.1' // for encrypting and decrypting password
 }

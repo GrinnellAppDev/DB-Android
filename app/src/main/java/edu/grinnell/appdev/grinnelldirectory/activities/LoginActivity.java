@@ -1,14 +1,15 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import butterknife.BindString;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     EditText mPasswordEditText;
     @BindView(R.id.login)
     Button mSignInButton;
+    ProgressDialog mProgressDialog;
 
     private String username;
     private String password;
@@ -40,8 +42,18 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setAnimation();
         ButterKnife.bind(this);
+
+        // authenticate user if they are already logged in
+        if (User.isLoggedIn(this)) {
+            try {
+                login(User.getUser(this));
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+        }
+
+        setAnimation();
     }
 
     public void setAnimation() {
@@ -56,18 +68,18 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
             e.printStackTrace();
         }
     }
+
     /**
      * Sign in when the sign in button is clicked
      *
      * @param view LoginActivity's view
      */
     @OnClick(R.id.login)
-    void signIn(View view) {
+    void signInClicked(View view) {
         username = mUsernameEditText.getText().toString();
         password = mPasswordEditText.getText().toString();
         User user = new User(username, password);
-        DBAPICaller dbapiCaller = new DBAPICaller(user, this);
-        dbapiCaller.authenticateUser();
+        login(user);
     }
 
     @Override
@@ -85,8 +97,14 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
 
     @Override
     public void authenticateUserCallSuccess(boolean success, Person person) {
+        stopProgressDialog();
         if (success) {
-            User.saveCredentials(this, username, password);
+            try {
+                User.saveCredentialsEncrypt(this, username, password);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+                showAlert("Error saving credentials");
+            }
             User.saveUserDetails(this, person);
 
             // If login was successful, navigate to the SearchPagerActivity which allows you
@@ -108,6 +126,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
 
     @Override
     public void onServerFailure(String fail_message) {
+        stopProgressDialog();
         showAlert(serverFailure + fail_message);
     }
 
@@ -121,7 +140,14 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
 
     @Override
     public void onNetworkingError(String fail_message) {
+        stopProgressDialog();
         showAlert(networkingError + fail_message);
+    }
+
+    private void login(User user) {
+        DBAPICaller dbapiCaller = new DBAPICaller(user, this);
+        dbapiCaller.authenticateUser();
+        startProgressDialog();
     }
 
     private void showAlert(String message) {
@@ -130,9 +156,23 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
         builder.show();
     }
 
+    private void startProgressDialog() {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage("Logging in");
+        mProgressDialog.show();
+    }
+
+    private void stopProgressDialog() {
+        if (mProgressDialog != null)
+            mProgressDialog.cancel();
+    }
+
     private void navigateToSearchPager() {
         Intent intent = new Intent(this, SearchPagerActivity.class);
-        intent.putExtra(getString(R.string.calling_class),getString(R.string.login_activity));
+        intent.putExtra(getString(R.string.calling_class), getString(R.string.login_activity));
         startActivity(intent);
     }
 }

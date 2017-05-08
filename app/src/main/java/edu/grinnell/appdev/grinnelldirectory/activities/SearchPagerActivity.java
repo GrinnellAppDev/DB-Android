@@ -58,7 +58,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
 
         switch (id) {
             case R.id.action_logout:
-                logout();
+                logoutAndRedirect();
                 break;
             case R.id.action_clear:
                 getCurrentSearchInterface().clear();
@@ -110,7 +110,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    private void logout() {
+    private void logoutAndRedirect() {
         User.deleteCredentials(this);
         // send user to the login screen
         Intent intent = new Intent(this, LoginActivity.class);
@@ -118,5 +118,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(getString(R.string.calling_class), SearchPagerActivity.class.toString());
         startActivity(intent);
+        finish();
     }
 }

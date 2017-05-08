@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnEditorAction;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
@@ -26,6 +28,7 @@ import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
@@ -38,12 +41,20 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
     EditText mFirstNameEditText;
     @BindView(R.id.last_name_field)
     EditText mLastNameEditText;
+    private User mUser;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_simple_search, null);
         ButterKnife.bind(this, view);
+
+        try {
+            mUser = User.getUser(getContext());
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
         return view;
     }
 
@@ -73,7 +84,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 
-        NetworkAPI api = new DBScraperCaller(getContext(), this);
+        NetworkAPI api = new DBAPICaller(mUser, this);
 
         List<String> query = new ArrayList();
         query.add(firstName);

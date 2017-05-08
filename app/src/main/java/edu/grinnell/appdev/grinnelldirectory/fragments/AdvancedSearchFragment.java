@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
@@ -28,6 +30,7 @@ import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
+import edu.grinnell.appdev.grinnelldirectory.models.User;
 
 import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_ADDRESS_FIELD;
 import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_PHONE_FIELD;
@@ -46,6 +49,8 @@ import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.U
 public class AdvancedSearchFragment extends Fragment implements Serializable, APICallerInterface,
         SearchFragmentInterface {
 
+    private View view;
+    private User mUser;
     @BindView(R.id.first_text)
     TextView firstNameText;
     @BindView(R.id.last_text)
@@ -79,13 +84,19 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
      */
     @BindString(R.string.networking_error)
     String networkingError;
-    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_advanced_search, null);
         ButterKnife.bind(this, view);
+
+        try {
+            mUser = User.getUser(getContext());
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
         return view;
     }
 
@@ -115,7 +126,7 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
     @Override
     public void search() {
 
-        NetworkAPI api = new DBScraperCaller(getContext(), this);
+        NetworkAPI api = new DBAPICaller(mUser, this);
 
         //populating searchObject with parameters
         List<String> searchObject = new ArrayList(14);
@@ -131,6 +142,8 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         searchObject.add(HOME_ADDRESS_FIELD, homeAddressText.getText().toString());
         addSpinnerWord(searchObject, facDeptSpinner, FAC_STAFF_OFFICE_FIELD);
         searchObject.add(CAMPUS_ADDRESS_FIELD, campusAddressText.getText().toString());
+        searchObject.add("");
+        searchObject.add("");
 
         api.advancedSearch(searchObject);
     }
