@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
 
     @Override
     public void onSearchSuccess(List<Person> people) {
+        stopProgressDialog();
     }
 
     /**
