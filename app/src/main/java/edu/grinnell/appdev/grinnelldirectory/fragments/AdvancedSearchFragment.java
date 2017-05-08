@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindString;
@@ -106,16 +108,33 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         spinner.setAdapter(dataAdapter);
     }
 
+    public ArrayList<String> getYears() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        ArrayList<String> years = new ArrayList<String>();
+        years.add("Any Class Year");
+
+        if (month > 7)
+            year = year + 1;
+
+        for (int i = 0; i < 4; i++) {
+            if (i != 0)
+                year = year + 1;
+            years.add(Integer.toString(year));
+        }
+        return years;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<String> classYears = Arrays.asList(getResources().getStringArray(R.array.classyeararray));
         List<String> facDept = Arrays.asList(getResources().getStringArray(R.array.facultydeptarray));
         List<String> studMajor = Arrays.asList(getResources().getStringArray(R.array.studentmajorarray));
         List<String> studConc = Arrays.asList(getResources().getStringArray(R.array.studentconcentrationarray));
         List<String> sgaPos = Arrays.asList(getResources().getStringArray(R.array.sgaarray));
         List<String> hiatusStat = Arrays.asList(getResources().getStringArray(R.array.hiatusarray));
-        setupSpinner(classYears, studentClassSpinner);
+        setupSpinner(getYears(), studentClassSpinner);
         setupSpinner(facDept, facDeptSpinner);
         setupSpinner(studMajor, studentMajorSpinner);
         setupSpinner(studConc, concentrationSpinner);
@@ -150,7 +169,18 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
 
     @Override
     public void clear() {
-
+        firstNameText.setText("");
+        lastNameText.setText("");
+        usernameText.setText("");
+        phoneText.setText("");
+        homeAddressText.setText("");
+        campusAddressText.setText("");
+        studentMajorSpinner.setSelection(0);
+        studentClassSpinner.setSelection(0);
+        concentrationSpinner.setSelection(0);
+        sgaSpinner.setSelection(0);
+        hiatusSpinner.setSelection(0);
+        facDeptSpinner.setSelection(0);
     }
 
     public void addSpinnerWord(List<String> searchObject, Spinner spin, int fieldNumber) {
