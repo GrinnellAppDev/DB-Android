@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/first_name"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textPersonName|text|textCapWords"
             android:lines="1" />
 
     </android.support.design.widget.TextInputLayout>
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/last_name"
             android:imeOptions="actionSearch"
-            android:inputType="text"
+            android:inputType="textPersonName|text|textCapWords"
             android:lines="1" />
 
     </android.support.design.widget.TextInputLayout>
