@@ -47,7 +47,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         if (imgPath != null && !imgPath.isEmpty()) {
             Picasso.with(mContext).load(person.getImgPath()).into(viewHolder.personImage);
         } else {
-            Picasso.with(mContext).load(R.mipmap.ic_launcher).into(viewHolder.personImage);
+            Picasso.with(mContext).load(R.drawable.person_grey).into(viewHolder.personImage);
         }
 
         String name = person.getFirstName() + " " + person.getLastName();

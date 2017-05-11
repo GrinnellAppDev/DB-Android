@@ -146,6 +146,7 @@ public class DetailActivity extends AppCompatActivity {
         String imgPath = p.getImgPath();
         if (imgPath == null || imgPath.isEmpty()) {
             // do something
+            Picasso.with(this).load(R.drawable.person_grey).into(pic);
         } else {
             Picasso.with(this).load(p.getImgPath()).into(pic);
         }
@@ -248,7 +249,7 @@ public class DetailActivity extends AppCompatActivity {
         float picHeight = (float) pic.getHeight();
         initialPicDimens = new Pair<>(picWidth, picHeight);
 
-        picScaleFactor = Math.min((0.7f * screenHeight) / picHeight, (0.7f * screenWidth) / picWidth);
+        picScaleFactor = Math.min((0.8f * screenHeight) / picHeight, (0.8f * screenWidth) / picWidth);
 
         // distance to translate the view when
         float picZoomX = screenWidth / 2f - (picHolder.getWidth() / 2f + picHolder.getLeft());
