@@ -88,9 +88,9 @@ public class DetailActivity extends AppCompatActivity {
         String un = p.getUserName();
         if (un == null || un.isEmpty()) {
             String email = p.getEmail();
-            username.setText(email.substring(0, email.indexOf('@')));
+            username.setText("[" + email.substring(0, email.indexOf('@')) + "]");
         } else {
-            username.setText(un);
+            username.setText("[" + un + "]");
         }
 
         String mjr = p.getMajor();
