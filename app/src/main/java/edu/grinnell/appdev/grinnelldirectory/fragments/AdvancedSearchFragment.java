@@ -1,5 +1,6 @@
 package edu.grinnell.appdev.grinnelldirectory.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,6 +53,7 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         SearchFragmentInterface {
 
     private View view;
+    private ProgressDialog mProgressDialog;
     private User mUser;
     @BindView(R.id.first_text)
     TextView firstNameText;
@@ -165,6 +167,7 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         searchObject.add("");
 
         api.advancedSearch(searchObject);
+        startProgressDialog();
     }
 
     @Override
@@ -197,6 +200,7 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
      */
     @Override
     public void onSearchSuccess(List<Person> people) {
+        stopProgressDialog();
         Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
@@ -217,11 +221,13 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
      */
     @Override
     public void onServerFailure(String failMessage) {
+        stopProgressDialog();
         showAlert(serverFailure, failMessage);
     }
 
     @Override
     public void onNetworkingError(String failMessage) {
+        stopProgressDialog();
         showAlert(networkingError, failMessage);
     }
 
@@ -229,5 +235,22 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(label + ": " + message);
         builder.show();
+    }
+
+    @BindString(R.string.searching)
+    String message;
+
+    private void startProgressDialog() {
+        mProgressDialog = new ProgressDialog(this.getActivity());
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    private void stopProgressDialog() {
+        if (mProgressDialog != null)
+            mProgressDialog.cancel();
     }
 }

@@ -24,6 +24,10 @@
     <string name="search_pager_activity">SearchPagerActivity</string>
     <string name="login_activity">LoginActivity</string>
 
+    <!-- Strings for progress indicators -->
+    <string name="logging_in">Logging in</string>
+    <string name="searching">Searching</string>
+
     <!-- Strings for advanced search -->
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>

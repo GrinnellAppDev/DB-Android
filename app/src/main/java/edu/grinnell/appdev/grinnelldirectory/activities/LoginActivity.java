@@ -157,12 +157,15 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
         builder.show();
     }
 
+    @BindString(R.string.logging_in)
+    String message;
+
     private void startProgressDialog() {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setMessage("Logging in");
+        mProgressDialog.setMessage(message);
         mProgressDialog.show();
     }
 
