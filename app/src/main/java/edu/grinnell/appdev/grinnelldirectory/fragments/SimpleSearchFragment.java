@@ -1,5 +1,6 @@
 package edu.grinnell.appdev.grinnelldirectory.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         SearchFragmentInterface {
 
     private View view;
+    private ProgressDialog mProgressDialog;
 
     @BindView(R.id.first_name_field)
     EditText mFirstNameEditText;
@@ -81,6 +83,11 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
      */
     @Override
     public void search() {
+        if (mProgressDialog != null) {
+            return;
+        }
+
+
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 
@@ -93,6 +100,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         query.add("");
 
         api.simpleSearch(query);
+        startProgressDialog();
     }
 
     @Override
@@ -108,6 +116,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
      */
     @Override
     public void onSearchSuccess(List<Person> people) {
+        stopProgressDialog();
         Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
@@ -131,6 +140,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
 
     @Override
     public void onServerFailure(String failMessage) {
+        stopProgressDialog();
         showAlert(serverFailure, failMessage);
     }
 
@@ -144,6 +154,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
 
     @Override
     public void onNetworkingError(String failMessage) {
+        stopProgressDialog();
         showAlert(networkingError, failMessage);
     }
 
@@ -151,5 +162,24 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(label + ": " + message);
         builder.show();
+    }
+
+    @BindString(R.string.searching)
+    String message;
+
+    private void startProgressDialog() {
+        mProgressDialog = new ProgressDialog(this.getActivity());
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    private void stopProgressDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog.cancel();
+            mProgressDialog = null;
+        }
     }
 }
