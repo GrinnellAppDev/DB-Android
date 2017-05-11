@@ -146,6 +146,9 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
 
     @Override
     public void search() {
+        if (mProgressDialog != null) {
+            return;
+        }
 
         NetworkAPI api = new DBAPICaller(mUser, this);
 
@@ -250,7 +253,9 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
     }
 
     private void stopProgressDialog() {
-        if (mProgressDialog != null)
+        if (mProgressDialog != null) {
             mProgressDialog.cancel();
+            mProgressDialog = null;
+        }
     }
 }

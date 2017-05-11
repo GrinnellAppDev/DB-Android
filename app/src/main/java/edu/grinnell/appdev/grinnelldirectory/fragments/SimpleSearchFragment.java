@@ -83,6 +83,11 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
      */
     @Override
     public void search() {
+        if (mProgressDialog != null) {
+            return;
+        }
+
+
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 
@@ -172,7 +177,9 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
     }
 
     private void stopProgressDialog() {
-        if (mProgressDialog != null)
+        if (mProgressDialog != null) {
             mProgressDialog.cancel();
+            mProgressDialog = null;
+        }
     }
 }
