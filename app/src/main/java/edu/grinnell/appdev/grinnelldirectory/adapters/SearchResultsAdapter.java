@@ -43,20 +43,39 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     public void onBindViewHolder(SearchResultsAdapter.ViewHolder viewHolder, int position) {
         Person person = mPersons.get(position);
 
-        ImageView personImageView = viewHolder.personImage;
-        TextView nameTextView = viewHolder.name;
-        TextView majorTextView = viewHolder.major;
-        TextView locationTextView = viewHolder.location;
-
         String imgPath = person.getImgPath();
         if (imgPath != null && !imgPath.isEmpty()) {
-            Picasso.with(mContext).load(person.getImgPath()).into(personImageView);
+            Picasso.with(mContext).load(person.getImgPath()).into(viewHolder.personImage);
         } else {
-            Picasso.with(mContext).load(R.mipmap.ic_launcher).into(personImageView);
+            Picasso.with(mContext).load(R.mipmap.ic_launcher).into(viewHolder.personImage);
         }
-        nameTextView.setText(person.getFirstName() + " " + person.getLastName());
-        majorTextView.setText(person.getMajor());
-        locationTextView.setText(person.getAddress());
+
+        String name = person.getFirstName() + " " + person.getLastName();
+        viewHolder.name.setText(name);
+
+        String major = person.getMajor();
+        if (major != null && !major.isEmpty()) {
+            viewHolder.major.setVisibility(View.VISIBLE);
+            viewHolder.major.setText(major);
+        } else {
+            viewHolder.major.setVisibility(View.GONE);
+        }
+
+        String un = person.getUserName();
+        if (un == null || un.isEmpty()) {
+            String email = person.getEmail();
+            viewHolder.username.setText("[" + email.substring(0, email.indexOf('@')) + "]");
+        } else {
+            viewHolder.username.setText("[" + un + "]");
+        }
+
+        String classYear = person.getClassYear();
+        if (classYear != null && !classYear.isEmpty()) {
+            viewHolder.classYear.setVisibility(View.VISIBLE);
+            viewHolder.classYear.setText(classYear);
+        } else {
+            viewHolder.classYear.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -71,7 +90,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         public ImageView personImage;
         public TextView name;
         public TextView major;
-        public TextView location;
+        public TextView username;
+        public TextView classYear;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -79,8 +99,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
             name = (TextView) itemView.findViewById(R.id.tv_name);
             major = (TextView) itemView.findViewById(R.id.tv_major);
-            location = (TextView) itemView.findViewById(R.id.tv_location);
+            username = (TextView) itemView.findViewById(R.id.tv_username);
             personImage = (ImageView) itemView.findViewById(R.id.iv_personImage);
+            classYear = (TextView) itemView.findViewById(R.id.tv_classYear);
         }
 
         @Override
