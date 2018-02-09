@@ -65,7 +65,9 @@ dependencies {
 
     // ENCRYPTION
     compile 'com.scottyab:aescrypt:0.0.1' // for encrypting and decrypting password
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
+
+    // CRASHLYTICS
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
+        transitive = true
     }
 }
