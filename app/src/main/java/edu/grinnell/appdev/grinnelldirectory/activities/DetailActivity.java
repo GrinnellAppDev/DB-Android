@@ -9,10 +9,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.BinderThread;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -75,6 +77,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView concentration;
     @BindView(R.id.heading_concentration)
     TextView headingConcentration;
+    @BindView(R.id.email_icon)
+    ImageView emailIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
             setFields();
         }
 
-        username.setOnClickListener(new View.OnClickListener() {
+        emailIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* call function to send email */

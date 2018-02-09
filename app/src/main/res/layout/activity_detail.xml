@@ -38,15 +38,39 @@
                     android:textColor="#000000"
                     android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/username"
-                    android:onClick="sendEmail"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Username"
-                    android:textColor="#999999"
-                    android:textSize="20sp" />
+                    android:layout_gravity="center">
+                    <TextView
+                        android:id="@+id/username"
+                        android:onClick="sendEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Username"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#999999"
+                        android:textSize="20sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" | "
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:textColor="#999999"
+                        android:textSize="20sp" />
+                    <ImageView
+                        android:id="@+id/email_icon"
+                        android:clickable="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#999999"
+                        android:src="@drawable/ic_32dp_grey_mail_to"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/year"
