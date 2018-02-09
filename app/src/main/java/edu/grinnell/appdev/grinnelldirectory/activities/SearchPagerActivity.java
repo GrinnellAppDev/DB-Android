@@ -10,6 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import butterknife.BindView;
@@ -18,8 +22,8 @@ import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
+import edu.grinnell.appdev.grinnelldirectory.models.Persons;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
-
 
 public class SearchPagerActivity extends AppCompatActivity implements Serializable {
 
@@ -32,11 +36,16 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     @BindView(R.id.search_fab)
     FloatingActionButton mSearchFab;
 
+    private Persons persons;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
+
+        // load dummy data
+        loadPersons();
 
         setupUiElements();
         setAnimation();
@@ -120,4 +129,31 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         startActivity(intent);
         finish();
     }
+
+    private void loadPersons() {
+        // get multiple persons
+        String json = loadJSONFromAsset("dummyData.json");
+        Persons persons = new Gson().fromJson(json, Persons.class);
+        System.out.println(persons.getPersons().get(0).getFirstName());
+
+        // return our persons object
+        this.persons = persons;
+    }
+
+    public String loadJSONFromAsset(String fileName) {
+        String json = null;
+        try {
+            InputStream is = this.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
 }

@@ -17,7 +17,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "edu.grinnell.appdev.grinnelldirectory"
         minSdkVersion 10
@@ -40,6 +40,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    //androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
     testCompile 'junit:junit:4.12'
 
     // SUPPORT
@@ -68,4 +69,15 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
+
+    // READING JSON DUMMY DATA FILE
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // converting json to java object
+    compile 'com.google.code.gson:gson:2.8.2'
+
 }
+
+android{ configurations.all { resolutionStrategy.force "junit:junit:4.8.2" } }
+
+
