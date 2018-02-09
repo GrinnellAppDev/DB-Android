@@ -10,7 +10,7 @@
       "campusPhone": "1234567890",
       "hiatus": "NA",
       "homeAddress": "NA",
-      "classYr": "2020",
+      "classYear": "2020",
       "campusAddress": "NA",
       "bldgDorm": "Younker",
       "positionDescription": "NA"
@@ -25,7 +25,7 @@
       "campusPhone": "0987654321",
       "hiatus": "NA",
       "homeAddress": "NA",
-      "classYr": "1980",
+      "classYear": "1980",
       "campusAddress": "NA",
       "bldgDorm": "6th Ave",
       "positionDescription": "NA"
@@ -40,7 +40,7 @@
       "campusPhone": "0192837465",
       "hiatus": "NA",
       "homeAddress": "NA",
-      "classYr": "2019",
+      "classYear": "2019",
       "campusAddress": "NA",
       "bldgDorm": "Cleveland",
       "positionDescription": "NA"
@@ -55,7 +55,7 @@
       "campusPhone": "5647382910",
       "hiatus": "NA",
       "homeAddress": "NA",
-      "classYr": "2018",
+      "classYear": "2018",
       "campusAddress": "NA",
       "bldgDorm": "Cleveland",
       "positionDescription": "NA"

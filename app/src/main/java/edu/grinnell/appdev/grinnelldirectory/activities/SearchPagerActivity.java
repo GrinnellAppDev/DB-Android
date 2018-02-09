@@ -36,16 +36,11 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     @BindView(R.id.search_fab)
     FloatingActionButton mSearchFab;
 
-    private Persons persons;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
-
-        // load dummy data
-        loadPersons();
 
         setupUiElements();
         setAnimation();
@@ -129,31 +124,4 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         startActivity(intent);
         finish();
     }
-
-    private void loadPersons() {
-        // get multiple persons
-        String json = loadJSONFromAsset("dummyData.json");
-        Persons persons = new Gson().fromJson(json, Persons.class);
-        System.out.println(persons.getPersons().get(0).getFirstName());
-
-        // return our persons object
-        this.persons = persons;
-    }
-
-    public String loadJSONFromAsset(String fileName) {
-        String json = null;
-        try {
-            InputStream is = this.getAssets().open(fileName);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
 }
