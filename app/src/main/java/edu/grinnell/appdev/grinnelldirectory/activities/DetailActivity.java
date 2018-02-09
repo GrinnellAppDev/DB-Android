@@ -1,6 +1,7 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -85,10 +86,27 @@ public class DetailActivity extends AppCompatActivity {
     private void setFields() {
         name.setText(p.getFirstName() + ' ' + p.getLastName());
         classYear.setText(p.getClassYear());
+
         String un = p.getUserName();
         if (un == null || un.isEmpty()) {
             String email = p.getEmail();
             username.setText("[" + email.substring(0, email.indexOf('@')) + "]");
+            username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /* Create the Intent */
+                    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+                    /* Fill it with Data */
+                    emailIntent.setType("plain/text");
+                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{username + "@grinnell.edu"});
+                    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+
+                    /* Send it off to the Activity-Chooser */
+                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                }
+            });
         } else {
             username.setText("[" + un + "]");
         }
@@ -256,5 +274,4 @@ public class DetailActivity extends AppCompatActivity {
         float picZoomY = screenHeight / 2f - (picHolder.getHeight() / 2f + picHolder.getTop());
         zoomedPicTranslate = new Pair<>(picZoomX, picZoomY);
     }
-
 }
