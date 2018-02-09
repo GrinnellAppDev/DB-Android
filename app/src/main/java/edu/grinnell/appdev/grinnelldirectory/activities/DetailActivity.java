@@ -1,7 +1,13 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,6 +89,14 @@ public class DetailActivity extends AppCompatActivity {
         if (p != null) {
             setFields();
         }
+
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* call function to send email */
+                sendEmail();
+            }
+        });
     }
 
     private void setFields() {
@@ -91,22 +107,6 @@ public class DetailActivity extends AppCompatActivity {
         if (un == null || un.isEmpty()) {
             String email = p.getEmail();
             username.setText("[" + email.substring(0, email.indexOf('@')) + "]");
-            username.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /* Create the Intent */
-                    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-
-                    /* Fill it with Data */
-                    emailIntent.setType("plain/text");
-                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{username + "@grinnell.edu"});
-                    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-
-                    /* Send it off to the Activity-Chooser */
-                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                }
-            });
         } else {
             username.setText("[" + un + "]");
         }
@@ -273,5 +273,64 @@ public class DetailActivity extends AppCompatActivity {
         float picZoomX = screenWidth / 2f - (picHolder.getWidth() / 2f + picHolder.getLeft());
         float picZoomY = screenHeight / 2f - (picHolder.getHeight() / 2f + picHolder.getTop());
         zoomedPicTranslate = new Pair<>(picZoomX, picZoomY);
+    }
+
+    /**
+     * Function to open mail app on phone with empty email to user that was clicked on.
+     */
+    private void sendEmail() {
+
+        /* get username */
+        String uname = (String) username.getText();
+
+        if (uname != null || !uname.isEmpty()) {
+            /* send mail and handle exception if no mail app is found */
+            try {
+
+                PackageManager pm = this.getPackageManager();
+
+                /* create intent and set fields */
+                String[] emails = {uname + "@grinnell.edu"};
+                String subject = "your subject";
+                String message = "your message";
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, emails);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+                emailIntent.setType("message/rfc822");
+
+                /* get list of applications that can send mail */
+                List<ResolveInfo> resolveInfos = pm.queryIntentActivities(emailIntent, 0); // returns all applications which can listen to the SEND Intent
+
+                /* if list size is not zero, start intent */
+                if (resolveInfos.size() != 0) {
+                    startActivity(Intent.createChooser(emailIntent, "Choose an Email client :"));
+                }
+                /* else show alert asking user to download email client */
+                else {
+                    showEmailAlert();
+                }
+
+            } catch (ActivityNotFoundException e) {
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void showEmailAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(DetailActivity.this).create();
+        alertDialog.setTitle("Email Request Failed");
+        alertDialog.setMessage("No active email account was found.\n" +
+                "(1) Download one or (2) log into an existing one and try again.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }
