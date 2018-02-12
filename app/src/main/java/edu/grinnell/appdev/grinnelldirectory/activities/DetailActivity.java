@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,8 +78,21 @@ public class DetailActivity extends AppCompatActivity {
     TextView concentration;
     @BindView(R.id.heading_concentration)
     TextView headingConcentration;
-    @BindView(R.id.email_icon)
-    ImageView emailIcon;
+    @BindView(R.id.email_button)
+    Button emailButton;
+    @BindView(R.id.call_button)
+    Button callButton;
+    @BindView(R.id.border_address)
+    TextView borderAddress;
+    @BindView(R.id.border_box_number)
+    TextView borderBoxNum;
+    @BindView(R.id.border_concentration)
+    TextView borderConcentration;
+    @BindView(R.id.border_major)
+    TextView borderMajor;
+    @BindView(R.id.border_phone)
+    TextView borderPhone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +108,21 @@ public class DetailActivity extends AppCompatActivity {
             setFields();
         }
 
-        emailIcon.setOnClickListener(new View.OnClickListener() {
+        /* set on click for email button */
+        emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* call function to send email */
                 sendEmail();
+            }
+        });
+
+        /* set on click for call button */
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* call function to call student/professor/individual */
+                sendCall();
             }
         });
     }
@@ -119,9 +143,11 @@ public class DetailActivity extends AppCompatActivity {
         if (mjr == null || mjr.isEmpty()) {
             major.setVisibility(View.GONE);
             headingMajor.setVisibility(View.GONE);
+            borderMajor.setVisibility(View.GONE);
         } else {
             major.setVisibility(View.VISIBLE);
             headingMajor.setVisibility(View.VISIBLE);
+            borderMajor.setVisibility(View.VISIBLE);
             major.setText(mjr);
         }
 
@@ -129,9 +155,12 @@ public class DetailActivity extends AppCompatActivity {
         if (ph == null || ph.isEmpty()) {
             phone.setVisibility(View.GONE);
             headingPhone.setVisibility(View.GONE);
+            borderPhone.setVisibility(View.GONE);
+
         } else {
             phone.setVisibility(View.VISIBLE);
             headingPhone.setVisibility(View.VISIBLE);
+            borderPhone.setVisibility(View.VISIBLE);
             phone.setText(p.getPhone());
         }
 
@@ -139,9 +168,11 @@ public class DetailActivity extends AppCompatActivity {
         if (add == null || add.isEmpty()) {
             address.setVisibility(View.GONE);
             headingAddress.setVisibility(View.GONE);
+            borderAddress.setVisibility(View.GONE);
         } else {
             address.setVisibility(View.VISIBLE);
             headingAddress.setVisibility(View.VISIBLE);
+            borderAddress.setVisibility(View.VISIBLE);
             address.setText(p.getAddress());
         }
 
@@ -149,9 +180,11 @@ public class DetailActivity extends AppCompatActivity {
         if (boxNum == null || boxNum.isEmpty()) {
             boxNumber.setVisibility(View.GONE);
             headingBoxNumber.setVisibility(View.GONE);
+            borderBoxNum.setVisibility(View.GONE);
         } else {
             boxNumber.setVisibility(View.VISIBLE);
             headingBoxNumber.setVisibility(View.VISIBLE);
+            borderBoxNum.setVisibility(View.VISIBLE);
             boxNumber.setText(boxNum);
         }
 
@@ -159,9 +192,11 @@ public class DetailActivity extends AppCompatActivity {
         if (con == null || con.isEmpty()) {
             concentration.setVisibility(View.GONE);
             headingConcentration.setVisibility(View.GONE);
+            borderConcentration.setVisibility(View.GONE);
         } else {
             concentration.setVisibility(View.VISIBLE);
             headingConcentration.setVisibility(View.VISIBLE);
+            borderConcentration.setVisibility(View.VISIBLE);
             concentration.setText(con);
         }
 
@@ -290,11 +325,12 @@ public class DetailActivity extends AppCompatActivity {
         if (uname != null || !uname.isEmpty()) {
             /* send mail and handle exception if no mail app is found */
             try {
+                String email  = uname.substring(1,uname.length() - 1) + "@grinnell.edu";
 
                 PackageManager pm = this.getPackageManager();
 
                 /* create intent and set fields */
-                String[] emails = {uname + "@grinnell.edu"};
+                String[] emails = {email};
                 String subject = "your subject";
                 String message = "your message";
 
@@ -337,4 +373,12 @@ public class DetailActivity extends AppCompatActivity {
                 });
         alertDialog.show();
     }
+
+    /**
+     * Function to open call app on phone with an active call to the person the user is viewing.
+     */
+    private void sendCall() {
+
+    }
 }
+

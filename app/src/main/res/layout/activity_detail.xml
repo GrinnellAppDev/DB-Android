@@ -34,49 +34,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:text="Name"
                     android:textColor="#000000"
                     android:textSize="20sp" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_gravity="center">
-                    <TextView
-                        android:id="@+id/username"
-                        android:onClick="sendEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="#999999"
-                        android:textSize="20sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" | "
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginRight="6dp"
-                        android:textColor="#999999"
-                        android:textSize="20sp" />
-                    <ImageView
-                        android:id="@+id/email_icon"
-                        android:clickable="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="#999999"
-                        android:src="@drawable/ic_32dp_grey_mail_to"/>
-                </LinearLayout>
+                    android:layout_gravity="center_vertical"
+                    android:text="Username"
+                    android:textColor="#999999"
+                    android:textSize="20sp" />
+
 
                 <TextView
                     android:id="@+id/year"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:gravity="center_horizontal"
                     android:text="Class "
                     android:textColor="#999999"
                     android:textSize="20sp" />
@@ -96,6 +75,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/border_major"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/border_bottom" />
+
+        <TextView
             android:id="@+id/major"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,12 +91,17 @@
 
         <TextView
             android:id="@+id/heading_address"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Campus Address"
             android:textColor="#999999"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/border_address"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/border_bottom" />
 
         <TextView
             android:id="@+id/address"
@@ -131,6 +121,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/border_box_number"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/border_bottom" />
+
+        <TextView
             android:id="@+id/boxNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,6 +142,12 @@
             android:text="Concentration"
             android:textColor="#999999"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/border_concentration"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/border_bottom" />
 
         <TextView
             android:id="@+id/concentration"
@@ -165,6 +167,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/border_phone"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/border_bottom" />
+
+        <TextView
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,6 +180,34 @@
             android:text="Campus Phone"
             android:textColor="#000000"
             android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/email_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Email" />
+
+            <Button
+                android:id="@+id/call_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Call" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

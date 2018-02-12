@@ -9,4 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="separator">#F4F4F4</color>
+
+    <color name="light_text_color">#999999</color>
+
 </resources>
