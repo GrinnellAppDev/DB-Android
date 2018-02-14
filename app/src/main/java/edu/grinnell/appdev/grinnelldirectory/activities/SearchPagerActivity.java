@@ -10,6 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import java.io.Serializable;
 
 import butterknife.BindView;
@@ -19,9 +26,12 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class SearchPagerActivity extends AppCompatActivity implements Serializable {
+public class SearchPagerActivity extends AppCompatActivity implements Serializable,
+    APICallerInterface {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -31,6 +41,13 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     ViewPager mViewPager;
     @BindView(R.id.search_fab)
     FloatingActionButton mSearchFab;
+    @BindView(R.id.message)
+    TextView mErrorMessage;
+    @BindView(R.id.retry_button)
+    Button mRetryButton;
+    @BindView(R.id.connection_progress)
+    ProgressBar mConnectionProgress;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +120,22 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         }
     }
 
+    private void testConnection() {
+        List<String> query = new ArrayList();
+        // this query uses this first and last name to avoid getting any results in case the call is successful
+        query.add("aaaaaaaaaaaaaa");
+        query.add("zzzzzzzzzzzzzz");
+        query.add("");
+        query.add("");
+        //  this try catch is bad, but we won't be using users if we aren't doing authentication
+        try {
+            DBAPICaller api = new DBAPICaller(User.getUser(this), this);
+            api.simpleSearch(query);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setupUiElements() {
         setSupportActionBar(mToolbar);
 
@@ -119,5 +152,26 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         intent.putExtra(getString(R.string.calling_class), SearchPagerActivity.class.toString());
         startActivity(intent);
         finish();
+    }
+
+    @Override public void onSearchSuccess(List<Person> people) {
+        mConnectionProgress.setVisibility(View.INVISIBLE);
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
+        mSearchFab.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void authenticateUserCallSuccess(boolean success, Person person) {
+        // Intentionally left blank
+    }
+
+    @Override public void onServerFailure(String fail_message) {
+
+    }
+
+    @Override public void onNetworkingError(String fail_message) {
+        mConnectionProgress.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mRetryButton.setVisibility(View.VISIBLE);
     }
 }
