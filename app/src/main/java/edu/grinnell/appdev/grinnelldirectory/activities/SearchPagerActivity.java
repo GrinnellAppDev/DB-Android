@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import java.io.Serializable;
 
@@ -48,6 +49,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     @BindView(R.id.connection_progress)
     ProgressBar mConnectionProgress;
 
+    private User mUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,15 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
 
+        try {
+            mUser = User.getUser(this);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
         setupUiElements();
         setAnimation();
+        testConnection();
     }
 
     @Override
@@ -120,20 +129,20 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         }
     }
 
-    private void testConnection() {
-        List<String> query = new ArrayList();
+    @OnClick(R.id.retry_button)
+    void testConnection() {
+        mConnectionProgress.setVisibility(View.VISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mRetryButton.setVisibility(View.INVISIBLE);
+        List<String> query = new ArrayList<>();
         // this query uses this first and last name to avoid getting any results in case the call is successful
         query.add("aaaaaaaaaaaaaa");
         query.add("zzzzzzzzzzzzzz");
         query.add("");
         query.add("");
-        //  this try catch is bad, but we won't be using users if we aren't doing authentication
-        try {
-            DBAPICaller api = new DBAPICaller(User.getUser(this), this);
-            api.simpleSearch(query);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
+
+        NetworkAPI api = new DBAPICaller(mUser, this);
+        api.simpleSearch(query);
     }
 
     private void setupUiElements() {
@@ -166,12 +175,16 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     }
 
     @Override public void onServerFailure(String fail_message) {
-
+        mConnectionProgress.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mRetryButton.setVisibility(View.VISIBLE);
+        mErrorMessage.setText(fail_message);
     }
 
     @Override public void onNetworkingError(String fail_message) {
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
+        mErrorMessage.setText(fail_message);
     }
 }
