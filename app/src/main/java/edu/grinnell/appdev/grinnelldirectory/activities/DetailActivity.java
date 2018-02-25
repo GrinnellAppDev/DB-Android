@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     private Pair<Float, Float> initialPicDimens;
     private Pair<Float, Float> zoomedPicTranslate;
 
-    private String basePhoneNum = "641269";
+    private static String basePhoneNum = "641269";
 
     private Boolean fabMenu = false;
     private Animation slideInFromRight = null;

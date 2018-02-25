@@ -213,7 +213,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        app:backgroundTint="@color/primaryLight"
+        app:backgroundTint="@color/primary"
         android:src="@drawable/ic_more_white_32px"/>
 
     <android.support.design.widget.FloatingActionButton
@@ -223,7 +223,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="70dp"
-        app:backgroundTint="@color/primaryLight"
+        app:backgroundTint="@color/primary"
         android:src="@drawable/ic_mail_white_24px"/>
 
     <android.support.design.widget.FloatingActionButton
@@ -233,7 +233,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="140dp"
-        app:backgroundTint="@color/primaryLight"
+        app:backgroundTint="@color/primary"
         android:src="@drawable/ic_phone_call_white_24px"/>
 
 </RelativeLayout>
