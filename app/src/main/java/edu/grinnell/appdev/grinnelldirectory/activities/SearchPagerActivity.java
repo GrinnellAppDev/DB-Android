@@ -181,13 +181,13 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
-        mErrorMessage.setText(fail_message);
+        mErrorMessage.setText(R.string.server_failure);
     }
 
     @Override public void onNetworkingError(String fail_message) {
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
-        mErrorMessage.setText(fail_message);
+        mErrorMessage.setText(R.string.no_connection);
     }
 }
