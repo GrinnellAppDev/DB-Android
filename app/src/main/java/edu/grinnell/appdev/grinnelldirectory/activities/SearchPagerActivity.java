@@ -10,6 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import java.io.Serializable;
 
 import butterknife.BindView;
@@ -19,9 +27,12 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class SearchPagerActivity extends AppCompatActivity implements Serializable {
+public class SearchPagerActivity extends AppCompatActivity implements Serializable,
+    APICallerInterface {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -31,6 +42,14 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     ViewPager mViewPager;
     @BindView(R.id.search_fab)
     FloatingActionButton mSearchFab;
+    @BindView(R.id.message)
+    TextView mErrorMessage;
+    @BindView(R.id.retry_button)
+    Button mRetryButton;
+    @BindView(R.id.connection_progress)
+    ProgressBar mConnectionProgress;
+
+    private User mUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,8 +57,15 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
 
+        try {
+            mUser = User.getUser(this);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
         setupUiElements();
         setAnimation();
+        testConnection();
     }
 
     @Override
@@ -61,7 +87,10 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
                 logoutAndRedirect();
                 break;
             case R.id.action_clear:
-                getCurrentSearchInterface().clear();
+                SearchFragmentInterface searchFragmentInterface = getCurrentSearchInterface();
+                if (searchFragmentInterface != null) {
+                    searchFragmentInterface.clear();
+                }
                 break;
             case R.id.action_about:
                 // pop up a dialog fragment that has a description of the app and how to use it.
@@ -103,6 +132,22 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         }
     }
 
+    @OnClick(R.id.retry_button)
+    void testConnection() {
+        mConnectionProgress.setVisibility(View.VISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mRetryButton.setVisibility(View.INVISIBLE);
+        List<String> query = new ArrayList<>();
+        // this query uses this first and last name to avoid getting any results in case the call is successful
+        query.add("aaaaaaaaaaaaaa");
+        query.add("zzzzzzzzzzzzzz");
+        query.add("");
+        query.add("");
+
+        NetworkAPI api = new DBAPICaller(mUser, this);
+        api.simpleSearch(query);
+    }
+
     private void setupUiElements() {
         setSupportActionBar(mToolbar);
 
@@ -119,5 +164,30 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         intent.putExtra(getString(R.string.calling_class), SearchPagerActivity.class.toString());
         startActivity(intent);
         finish();
+    }
+
+    @Override public void onSearchSuccess(List<Person> people) {
+        mConnectionProgress.setVisibility(View.INVISIBLE);
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
+        mSearchFab.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void authenticateUserCallSuccess(boolean success, Person person) {
+        // Intentionally left blank
+    }
+
+    @Override public void onServerFailure(String fail_message) {
+        mConnectionProgress.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mRetryButton.setVisibility(View.VISIBLE);
+        mErrorMessage.setText(R.string.server_failure);
+    }
+
+    @Override public void onNetworkingError(String fail_message) {
+        mConnectionProgress.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mRetryButton.setVisibility(View.VISIBLE);
+        mErrorMessage.setText(R.string.no_connection);
     }
 }

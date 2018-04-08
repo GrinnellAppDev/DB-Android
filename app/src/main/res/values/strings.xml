@@ -17,6 +17,8 @@
     <!-- Strings for error messages -->
     <string name="server_failure">Server failure</string>
     <string name="networking_error">Networking error</string>
+    <string name="no_connection">No connection to Grinnell wifi</string>
+    <string name="retry">Retry</string>
     <string name="authentication_failure">Wrong username or password</string>
 
     <!-- Strings for transitions between activities -->
