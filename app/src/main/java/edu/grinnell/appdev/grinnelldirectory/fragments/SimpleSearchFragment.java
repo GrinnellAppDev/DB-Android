@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnEditorAction;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
@@ -93,7 +92,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
 
         NetworkAPI api = new DBAPICaller(mUser, this);
 
-        List<String> query = new ArrayList();
+        List<String> query = new ArrayList<>();
         query.add(firstName);
         query.add(lastName);
         query.add("");
