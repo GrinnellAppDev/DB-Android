@@ -3,6 +3,7 @@ package edu.grinnell.appdev.grinnelldirectory.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Person implements Serializable {
@@ -156,6 +157,10 @@ public class Person implements Serializable {
     @SerializedName("title8")
     @Expose
     private String title8;
+
+    public static String getPersonKey() {
+        return PERSON_KEY;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -548,5 +553,4 @@ public class Person implements Serializable {
     public void setTitle8(String title8) {
         this.title8 = title8;
     }
-
 }

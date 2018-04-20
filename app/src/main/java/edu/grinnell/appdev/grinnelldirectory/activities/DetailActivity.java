@@ -1,19 +1,36 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.BinderThread;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,11 +42,17 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final int ANIMATION_DURATION = 500;
 
-    Person p;
+    private Person p;
     boolean isImageZoomed;
-    Pair<Float, Float> screenDimens;
-    Pair<Float, Float> initialPicDimens;
-    Pair<Float, Float> zoomedPicTranslate;
+    private Pair<Float, Float> screenDimens;
+    private Pair<Float, Float> initialPicDimens;
+    private Pair<Float, Float> zoomedPicTranslate;
+
+    private String basePhoneNum = "641269";
+
+    private Boolean fabMenu = false;
+    private Animation slideInFromRight = null;
+    private Animation slideOutToRight = null;
 
     @BindView(R.id.relative_layout)
     View relativeLayout;
@@ -66,6 +89,23 @@ public class DetailActivity extends AppCompatActivity {
     TextView concentration;
     @BindView(R.id.heading_concentration)
     TextView headingConcentration;
+    @BindView(R.id.border_address)
+    TextView borderAddress;
+    @BindView(R.id.border_box_number)
+    TextView borderBoxNum;
+    @BindView(R.id.border_concentration)
+    TextView borderConcentration;
+    @BindView(R.id.border_major)
+    TextView borderMajor;
+    @BindView(R.id.border_phone)
+    TextView borderPhone;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.fab1)
+    FloatingActionButton fabEmail;
+    @BindView(R.id.fab2)
+    FloatingActionButton fabCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +119,65 @@ public class DetailActivity extends AppCompatActivity {
 
         if (p != null) {
             setFields();
+            setFabUI();
         }
+
+
     }
 
+    private void setFabUI() {
+
+        /* load animations */
+        slideInFromRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
+        slideOutToRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_right);
+
+        /* set default visibility */
+        if (fabMenu == false) {
+            fabCall.setVisibility(View.GONE);
+            fabEmail.setVisibility(View.GONE);
+        }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* toggle boolean */
+                fabMenu = fabMenu ? false : true;
+                        /* set default visibility */
+                if (fabMenu == false) {
+                    fabCall.startAnimation(slideOutToRight);
+                    fabEmail.startAnimation(slideOutToRight);
+                    fabCall.setVisibility(View.GONE);
+                    fabEmail.setVisibility(View.GONE);
+                } else {
+                    fabCall.setVisibility(View.VISIBLE);
+                    fabCall.startAnimation(slideInFromRight);
+                    fabEmail.setVisibility(View.VISIBLE);
+                    fabEmail.startAnimation(slideInFromRight);
+                }
+            }
+        });
+        /* set on click for email button */
+        fabEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* call function to send email */
+                sendEmail();
+            }
+        });
+
+        /* set on click for call button */
+        fabCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* call function to call student/professor/individual */
+                sendCall();
+            }
+        });
+    }
     private void setFields() {
         name.setText(p.getFirstName() + ' ' + p.getLastName());
         classYear.setText(p.getClassYear());
+
         String un = p.getUserName();
         if (un == null || un.isEmpty()) {
             String email = p.getEmail();
@@ -97,9 +190,11 @@ public class DetailActivity extends AppCompatActivity {
         if (mjr == null || mjr.isEmpty()) {
             major.setVisibility(View.GONE);
             headingMajor.setVisibility(View.GONE);
+            borderMajor.setVisibility(View.GONE);
         } else {
             major.setVisibility(View.VISIBLE);
             headingMajor.setVisibility(View.VISIBLE);
+            borderMajor.setVisibility(View.VISIBLE);
             major.setText(mjr);
         }
 
@@ -107,9 +202,12 @@ public class DetailActivity extends AppCompatActivity {
         if (ph == null || ph.isEmpty()) {
             phone.setVisibility(View.GONE);
             headingPhone.setVisibility(View.GONE);
+            borderPhone.setVisibility(View.GONE);
+
         } else {
             phone.setVisibility(View.VISIBLE);
             headingPhone.setVisibility(View.VISIBLE);
+            borderPhone.setVisibility(View.VISIBLE);
             phone.setText(p.getPhone());
         }
 
@@ -117,9 +215,11 @@ public class DetailActivity extends AppCompatActivity {
         if (add == null || add.isEmpty()) {
             address.setVisibility(View.GONE);
             headingAddress.setVisibility(View.GONE);
+            borderAddress.setVisibility(View.GONE);
         } else {
             address.setVisibility(View.VISIBLE);
             headingAddress.setVisibility(View.VISIBLE);
+            borderAddress.setVisibility(View.VISIBLE);
             address.setText(p.getAddress());
         }
 
@@ -127,9 +227,11 @@ public class DetailActivity extends AppCompatActivity {
         if (boxNum == null || boxNum.isEmpty()) {
             boxNumber.setVisibility(View.GONE);
             headingBoxNumber.setVisibility(View.GONE);
+            borderBoxNum.setVisibility(View.GONE);
         } else {
             boxNumber.setVisibility(View.VISIBLE);
             headingBoxNumber.setVisibility(View.VISIBLE);
+            borderBoxNum.setVisibility(View.VISIBLE);
             boxNumber.setText(boxNum);
         }
 
@@ -137,9 +239,11 @@ public class DetailActivity extends AppCompatActivity {
         if (con == null || con.isEmpty()) {
             concentration.setVisibility(View.GONE);
             headingConcentration.setVisibility(View.GONE);
+            borderConcentration.setVisibility(View.GONE);
         } else {
             concentration.setVisibility(View.VISIBLE);
             headingConcentration.setVisibility(View.VISIBLE);
+            borderConcentration.setVisibility(View.VISIBLE);
             concentration.setText(con);
         }
 
@@ -257,4 +361,73 @@ public class DetailActivity extends AppCompatActivity {
         zoomedPicTranslate = new Pair<>(picZoomX, picZoomY);
     }
 
+    /**
+     * Function to open mail app on phone with empty email to user that was clicked on.
+     */
+    private void sendEmail() {
+
+        /* get username */
+        String uname = (String) username.getText();
+
+        if (uname != null || !uname.isEmpty()) {
+            /* send mail and handle exception if no mail app is found */
+            try {
+                String email  = uname.substring(1,uname.length() - 1) + "@grinnell.edu";
+
+                PackageManager pm = this.getPackageManager();
+
+                /* create intent and set fields */
+                String[] emails = {email};
+                String subject = "your subject";
+                String message = "your message";
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, emails);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+                emailIntent.setType("message/rfc822");
+
+                /* get list of applications that can send mail */
+                List<ResolveInfo> resolveInfos = pm.queryIntentActivities(emailIntent, 0); // returns all applications which can listen to the SEND Intent
+
+                /* if list size is not zero, start intent */
+                if (resolveInfos.size() != 0) {
+                    startActivity(Intent.createChooser(emailIntent, "Choose an Email client :"));
+                }
+                /* else show alert asking user to download email client */
+                else {
+                    Toast.makeText(getApplicationContext(),"Error: could not find email client.",Toast.LENGTH_SHORT).show();}
+
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Function to open call app on phone with an active call to the person the user is viewing.
+     */
+    private void sendCall() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL); //use ACTION_CALL class
+        callIntent.setData(Uri.parse("tel:" + basePhoneNum + p.getPhone()));    //this is the phone number calling
+        //check permission
+        //If the device is running Android 6.0 (API level 23) and the app's targetSdkVersion is 23 or higher,
+        //the system asks the user to grant approval.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            //request permission from user if the app hasn't got the required permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
+                    10);
+            return;
+        }else {     //have got permission
+            try{
+                startActivity(callIntent);  //call activity and make phone call
+            }
+            catch (android.content.ActivityNotFoundException ex){
+                Toast.makeText(getApplicationContext(),"Error: could not place call.",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
+
