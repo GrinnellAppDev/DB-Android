@@ -7,9 +7,9 @@ import android.net.Uri;
 import java.util.List;
 
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 
-public class DBScraperCaller implements NetworkAPI {
+public class DBScraperCaller implements SearchCaller {
 
     private static final String BASE_URL = "https://itwebapps.grinnell.edu/classic/asp/campusdirectory/GCdefault.asp?transmit=true&blackboardref=true";
     private static final String[] QUERY_KEYS = {

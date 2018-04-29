@@ -16,12 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
-import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 
 import butterknife.BindView;
@@ -30,7 +27,6 @@ import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
-import edu.grinnell.appdev.grinnelldirectory.models.Persons;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -150,7 +146,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         query.add("");
         query.add("");
 
-        NetworkAPI api = new DBAPICaller(mUser, this);
+        SearchCaller api = new DBAPICaller(mUser, this);
         api.simpleSearch(query);
     }
 

@@ -24,7 +24,7 @@ import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
@@ -90,7 +90,7 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 
-        NetworkAPI api = new DBAPICaller(mUser, this);
+        SearchCaller api = new DBAPICaller(mUser, this);
 
         List<String> query = new ArrayList<>();
         query.add(firstName);

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -25,11 +24,10 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
@@ -150,7 +148,7 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
             return;
         }
 
-        NetworkAPI api = new DBAPICaller(mUser, this);
+        SearchCaller api = new DBAPICaller(mUser, this);
 
         //populating searchObject with parameters
         List<String> searchObject = new ArrayList(14);

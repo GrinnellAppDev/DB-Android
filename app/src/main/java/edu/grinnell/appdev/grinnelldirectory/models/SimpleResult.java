@@ -72,6 +72,7 @@ public class SimpleResult implements Parcelable {
      * written is a return value
      */
     @Override public void writeToParcel(Parcel parcel, int flags) {
+        //parcel.writeTypedList(mPeople);
         parcel.writeValue(mPeople);
     }
 }

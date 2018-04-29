@@ -6,8 +6,14 @@ package edu.grinnell.appdev.grinnelldirectory.interfaces;
 
 public interface SearchFragmentInterface {
 
+    /**
+     * Execute a simple or advanced search
+     */
     void search();
 
+    /**
+     * Clear all search fields in the UI
+     */
     void clear();
 
 }
