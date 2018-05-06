@@ -69,7 +69,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             viewHolder.username.setText("[" + un + "]");
         }
 
-        String classYear = person.getClassYear();
+        String classYear = String.valueOf(person.getClassYear());
         if (classYear != null && !classYear.isEmpty()) {
             viewHolder.classYear.setVisibility(View.VISIBLE);
             viewHolder.classYear.setText(classYear);
@@ -107,9 +107,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mContext, DetailActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Person.PERSON_KEY, mPersons.get(getAdapterPosition()));
-            intent.putExtras(bundle);
+            intent.putExtra(Person.PERSON_KEY, mPersons.get(getAdapterPosition()));
             mContext.startActivity(intent);
         }
     }

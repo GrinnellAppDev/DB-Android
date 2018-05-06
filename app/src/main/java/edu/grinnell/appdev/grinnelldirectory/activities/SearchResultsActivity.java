@@ -30,7 +30,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView rvSearchResults = (RecyclerView) findViewById(R.id.rvSearchResults);
+        RecyclerView rvSearchResults = findViewById(R.id.rvSearchResults);
         SearchResultsAdapter adapter = new SearchResultsAdapter(this, mPeopleList);
         rvSearchResults.setAdapter(adapter);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(this));

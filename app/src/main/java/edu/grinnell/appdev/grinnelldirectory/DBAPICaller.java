@@ -182,7 +182,9 @@ public class DBAPICaller implements SearchCaller {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                 } else {
-                    callback.onServerError(response.code());
+                    String errorMessage;
+                    callback.onServerError(response.code(), response.errorBody());
+                    response.errorBody().close();
                 }
             }
 

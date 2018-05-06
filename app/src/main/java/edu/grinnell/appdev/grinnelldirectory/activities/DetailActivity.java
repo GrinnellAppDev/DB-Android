@@ -114,8 +114,9 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Bundle extras = getIntent().getExtras();
-        p = (Person) extras.getSerializable(Person.PERSON_KEY);
+        p = getIntent().getParcelableExtra(Person.PERSON_KEY);
+        //Bundle extras = getIntent().getExtras();
+        //p = (Person) extras.getSerializable(Person.PERSON_KEY);
 
         if (p != null) {
             setFields();
@@ -176,7 +177,7 @@ public class DetailActivity extends AppCompatActivity {
     }
     private void setFields() {
         name.setText(p.getFirstName() + ' ' + p.getLastName());
-        classYear.setText(p.getClassYear());
+        classYear.setText(String.valueOf(p.getClassYear()));
 
         String un = p.getUserName();
         if (un == null || un.isEmpty()) {
@@ -198,7 +199,7 @@ public class DetailActivity extends AppCompatActivity {
             major.setText(mjr);
         }
 
-        String ph = p.getPhone();
+        String ph = String.valueOf(p.getPhone());
         if (ph == null || ph.isEmpty()) {
             phone.setVisibility(View.GONE);
             headingPhone.setVisibility(View.GONE);
@@ -208,7 +209,7 @@ public class DetailActivity extends AppCompatActivity {
             phone.setVisibility(View.VISIBLE);
             headingPhone.setVisibility(View.VISIBLE);
             borderPhone.setVisibility(View.VISIBLE);
-            phone.setText(p.getPhone());
+            phone.setText(String.valueOf(p.getPhone()));
         }
 
         String add = p.getAddress();

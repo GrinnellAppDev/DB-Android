@@ -55,7 +55,7 @@ public class SimpleResult implements Parcelable {
      * @return a deserialiezd SimpleResult object
      */
     public SimpleResult(Parcel parcel) {
-        mPeople = (List<Person>) parcel.readValue(SimpleResult.class.getClassLoader());
+        parcel.readTypedList(mPeople, Person.CREATOR);
     }
 
     /**
@@ -72,7 +72,6 @@ public class SimpleResult implements Parcelable {
      * written is a return value
      */
     @Override public void writeToParcel(Parcel parcel, int flags) {
-        //parcel.writeTypedList(mPeople);
-        parcel.writeValue(mPeople);
+        parcel.writeTypedList(mPeople);
     }
 }

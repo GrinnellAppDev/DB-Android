@@ -146,8 +146,8 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     }
 
     private void login(User user) {
-        DBAPICaller dbapiCaller = new DBAPICaller(user, this);
-        dbapiCaller.authenticateUser();
+        //DBAPICaller dbapiCaller = new DBAPICaller(user, this);
+        //dbapiCaller.authenticateUser();
         startProgressDialog();
     }
 
