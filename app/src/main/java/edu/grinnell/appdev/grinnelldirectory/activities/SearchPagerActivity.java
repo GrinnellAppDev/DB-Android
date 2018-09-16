@@ -174,7 +174,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     }
 
     @Override public void onServerError(int code, ResponseBody error) {
-        onSuccess(null);
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
