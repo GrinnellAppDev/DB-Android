@@ -4,6 +4,7 @@ package edu.grinnell.appdev.grinnelldirectory.constants;
 /**
  * searchConstans is a class with constants used in the searching for resultss
  */
+@Deprecated
 public class searchConstansts {
     public static final int FIRST_NAME_FIELD = 0;
     public static final int LAST_NAME_FIELD = 1;

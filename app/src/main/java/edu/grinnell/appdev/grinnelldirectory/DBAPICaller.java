@@ -15,11 +15,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.FIRST_NAME_FIELD;
+/**
+ * Executes simple and advanced search
+ */
 
 public class DBAPICaller implements SearchCaller {
 
-    private static final String BASE_URL = "https://itwebappstest.grinnell.edu/DotNet/WebServices/api/";
+    private static final String BASE_URL = "https://appdev.grinnell.edu/api/db/v1/";
     private static final int RESPONSE_FORBIDDEN = 403;
 
     private DbSearchAPI searchEndpoint;

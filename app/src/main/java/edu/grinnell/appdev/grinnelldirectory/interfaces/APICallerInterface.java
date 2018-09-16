@@ -4,7 +4,11 @@ import java.util.List;
 
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
+/**
+ * Old search callbacks
+ */
 
+@Deprecated
 public interface APICallerInterface {
 
     void onSearchSuccess(List<Person> people);

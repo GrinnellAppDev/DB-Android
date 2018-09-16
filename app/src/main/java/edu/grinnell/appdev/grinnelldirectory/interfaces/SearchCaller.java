@@ -1,5 +1,9 @@
 package edu.grinnell.appdev.grinnelldirectory.interfaces;
 
+/**
+ * Interface for classes that execute simple and advanced search.
+ */
+
 public interface SearchCaller {
 
     void simpleSearch(

@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 import okhttp3.ResponseBody;
 
+/**
+ * Parent activity of the simple and advanced search fragments
+ */
+
 public class SearchPagerActivity extends AppCompatActivity implements Serializable,
     DbSearchCallback {
 
@@ -170,6 +174,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     }
 
     @Override public void onServerError(int code, ResponseBody error) {
+        onSuccess(null);
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);

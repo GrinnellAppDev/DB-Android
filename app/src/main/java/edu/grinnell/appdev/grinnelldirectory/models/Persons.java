@@ -3,7 +3,9 @@ package edu.grinnell.appdev.grinnelldirectory.models;
 import java.util.List;
 
 /**
- * Created by nicholasroberson on 2/4/18.
+ * Wraps a list of Person objects.
+ * This is required for Gson to deserialize a list of Person objects from json.
+ * This class is only used for parsing local dummy data.
  */
 
 public class Persons {

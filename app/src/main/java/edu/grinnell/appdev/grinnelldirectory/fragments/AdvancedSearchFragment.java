@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import java.io.IOException;
-import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,26 +27,12 @@ import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
 import okhttp3.ResponseBody;
-
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_ADDRESS_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_PHONE_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CLASS_YEAR_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CONCENTRATION_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.FAC_STAFF_OFFICE_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.FIRST_NAME_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.HIATUS_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.HOME_ADDRESS_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.LAST_NAME_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.MAJOR_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.SGA_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.USERNAME_FIELD;
 
 
 public class AdvancedSearchFragment extends Fragment implements DbSearchCallback,
