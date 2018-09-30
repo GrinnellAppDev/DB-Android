@@ -66,7 +66,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     public String loadJSONFromAsset(String fileName) {
-        String json = null;
+        String json;
         try {
             InputStream is = this.getAssets().open(fileName);
             int size = is.available();

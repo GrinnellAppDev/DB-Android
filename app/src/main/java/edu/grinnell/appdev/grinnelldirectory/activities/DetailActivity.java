@@ -2,29 +2,22 @@ package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.BinderThread;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,11 +38,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private Person person;
     boolean isImageZoomed;
-    private Pair<Float, Float> screenDimens;
-    private Pair<Float, Float> initialPicDimens;
     private Pair<Float, Float> zoomedPicTranslate;
-
-    private String basePhoneNum = "641269";
 
     @BindView(R.id.relative_layout)
     View relativeLayout;
@@ -123,15 +112,22 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setFields() {
-        name.setText(person.getFirstName() + ' ' + person.getLastName());
-        classYear.setText(String.valueOf(person.getClassYear()));
+        name.setText(getString(R.string.full_name, person.getFirstName(), person.getLastName()));
+
+        int year = person.getClassYear();
+        if (year == 0) {
+            classYear.setText("");
+        } else {
+            classYear.setText(String.valueOf(year));
+        }
 
         String un = person.getUserName();
         if (un == null || un.isEmpty()) {
             String email = person.getEmail();
-            username.setText("[" + email.substring(0, email.indexOf('@')) + "]");
+            String unFromEmail = email.substring(0, email.indexOf('@'));
+            username.setText(getString(R.string.email_shorthand, unFromEmail));
         } else {
-            username.setText("[" + un + "]");
+            username.setText(getString(R.string.email_shorthand, un));
         }
 
         String mjr = person.getMajor();
@@ -147,11 +143,10 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         String ph = String.valueOf(person.getPhone());
-        if (ph == null || ph.isEmpty()) {
+        if (ph.isEmpty()) {
             phone.setVisibility(View.GONE);
             headingPhone.setVisibility(View.GONE);
             borderPhone.setVisibility(View.GONE);
-
         } else {
             phone.setVisibility(View.VISIBLE);
             headingPhone.setVisibility(View.VISIBLE);
@@ -159,8 +154,8 @@ public class DetailActivity extends AppCompatActivity {
             phone.setText(String.valueOf(person.getPhone()));
         }
 
-        String add = person.getAddress();
-        if (add == null || add.isEmpty()) {
+        String addressTxt = person.getAddress();
+        if (addressTxt == null || addressTxt.isEmpty()) {
             address.setVisibility(View.GONE);
             headingAddress.setVisibility(View.GONE);
             borderAddress.setVisibility(View.GONE);
@@ -297,12 +292,10 @@ public class DetailActivity extends AppCompatActivity {
         // dimensions of the view container
         float screenWidth = relativeLayout.getWidth();
         float screenHeight = relativeLayout.getHeight();
-        screenDimens = new Pair<>(screenWidth, screenHeight);
 
         // dimensions of the picture in the beginning
         float picWidth = (float) pic.getWidth();
         float picHeight = (float) pic.getHeight();
-        initialPicDimens = new Pair<>(picWidth, picHeight);
 
         picScaleFactor = Math.min((0.8f * screenHeight) / picHeight, (0.8f * screenWidth) / picWidth);
 
@@ -323,7 +316,7 @@ public class DetailActivity extends AppCompatActivity {
         if (uname != null || !uname.isEmpty()) {
             /* send mail and handle exception if no mail app is found */
             try {
-                String email  = uname.substring(1,uname.length() - 1) + "@grinnell.edu";
+                String email = getString(R.string.base_email, uname.substring(1, uname.length() - 1));
 
                 PackageManager pm = this.getPackageManager();
 
@@ -361,7 +354,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     private void sendCall() {
         Intent callIntent = new Intent(Intent.ACTION_CALL); //use ACTION_CALL class
-        callIntent.setData(Uri.parse("tel:" + basePhoneNum + person.getPhone()));    //this is the phone number calling
+        callIntent.setData(Uri.parse(getString(R.string.phone_uri, person.getPhone())));    //this is the phone number calling
         //check permission
         //If the device is running Android 6.0 (API level 23) and the app's targetSdkVersion is 23 or higher,
         //the system asks the user to grant approval.
@@ -370,9 +363,8 @@ public class DetailActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
                     10);
-            return;
-        }else {     //have got permission
-            try{
+        } else {     //have got permission
+            try {
                 startActivity(callIntent);  //call activity and make phone call
             }
             catch (android.content.ActivityNotFoundException ex){
