@@ -2,6 +2,7 @@ package edu.grinnell.appdev.grinnelldirectory.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,6 +56,7 @@ public class SimpleResult implements Parcelable {
      * @return a deserialiezd SimpleResult object
      */
     public SimpleResult(Parcel parcel) {
+        mPeople = new ArrayList<>();
         parcel.readTypedList(mPeople, Person.CREATOR);
     }
 

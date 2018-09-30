@@ -24,6 +24,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     private Context mContext;
 
     public SearchResultsAdapter(Context context, List<Person> persons) {
+        mPersons = persons;
         mContext = context;
     }
 
