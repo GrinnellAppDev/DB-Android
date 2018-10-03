@@ -24,6 +24,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     private Context mContext;
 
     public SearchResultsAdapter(Context context, List<Person> persons) {
+        mPersons = persons;
         mContext = context;
     }
 
@@ -69,8 +70,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             viewHolder.username.setText("[" + un + "]");
         }
 
-        String classYear = person.getClassYear();
-        if (classYear != null && !classYear.isEmpty()) {
+        int classYear = person.getClassYear();
+        if (classYear > 0) {
             viewHolder.classYear.setVisibility(View.VISIBLE);
             viewHolder.classYear.setText(classYear);
         } else {
@@ -97,19 +98,17 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             super(itemView);
             itemView.setOnClickListener(this);
 
-            name = (TextView) itemView.findViewById(R.id.tv_name);
-            major = (TextView) itemView.findViewById(R.id.tv_major);
-            username = (TextView) itemView.findViewById(R.id.tv_username);
-            personImage = (ImageView) itemView.findViewById(R.id.iv_personImage);
-            classYear = (TextView) itemView.findViewById(R.id.tv_classYear);
+            name = itemView.findViewById(R.id.tv_name);
+            major = itemView.findViewById(R.id.tv_major);
+            username = itemView.findViewById(R.id.tv_username);
+            personImage = itemView.findViewById(R.id.iv_personImage);
+            classYear = itemView.findViewById(R.id.tv_classYear);
         }
 
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mContext, DetailActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Person.PERSON_KEY, mPersons.get(getAdapterPosition()));
-            intent.putExtras(bundle);
+            intent.putExtra(Person.PERSON_KEY, mPersons.get(getAdapterPosition()));
             mContext.startActivity(intent);
         }
     }

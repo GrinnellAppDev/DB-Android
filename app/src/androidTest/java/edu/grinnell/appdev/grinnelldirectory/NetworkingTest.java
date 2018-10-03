@@ -16,7 +16,7 @@ import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -40,7 +40,7 @@ public class NetworkingTest {
             @Override
             public void onSearchSuccess(List<Person> people) {
                 assertNotNull(people);
-                assertNotEquals(people.size(), 0);
+                assertFalse(people.size() == 0);
                 latch.countDown();
             }
 

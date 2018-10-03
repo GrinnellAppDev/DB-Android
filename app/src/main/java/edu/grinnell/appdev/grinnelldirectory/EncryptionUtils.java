@@ -7,6 +7,7 @@ import com.scottyab.aescrypt.AESCrypt;
 
 import java.security.GeneralSecurityException;
 
+@Deprecated
 public class EncryptionUtils {
 
     private static final String PREF_ENCRYPTION = "pref_encryption";

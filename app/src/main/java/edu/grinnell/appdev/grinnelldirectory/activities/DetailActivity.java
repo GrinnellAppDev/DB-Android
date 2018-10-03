@@ -1,10 +1,18 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -12,8 +20,11 @@ import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,11 +36,9 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final int ANIMATION_DURATION = 500;
 
-    Person p;
+    private Person person;
     boolean isImageZoomed;
-    Pair<Float, Float> screenDimens;
-    Pair<Float, Float> initialPicDimens;
-    Pair<Float, Float> zoomedPicTranslate;
+    private Pair<Float, Float> zoomedPicTranslate;
 
     @BindView(R.id.relative_layout)
     View relativeLayout;
@@ -66,6 +75,16 @@ public class DetailActivity extends AppCompatActivity {
     TextView concentration;
     @BindView(R.id.heading_concentration)
     TextView headingConcentration;
+    @BindView(R.id.border_address)
+    TextView borderAddress;
+    @BindView(R.id.border_box_number)
+    TextView borderBoxNum;
+    @BindView(R.id.border_concentration)
+    TextView borderConcentration;
+    @BindView(R.id.border_major)
+    TextView borderMajor;
+    @BindView(R.id.border_phone)
+    TextView borderPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,81 +93,109 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Bundle extras = getIntent().getExtras();
-        p = (Person) extras.getSerializable(Person.PERSON_KEY);
+        person = getIntent().getParcelableExtra(Person.PERSON_KEY);
+        //Bundle extras = getIntent().getExtras();
+        //p = (Person) extras.getSerializable(Person.PERSON_KEY);
 
-        if (p != null) {
+        if (person != null) {
             setFields();
         }
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
     }
 
     private void setFields() {
-        name.setText(p.getFirstName() + ' ' + p.getLastName());
-        classYear.setText(p.getClassYear());
-        String un = p.getUserName();
-        if (un == null || un.isEmpty()) {
-            String email = p.getEmail();
-            username.setText("[" + email.substring(0, email.indexOf('@')) + "]");
+        name.setText(getString(R.string.full_name, person.getFirstName(), person.getLastName()));
+
+        int year = person.getClassYear();
+        if (year == 0) {
+            classYear.setText("");
         } else {
-            username.setText("[" + un + "]");
+            classYear.setText(String.valueOf(year));
         }
 
-        String mjr = p.getMajor();
+        String un = person.getUserName();
+        if (un == null || un.isEmpty()) {
+            String email = person.getEmail();
+            String unFromEmail = email.substring(0, email.indexOf('@'));
+            username.setText(getString(R.string.email_shorthand, unFromEmail));
+        } else {
+            username.setText(getString(R.string.email_shorthand, un));
+        }
+
+        String mjr = person.getMajor();
         if (mjr == null || mjr.isEmpty()) {
             major.setVisibility(View.GONE);
             headingMajor.setVisibility(View.GONE);
+            borderMajor.setVisibility(View.GONE);
         } else {
             major.setVisibility(View.VISIBLE);
             headingMajor.setVisibility(View.VISIBLE);
+            borderMajor.setVisibility(View.VISIBLE);
             major.setText(mjr);
         }
 
-        String ph = p.getPhone();
-        if (ph == null || ph.isEmpty()) {
+        String ph = String.valueOf(person.getPhone());
+        if (ph.isEmpty()) {
             phone.setVisibility(View.GONE);
             headingPhone.setVisibility(View.GONE);
+            borderPhone.setVisibility(View.GONE);
         } else {
             phone.setVisibility(View.VISIBLE);
             headingPhone.setVisibility(View.VISIBLE);
-            phone.setText(p.getPhone());
+            borderPhone.setVisibility(View.VISIBLE);
+            phone.setText(String.valueOf(person.getPhone()));
         }
 
-        String add = p.getAddress();
-        if (add == null || add.isEmpty()) {
+        String addressTxt = person.getAddress();
+        if (addressTxt == null || addressTxt.isEmpty()) {
             address.setVisibility(View.GONE);
             headingAddress.setVisibility(View.GONE);
+            borderAddress.setVisibility(View.GONE);
         } else {
             address.setVisibility(View.VISIBLE);
             headingAddress.setVisibility(View.VISIBLE);
-            address.setText(p.getAddress());
+            borderAddress.setVisibility(View.VISIBLE);
+            address.setText(person.getAddress());
         }
 
-        String boxNum = p.getBox();
+        String boxNum = person.getBox();
         if (boxNum == null || boxNum.isEmpty()) {
             boxNumber.setVisibility(View.GONE);
             headingBoxNumber.setVisibility(View.GONE);
+            borderBoxNum.setVisibility(View.GONE);
         } else {
             boxNumber.setVisibility(View.VISIBLE);
             headingBoxNumber.setVisibility(View.VISIBLE);
+            borderBoxNum.setVisibility(View.VISIBLE);
             boxNumber.setText(boxNum);
         }
 
-        String con = p.getMinor();
+        String con = person.getMinor();
         if (con == null || con.isEmpty()) {
             concentration.setVisibility(View.GONE);
             headingConcentration.setVisibility(View.GONE);
+            borderConcentration.setVisibility(View.GONE);
         } else {
             concentration.setVisibility(View.VISIBLE);
             headingConcentration.setVisibility(View.VISIBLE);
+            borderConcentration.setVisibility(View.VISIBLE);
             concentration.setText(con);
         }
 
-        String imgPath = p.getImgPath();
+        String imgPath = person.getImgPath();
         if (imgPath == null || imgPath.isEmpty()) {
             // do something
             Picasso.with(this).load(R.drawable.person_grey).into(pic);
         } else {
-            Picasso.with(this).load(p.getImgPath()).into(pic);
+            Picasso.with(this).load(person.getImgPath()).into(pic);
         }
     }
 
@@ -157,6 +204,9 @@ public class DetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_email:
+                sendEmail();
                 break;
             default:
                 break;
@@ -242,12 +292,10 @@ public class DetailActivity extends AppCompatActivity {
         // dimensions of the view container
         float screenWidth = relativeLayout.getWidth();
         float screenHeight = relativeLayout.getHeight();
-        screenDimens = new Pair<>(screenWidth, screenHeight);
 
         // dimensions of the picture in the beginning
         float picWidth = (float) pic.getWidth();
         float picHeight = (float) pic.getHeight();
-        initialPicDimens = new Pair<>(picWidth, picHeight);
 
         picScaleFactor = Math.min((0.8f * screenHeight) / picHeight, (0.8f * screenWidth) / picWidth);
 
@@ -257,4 +305,72 @@ public class DetailActivity extends AppCompatActivity {
         zoomedPicTranslate = new Pair<>(picZoomX, picZoomY);
     }
 
+    /**
+     * Function to open mail app on phone with empty email to user that was clicked on.
+     */
+    private void sendEmail() {
+
+        /* get username */
+        String uname = (String) username.getText();
+
+        if (uname != null || !uname.isEmpty()) {
+            /* send mail and handle exception if no mail app is found */
+            try {
+                String email = getString(R.string.base_email, uname.substring(1, uname.length() - 1));
+
+                PackageManager pm = this.getPackageManager();
+
+                /* create intent and set fields */
+                String[] emails = {email};
+                String subject = "your subject";
+                String message = "your message";
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, emails);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+                emailIntent.setType("message/rfc822");
+
+                /* get list of applications that can send mail */
+                List<ResolveInfo> resolveInfos = pm.queryIntentActivities(emailIntent, 0); // returns all applications which can listen to the SEND Intent
+
+                /* if list size is not zero, start intent */
+                if (resolveInfos.size() != 0) {
+                    startActivity(Intent.createChooser(emailIntent, "Choose an Email client :"));
+                }
+                /* else show alert asking user to download email client */
+                else {
+                    Toast.makeText(getApplicationContext(),"Error: could not find email client.",Toast.LENGTH_SHORT).show();}
+
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Function to open call app on phone with an active call to the person the user is viewing.
+     */
+    private void sendCall() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL); //use ACTION_CALL class
+        callIntent.setData(Uri.parse(getString(R.string.phone_uri, person.getPhone())));    //this is the phone number calling
+        //check permission
+        //If the device is running Android 6.0 (API level 23) and the app's targetSdkVersion is 23 or higher,
+        //the system asks the user to grant approval.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            //request permission from user if the app hasn't got the required permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
+                    10);
+        } else {     //have got permission
+            try {
+                startActivity(callIntent);  //call activity and make phone call
+            }
+            catch (android.content.ActivityNotFoundException ex){
+                Toast.makeText(getApplicationContext(),"Error: could not place call.",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
+

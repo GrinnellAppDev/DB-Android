@@ -8,13 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.Serializable;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,31 +25,17 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
-
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_ADDRESS_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CAMPUS_PHONE_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CLASS_YEAR_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.CONCENTRATION_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.FAC_STAFF_OFFICE_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.FIRST_NAME_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.HIATUS_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.HOME_ADDRESS_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.LAST_NAME_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.MAJOR_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.SGA_FIELD;
-import static edu.grinnell.appdev.grinnelldirectory.constants.searchConstansts.USERNAME_FIELD;
+import okhttp3.ResponseBody;
 
 
-public class AdvancedSearchFragment extends Fragment implements Serializable, APICallerInterface,
+public class AdvancedSearchFragment extends Fragment implements DbSearchCallback,
         SearchFragmentInterface {
 
     private View view;
@@ -149,27 +135,21 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         if (mProgressDialog != null) {
             return;
         }
-
-        NetworkAPI api = new DBAPICaller(mUser, this);
-
-        //populating searchObject with parameters
-        List<String> searchObject = new ArrayList(14);
-        searchObject.add(FIRST_NAME_FIELD, firstNameText.getText().toString().trim());
-        searchObject.add(LAST_NAME_FIELD, lastNameText.getText().toString());
-        addSpinnerWord(searchObject, studentMajorSpinner, MAJOR_FIELD);
-        addSpinnerWord(searchObject, studentClassSpinner, CLASS_YEAR_FIELD);
-        addSpinnerWord(searchObject, concentrationSpinner, CONCENTRATION_FIELD);
-        addSpinnerWord(searchObject, sgaSpinner, SGA_FIELD);
-        searchObject.add(USERNAME_FIELD, usernameText.getText().toString());
-        searchObject.add(CAMPUS_PHONE_FIELD, phoneText.getText().toString());
-        addSpinnerWord(searchObject, hiatusSpinner, HIATUS_FIELD);
-        searchObject.add(HOME_ADDRESS_FIELD, homeAddressText.getText().toString());
-        addSpinnerWord(searchObject, facDeptSpinner, FAC_STAFF_OFFICE_FIELD);
-        searchObject.add(CAMPUS_ADDRESS_FIELD, campusAddressText.getText().toString());
-        searchObject.add("");
-        searchObject.add("");
-
-        api.advancedSearch(searchObject);
+        SearchCaller api = new DBAPICaller(this);
+        api.advancedSearch(
+            lastNameText.getText().toString().trim(),
+            firstNameText.getText().toString().trim(),
+            usernameText.getText().toString().trim(),
+            phoneText.getText().toString().trim(),
+            campusAddressText.getText().toString().trim(),
+            homeAddressText.getText().toString().trim(),
+            getSpinnerSelection(studentClassSpinner),
+            getSpinnerSelection(facDeptSpinner),
+            getSpinnerSelection(studentMajorSpinner),
+            getSpinnerSelection(concentrationSpinner),
+            getSpinnerSelection(sgaSpinner),
+            getSpinnerSelection(hiatusSpinner)
+        );
         startProgressDialog();
     }
 
@@ -189,49 +169,13 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
         facDeptSpinner.setSelection(0);
     }
 
-    public void addSpinnerWord(List<String> searchObject, Spinner spin, int fieldNumber) {
-        if (spin.getSelectedItemPosition() == 0)
-            searchObject.add(fieldNumber, "");
-        else
-            searchObject.add(fieldNumber, spin.getSelectedItem().toString());
-    }
-
-    /**
-     * Bundle people and move to SearchResults Activity if search successful
-     *
-     * @param people List of person models
-     */
-    @Override
-    public void onSearchSuccess(List<Person> people) {
-        stopProgressDialog();
-        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    @Override
-    public void authenticateUserCallSuccess(boolean success, Person person) {
-        // Intentionally left blank
-        // The api should never call an authentication callback after a search is requested
-    }
-
-    /**
-     * Show an error message if the server returns an error
-     *
-     * @param failMessage error description
-     */
-    @Override
-    public void onServerFailure(String failMessage) {
-        stopProgressDialog();
-        showAlert(serverFailure, failMessage);
-    }
-
-    @Override
-    public void onNetworkingError(String failMessage) {
-        stopProgressDialog();
-        showAlert(networkingError, failMessage);
+    public String getSpinnerSelection(Spinner spinner) {
+        Object item = spinner.getSelectedItem();
+        if (item == null) {
+            return "";
+        } else {
+            return item.toString();
+        }
     }
 
     private void showAlert(String label, String message) {
@@ -257,5 +201,27 @@ public class AdvancedSearchFragment extends Fragment implements Serializable, AP
             mProgressDialog.cancel();
             mProgressDialog = null;
         }
+    }
+
+    @Override public void onSuccess(List<Person> people) {
+        stopProgressDialog();
+        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+        intent.putExtra(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
+        startActivity(intent);
+    }
+
+    @Override public void onServerError(int code, ResponseBody error) {
+        stopProgressDialog();
+        try {
+            String errorMessage = error.string();
+            showAlert(serverFailure, errorMessage);
+        } catch (IOException e) {
+            showAlert(serverFailure, String.valueOf(code));
+        }
+    }
+
+    @Override public void onNetworkError(String errorMessage) {
+        stopProgressDialog();
+        showAlert(networkingError, errorMessage);
     }
 }

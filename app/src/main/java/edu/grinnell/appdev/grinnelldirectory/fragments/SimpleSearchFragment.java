@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindString;
@@ -21,19 +22,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnEditorAction;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.DBScraperCaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
+import okhttp3.ResponseBody;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 
-public class SimpleSearchFragment extends Fragment implements APICallerInterface,
+public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
         SearchFragmentInterface {
 
     private View view;
@@ -91,15 +91,9 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
         String firstName = mFirstNameEditText.getText().toString().trim();
         String lastName = mLastNameEditText.getText().toString().trim();
 
-        NetworkAPI api = new DBAPICaller(mUser, this);
+        SearchCaller api = new DBAPICaller(this);
 
-        List<String> query = new ArrayList();
-        query.add(firstName);
-        query.add(lastName);
-        query.add("");
-        query.add("");
-
-        api.simpleSearch(query);
+        api.simpleSearch(lastName, firstName, "", "");
         startProgressDialog();
     }
 
@@ -107,55 +101,6 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
     public void clear() {
         mFirstNameEditText.setText("");
         mLastNameEditText.setText("");
-    }
-
-    /**
-     * Bundle people and move to SearchResults Activity if search successful
-     *
-     * @param people List of person models
-     */
-    @Override
-    public void onSearchSuccess(List<Person> people) {
-        stopProgressDialog();
-        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    @Override
-    public void authenticateUserCallSuccess(boolean success, Person person) {
-        // Intentionally left blank
-        // The api should never call an authentication callback after a search is requested
-    }
-
-    /**
-     * Show an error message if the server returns an error
-     *
-     * @param failMessage error description
-     */
-    @BindString(R.string.server_failure)
-    String serverFailure;
-
-    @Override
-    public void onServerFailure(String failMessage) {
-        stopProgressDialog();
-        showAlert(serverFailure, failMessage);
-    }
-
-    /**
-     * Show an error message if the network has an error
-     *
-     * @param failMessage error description
-     */
-    @BindString(R.string.networking_error)
-    String networkingError;
-
-    @Override
-    public void onNetworkingError(String failMessage) {
-        stopProgressDialog();
-        showAlert(networkingError, failMessage);
     }
 
     private void showAlert(String label, String message) {
@@ -181,5 +126,31 @@ public class SimpleSearchFragment extends Fragment implements APICallerInterface
             mProgressDialog.cancel();
             mProgressDialog = null;
         }
+    }
+
+    @Override public void onSuccess(List<Person> people) {
+        stopProgressDialog();
+        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+        intent.putExtra(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
+        startActivity(intent);
+    }
+
+    @BindString(R.string.server_failure)
+    String serverFailure;
+    @Override public void onServerError(int code, ResponseBody error) {
+        stopProgressDialog();
+        try {
+            String errorMessage = error.string();
+            showAlert(serverFailure, errorMessage);
+        } catch (IOException e) {
+            showAlert(serverFailure, String.valueOf(code));
+        }
+    }
+
+    @BindString(R.string.networking_error)
+    String networkingError;
+    @Override public void onNetworkError(String errorMessage) {
+        stopProgressDialog();
+        showAlert(networkingError, errorMessage);
     }
 }

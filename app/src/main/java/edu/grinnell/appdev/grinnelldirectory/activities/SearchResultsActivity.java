@@ -6,15 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
-import java.util.List;
-
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchResultsAdapter;
-import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 
 public class SearchResultsActivity extends AppCompatActivity {
-    private List<Person> mPeopleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +19,12 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView rvSearchResults = (RecyclerView) findViewById(R.id.rvSearchResults);
-        SearchResultsAdapter adapter = new SearchResultsAdapter(this, mPeopleList);
+        SimpleResult result = getIntent().getParcelableExtra(SimpleResult.SIMPLE_KEY);
+
+        RecyclerView rvSearchResults = findViewById(R.id.rvSearchResults);
+        SearchResultsAdapter adapter = new SearchResultsAdapter(this, result.getPeople());
         rvSearchResults.setAdapter(adapter);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
-
-        SimpleResult result = getIntent().getParcelableExtra(SimpleResult.SIMPLE_KEY);
-        adapter.updateData(result.getPeople());
     }
 
     @Override

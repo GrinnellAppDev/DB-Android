@@ -19,6 +19,7 @@ import edu.grinnell.appdev.grinnelldirectory.EncryptionUtils;
  * <code>saveCredentialsEncrypt</code> or <code>deleteCredentials</code>.
  */
 
+@Deprecated
 public class User {
 
     private final static String PREF_USER = "PREF_USER";

@@ -16,8 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.NetworkAPI;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
+
 import java.io.Serializable;
 
 import butterknife.BindView;
@@ -30,9 +32,14 @@ import edu.grinnell.appdev.grinnelldirectory.models.User;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import okhttp3.ResponseBody;
+
+/**
+ * Parent activity of the simple and advanced search fragments
+ */
 
 public class SearchPagerActivity extends AppCompatActivity implements Serializable,
-    APICallerInterface {
+    DbSearchCallback {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -137,15 +144,8 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         mConnectionProgress.setVisibility(View.VISIBLE);
         mErrorMessage.setVisibility(View.INVISIBLE);
         mRetryButton.setVisibility(View.INVISIBLE);
-        List<String> query = new ArrayList<>();
-        // this query uses this first and last name to avoid getting any results in case the call is successful
-        query.add("aaaaaaaaaaaaaa");
-        query.add("zzzzzzzzzzzzzz");
-        query.add("");
-        query.add("");
-
-        NetworkAPI api = new DBAPICaller(mUser, this);
-        api.simpleSearch(query);
+        SearchCaller api = new DBAPICaller(this);
+        api.simpleSearch("fakeName", "fakeNAme", "fakeMajor", "0");
     }
 
     private void setupUiElements() {
@@ -166,25 +166,21 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         finish();
     }
 
-    @Override public void onSearchSuccess(List<Person> people) {
+    @Override public void onSuccess(List<Person> people) {
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mTabLayout.setVisibility(View.VISIBLE);
         mViewPager.setVisibility(View.VISIBLE);
         mSearchFab.setVisibility(View.VISIBLE);
     }
 
-    @Override public void authenticateUserCallSuccess(boolean success, Person person) {
-        // Intentionally left blank
-    }
-
-    @Override public void onServerFailure(String fail_message) {
+    @Override public void onServerError(int code, ResponseBody error) {
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
         mErrorMessage.setText(R.string.server_failure);
     }
 
-    @Override public void onNetworkingError(String fail_message) {
+    @Override public void onNetworkError(String errorMessage) {
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
