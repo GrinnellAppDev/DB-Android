@@ -4,6 +4,7 @@ import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchAPI;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
+import edu.grinnell.appdev.grinnelldirectory.models.Query;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,5 +83,22 @@ public class DBAPICaller implements SearchCaller {
                 callback.onNetworkError(t.toString());
             }
         });
+    }
+
+    @Override public void advancedSearch(Query query) {
+        advancedSearch(
+            query.getLastName(),
+            query.getFirstName(),
+            query.getUserName(),
+            query.getCampusPhone(),
+            query.getCampusAddress(),
+            query.getHomeAddress(),
+            query.getClassYear(),
+            query.getFacStaffOffice(),
+            query.getMajor(),
+            query.getConcentration(),
+            query.getSgaPosition(),
+            query.getOnHiatus()
+        );
     }
 }

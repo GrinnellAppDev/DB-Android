@@ -3,9 +3,9 @@
     package="edu.grinnell.appdev.grinnelldirectory">
 
     <!-- used for scraping web -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- used for starting call from app -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:name=".DBApplication"
@@ -24,18 +24,26 @@
         </activity>
         <activity
             android:name=".activities.DetailActivity"
-            android:label="@string/title_activity_detail" />
+            android:label="@string/title_activity_detail"/>
         <activity
             android:name=".activities.SearchPagerActivity"
             android:theme="@style/SearchActivityTheme"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="45894d9e8a6bc3b8513651d6de36159e2c836e51" />
+            android:value="45894d9e8a6bc3b8513651d6de36159e2c836e51"/>
+
+        <activity
+            android:name=".activities.ResultsActivity"
+            android:label="@string/title_activity_search_results">
+        </activity>
     </application>
+
 </manifest>

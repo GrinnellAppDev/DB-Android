@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.grinnell.appdev.grinnelldirectory.activities.ResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
+import edu.grinnell.appdev.grinnelldirectory.models.Query;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -83,6 +85,18 @@ public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
      */
     @Override
     public void search() {
+        Query query = new Query();
+        query.setFirstName(mFirstNameEditText.getText().toString().trim());
+        query.setLastName(mLastNameEditText.getText().toString().trim());
+        Intent intent = new Intent(getActivity(), ResultsActivity.class);
+        intent.putExtra(Query.QUERY_KEY, query);
+        startActivity(intent);
+
+        /*
+
+        // new code above
+        // old code below
+
         if (mProgressDialog != null) {
             return;
         }
@@ -95,6 +109,8 @@ public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
 
         api.simpleSearch(lastName, firstName, "", "");
         startProgressDialog();
+
+        */
     }
 
     @Override
