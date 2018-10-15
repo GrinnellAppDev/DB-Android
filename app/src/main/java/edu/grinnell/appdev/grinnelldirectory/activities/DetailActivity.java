@@ -2,11 +2,13 @@ package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.Pair;
@@ -203,7 +205,7 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                safeFinish();
                 break;
             case R.id.action_email:
                 sendEmail();
@@ -212,6 +214,14 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void safeFinish() {
+        if (Build.VERSION.SDK_INT < 21) {
+            finish();
+        } else {
+            finishAfterTransition();
+        }
     }
 
     @Override
