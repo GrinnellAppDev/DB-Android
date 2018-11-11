@@ -1,9 +1,11 @@
 package edu.grinnell.appdev.grinnelldirectory.models;
 
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import edu.grinnell.appdev.grinnelldirectory.R;
 import java.util.List;
 
 public class Person implements Parcelable {
@@ -283,5 +285,15 @@ public class Person implements Parcelable {
         dest.writeString(office_box);
         dest.writeString(position_name);
         dest.writeStringList(office_hours);
+    }
+
+    public String formattedEmail(Context context) {
+        if (userName == null || userName.isEmpty()) {
+            if (email == null || email.indexOf('@') == -1) {
+                return null;
+            }
+            userName = email.substring(0, email.indexOf('@'));
+        }
+        return context.getString(R.string.email_shorthand, userName);
     }
 }

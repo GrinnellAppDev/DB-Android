@@ -2,7 +2,6 @@ package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
@@ -94,11 +94,12 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        person = getIntent().getParcelableExtra(Person.PERSON_KEY);
-        //Bundle extras = getIntent().getExtras();
-        //p = (Person) extras.getSerializable(Person.PERSON_KEY);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
+        person = getIntent().getParcelableExtra(Person.PERSON_KEY);
         if (person != null) {
             setFields();
         }
@@ -123,14 +124,7 @@ public class DetailActivity extends AppCompatActivity {
             classYear.setText(String.valueOf(year));
         }
 
-        String un = person.getUserName();
-        if (un == null || un.isEmpty()) {
-            String email = person.getEmail();
-            String unFromEmail = email.substring(0, email.indexOf('@'));
-            username.setText(getString(R.string.email_shorthand, unFromEmail));
-        } else {
-            username.setText(getString(R.string.email_shorthand, un));
-        }
+        username.setText(person.formattedEmail(this));
 
         String mjr = person.getMajor();
         if (mjr == null || mjr.isEmpty()) {
