@@ -29,6 +29,23 @@ public class Query implements Parcelable {
 
     public Query() {}
 
+    public Query(String lastName, String firstName, String userName, String campusPhone,
+        String campusAddress, String homeAddress, String classYear, String facStaffOffice,
+        String major, String concentration, String sgaPosition, String onHiatus) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.userName = userName;
+        this.campusPhone = campusPhone;
+        this.campusAddress = campusAddress;
+        this.homeAddress = homeAddress;
+        this.classYear = classYear;
+        this.facStaffOffice = facStaffOffice;
+        this.major = major;
+        this.concentration = concentration;
+        this.sgaPosition = sgaPosition;
+        this.onHiatus = onHiatus;
+    }
+
     protected Query(Parcel in) {
         lastName = in.readString();
         firstName = in.readString();
