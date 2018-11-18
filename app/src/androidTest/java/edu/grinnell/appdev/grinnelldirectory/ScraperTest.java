@@ -16,11 +16,11 @@ import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+//import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-
+/*
 @RunWith(AndroidJUnit4.class)
 public class ScraperTest {
 
@@ -223,3 +223,4 @@ public class ScraperTest {
         latch.await();
     }
 }
+*/

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-
+/*
 @RunWith(AndroidJUnit4.class)
 public class NetworkingTest {
     @Test
@@ -220,3 +220,4 @@ public class NetworkingTest {
         latch.await();
     }
 }
+*/

@@ -21,6 +21,10 @@
         <activity
             android:name=".activities.SearchResultsActivity"
             android:label="@string/title_activity_search_results">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.DetailActivity"
@@ -29,11 +33,9 @@
             android:name=".activities.SearchPagerActivity"
             android:theme="@style/SearchActivityTheme"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- real main activity -->
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="45894d9e8a6bc3b8513651d6de36159e2c836e51" />

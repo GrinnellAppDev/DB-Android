@@ -9,7 +9,7 @@ public class DBApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
 
         if (!EncryptionUtils.isEncryptionKeySet(this)) {
             EncryptionUtils.setAppEncryptionKey(this, "" + System.currentTimeMillis());
