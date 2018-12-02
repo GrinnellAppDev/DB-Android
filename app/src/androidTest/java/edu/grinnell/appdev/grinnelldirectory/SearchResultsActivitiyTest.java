@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.rules.*;
+import org.junit.rules.TestRule;
 
 import java.io.IOException;
 import java.io.InputStream;
