@@ -58,7 +58,7 @@ public class AdvancedSearchFragment extends Fragment implements /*DbSearchCallba
     @Override
     public View onCreateView(
         @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_advanced_search, container);
+        View view = inflater.inflate(R.layout.fragment_advanced_search, container, false);
         ButterKnife.bind(this, view);
 
         return view;
