@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
@@ -28,7 +27,6 @@ import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
-import edu.grinnell.appdev.grinnelldirectory.models.User;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,19 +54,11 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     @BindView(R.id.connection_progress)
     ProgressBar mConnectionProgress;
 
-    private User mUser;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
-
-        try {
-            mUser = User.getUser(this);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
 
         setupUiElements();
         setAnimation();
@@ -91,7 +81,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
 
         switch (id) {
             case R.id.action_logout:
-                logoutAndRedirect();
                 break;
             case R.id.action_clear:
                 SearchFragmentInterface searchFragmentInterface = getCurrentSearchInterface();
@@ -153,17 +142,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
 
         mViewPager.setAdapter(new SearchPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
-    }
-
-    private void logoutAndRedirect() {
-        User.deleteCredentials(this);
-        // send user to the login screen
-        Intent intent = new Intent(this, LoginActivity.class);
-        // clear the back stack
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(getString(R.string.calling_class), SearchPagerActivity.class.toString());
-        startActivity(intent);
-        finish();
     }
 
     @Override public void onSuccess(List<Person> people) {
