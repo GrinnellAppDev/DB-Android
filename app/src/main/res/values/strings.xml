@@ -63,6 +63,7 @@
     <string name="home_address">Home Address</string>
     <string name="detailed_search">Detailed Search</string>
     <string name="simple_search">Simple Search</string>
+    <string name="menu_about">About</string>
 
     <string-array name="facultydeptarray">
         <item>Any Faculty Department</item>

@@ -80,14 +80,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_logout:
-                break;
-            case R.id.action_clear:
-                SearchFragmentInterface searchFragmentInterface = getCurrentSearchInterface();
-                if (searchFragmentInterface != null) {
-                    searchFragmentInterface.clear();
-                }
-                break;
             case R.id.action_about:
                 // pop up a dialog fragment that has a description of the app and how to use it.
                 finish();

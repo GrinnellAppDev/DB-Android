@@ -2,17 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_clear"
-        android:icon="@drawable/ic_clear_all_white_24dp"
-        android:orderInCategory="1"
-        android:title="Clear"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_about"
-        android:orderInCategory="2"
-        android:title="About" />
-    <item
-        android:id="@+id/action_logout"
-        android:orderInCategory="3"
-        android:title="Logout" />
+        android:title="@string/menu_about" />
 </menu>
