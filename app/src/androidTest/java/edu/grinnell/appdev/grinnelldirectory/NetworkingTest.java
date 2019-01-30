@@ -89,7 +89,7 @@ public class NetworkingTest {
         // Works
         apiCaller.simpleSearch(test_list_1);
         // Works
-        apiCaller.advancedSearch(test_list_3);
+        apiCaller.search(test_list_3);
 
         latch.await();
     }
@@ -158,7 +158,7 @@ public class NetworkingTest {
         apiCaller.simpleSearch(test_list_1);
 
         // "No "
-        apiCaller.advancedSearch(test_list_3);
+        apiCaller.search(test_list_3);
 
         latch.await();
 
@@ -215,7 +215,7 @@ public class NetworkingTest {
 
         // "Search returned too many records.  Please narrow your search and try again."
         apiCaller.simpleSearch(test_list_4);
-        apiCaller.advancedSearch(test_list_4);
+        apiCaller.search(test_list_4);
 
         latch.await();
     }

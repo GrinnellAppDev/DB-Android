@@ -2,6 +2,7 @@ package edu.grinnell.appdev.grinnelldirectory.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,19 +16,16 @@ import android.widget.TextView;
 import edu.grinnell.appdev.grinnelldirectory.activities.ResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.models.Query;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 
 
-public class AdvancedSearchFragment extends Fragment implements /*DbSearchCallback,*/
-        SearchFragmentInterface {
+public class AdvancedSearchFragment extends Fragment implements SearchFragmentInterface {
 
     @BindView(R.id.first_text)
     TextView firstNameText;
@@ -64,26 +62,31 @@ public class AdvancedSearchFragment extends Fragment implements /*DbSearchCallba
         return view;
     }
 
-    public void setupSpinner(List<String> list, Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, list);
-        //dataAdapter.setDropDownViewResource(R.layout.spinner_item);
-        spinner.setAdapter(dataAdapter);
+    private void setupSpinnerStatic(Spinner spinner, @ArrayRes int resId) {
+        spinner.setAdapter(ArrayAdapter.createFromResource(getContext(), resId, R.layout.spinner_item));
+    }
+
+    private void setupSpinnerDynamic(Spinner spinner, List<String> list) {
+        spinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item, list));
     }
 
     public ArrayList<String> getYears() {
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        ArrayList<String> years = new ArrayList<String>();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        ArrayList<String> years = new ArrayList<>();
         years.add("Any Class Year");
 
-        if (month > 7)
-            year = year + 1;
+        // If it is the fall semester, the current 4th years graduate next year, not this year
+        int nextGraduation;
+        if (currentMonth > 7) {
+            nextGraduation = currentYear + 1;
+        } else {
+            nextGraduation = currentYear;
+        }
 
         for (int i = 0; i < 4; i++) {
-            if (i != 0)
-                year = year + 1;
-            years.add(Integer.toString(year));
+            years.add(Integer.toString(nextGraduation + i));
         }
         return years;
     }
@@ -91,17 +94,12 @@ public class AdvancedSearchFragment extends Fragment implements /*DbSearchCallba
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<String> facDept = Arrays.asList(getResources().getStringArray(R.array.facultydeptarray));
-        List<String> studMajor = Arrays.asList(getResources().getStringArray(R.array.studentmajorarray));
-        List<String> studConc = Arrays.asList(getResources().getStringArray(R.array.studentconcentrationarray));
-        List<String> sgaPos = Arrays.asList(getResources().getStringArray(R.array.sgaarray));
-        List<String> hiatusStat = Arrays.asList(getResources().getStringArray(R.array.hiatusarray));
-        setupSpinner(getYears(), studentClassSpinner);
-        setupSpinner(facDept, facDeptSpinner);
-        setupSpinner(studMajor, studentMajorSpinner);
-        setupSpinner(studConc, concentrationSpinner);
-        setupSpinner(sgaPos, sgaSpinner);
-        setupSpinner(hiatusStat, hiatusSpinner);
+        setupSpinnerDynamic(studentClassSpinner, getYears());
+        setupSpinnerStatic(facDeptSpinner, R.array.facultydeptarray);
+        setupSpinnerStatic(studentMajorSpinner, R.array.studentmajorarray);
+        setupSpinnerStatic(concentrationSpinner, R.array.studentconcentrationarray);
+        setupSpinnerStatic(sgaSpinner, R.array.sgaarray);
+        setupSpinnerStatic(hiatusSpinner, R.array.hiatusarray);
     }
 
     @Override
@@ -113,12 +111,12 @@ public class AdvancedSearchFragment extends Fragment implements /*DbSearchCallba
             phoneText.getText().toString().trim(),
             campusAddressText.getText().toString().trim(),
             homeAddressText.getText().toString().trim(),
-            getSpinnerSelection(studentClassSpinner),
-            getSpinnerSelection(facDeptSpinner),
-            getSpinnerSelection(studentMajorSpinner),
-            getSpinnerSelection(concentrationSpinner),
-            getSpinnerSelection(sgaSpinner),
-            getSpinnerSelection(hiatusSpinner)
+            studentClassSpinner.getSelectedItem().toString(),
+            facDeptSpinner.getSelectedItem().toString(),
+            studentMajorSpinner.getSelectedItem().toString(),
+            concentrationSpinner.getSelectedItem().toString(),
+            sgaSpinner.getSelectedItem().toString(),
+            hiatusSpinner.getSelectedItem().toString()
         );
         Intent intent = new Intent(getActivity(), ResultsActivity.class);
         intent.putExtra(Query.QUERY_KEY, query);
@@ -139,14 +137,5 @@ public class AdvancedSearchFragment extends Fragment implements /*DbSearchCallba
         sgaSpinner.setSelection(0);
         hiatusSpinner.setSelection(0);
         facDeptSpinner.setSelection(0);
-    }
-
-    public String getSpinnerSelection(Spinner spinner) {
-        Object item = spinner.getSelectedItem();
-        if (item == null) {
-            return "";
-        } else {
-            return item.toString();
-        }
     }
 }

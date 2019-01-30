@@ -1,6 +1,5 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -19,6 +18,7 @@ import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
+import edu.grinnell.appdev.grinnelldirectory.models.Query;
 import java.io.Serializable;
 
 import butterknife.BindView;
@@ -27,8 +27,6 @@ import butterknife.OnClick;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.List;
 import okhttp3.ResponseBody;
 
@@ -126,7 +124,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         mErrorMessage.setVisibility(View.INVISIBLE);
         mRetryButton.setVisibility(View.INVISIBLE);
         SearchCaller api = new DBAPICaller(this);
-        api.simpleSearch("fakeName", "fakeNAme", "fakeMajor", "0");
+        api.search(Query.dummy());
     }
 
     private void setupUiElements() {

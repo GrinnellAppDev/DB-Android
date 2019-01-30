@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
@@ -22,6 +23,7 @@ import okhttp3.ResponseBody;
 public class ResultsActivity extends AppCompatActivity implements DbSearchCallback {
 
     @BindView(R.id.results_recycler_view) RecyclerView resultsRecyclerView;
+    @BindView(R.id.connection_progress) ProgressBar progressBar;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class ResultsActivity extends AppCompatActivity implements DbSearchCallba
 
         Query query = getIntent().getParcelableExtra(Query.QUERY_KEY);
         SearchCaller api = new DBAPICaller(this);
-        api.advancedSearch(query);
+        api.search(query);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class ResultsActivity extends AppCompatActivity implements DbSearchCallba
         resultsRecyclerView.setAdapter(adapter);
         resultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         resultsRecyclerView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override public void onServerError(int code, ResponseBody error) {

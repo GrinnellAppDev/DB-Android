@@ -46,7 +46,15 @@ public class Query implements Parcelable {
         this.onHiatus = onHiatus;
     }
 
-    protected Query(Parcel in) {
+    /** @return A fake Query that doesn't match any real database entry */
+    public static Query dummy() {
+        Query query = new Query();
+        query.setFirstName("fakefirstname");
+        query.setLastName("fakelastname");
+        return query;
+    }
+
+    private Query(Parcel in) {
         lastName = in.readString();
         firstName = in.readString();
         userName = in.readString();
