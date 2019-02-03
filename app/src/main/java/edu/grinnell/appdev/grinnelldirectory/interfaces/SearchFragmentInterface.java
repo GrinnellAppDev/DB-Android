@@ -11,9 +11,4 @@ public interface SearchFragmentInterface {
      */
     void search();
 
-    /**
-     * Clear all search fields in the UI
-     */
-    void clear();
-
 }

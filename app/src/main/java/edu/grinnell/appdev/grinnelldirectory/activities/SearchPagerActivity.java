@@ -59,7 +59,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         ButterKnife.bind(this);
 
         setupUiElements();
-        setAnimation();
         testConnection();
     }
 
@@ -99,23 +98,6 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     private SearchFragmentInterface getCurrentSearchInterface() {
         SearchPagerAdapter searchPagerAdapter = (SearchPagerAdapter) mViewPager.getAdapter();
         return searchPagerAdapter.getCurrentFragment();
-    }
-
-
-    private void setAnimation() {
-        try {
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                String callingClass = extras.getString(getString(R.string.calling_class));
-                if (callingClass != null) {
-                    if (callingClass.contains(getString(R.string.login_activity))) {
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @OnClick(R.id.retry_button)

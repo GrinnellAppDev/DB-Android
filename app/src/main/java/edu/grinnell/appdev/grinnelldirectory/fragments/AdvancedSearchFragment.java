@@ -122,20 +122,4 @@ public class AdvancedSearchFragment extends Fragment implements SearchFragmentIn
         intent.putExtra(Query.QUERY_KEY, query);
         startActivity(intent);
     }
-
-    @Override
-    public void clear() {
-        firstNameText.setText("");
-        lastNameText.setText("");
-        usernameText.setText("");
-        phoneText.setText("");
-        homeAddressText.setText("");
-        campusAddressText.setText("");
-        studentMajorSpinner.setSelection(0);
-        studentClassSpinner.setSelection(0);
-        concentrationSpinner.setSelection(0);
-        sgaSpinner.setSelection(0);
-        hiatusSpinner.setSelection(0);
-        facDeptSpinner.setSelection(0);
-    }
 }

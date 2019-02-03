@@ -57,9 +57,6 @@ public class SimpleSearchFragment extends Fragment implements SearchFragmentInte
         return true; // consumed action
     }
 
-    /**
-     * Execute a simple search
-     */
     @Override
     public void search() {
         Query query = new Query();
@@ -68,12 +65,6 @@ public class SimpleSearchFragment extends Fragment implements SearchFragmentInte
         Intent intent = new Intent(getActivity(), ResultsActivity.class);
         intent.putExtra(Query.QUERY_KEY, query);
         startActivity(intent);
-    }
-
-    @Override
-    public void clear() {
-        mFirstNameEditText.setText("");
-        mLastNameEditText.setText("");
     }
 
 }
