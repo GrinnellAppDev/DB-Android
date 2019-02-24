@@ -1,6 +1,7 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.BaseInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,11 +37,12 @@ import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final int ANIMATION_DURATION = 500;
+    public static final int ANIMATION_DURATION = 300;
 
     private Person person;
     boolean isImageZoomed;
     private Pair<Float, Float> zoomedPicTranslate;
+    private Interpolator interpolator = new DecelerateInterpolator();
 
     @BindView(R.id.relative_layout)
     View relativeLayout;
@@ -259,7 +264,7 @@ public class DetailActivity extends AppCompatActivity {
         Animation animDarken = new AlphaAnimation(from, to);
         animDarken.setFillAfter(true);
         animDarken.setDuration(ANIMATION_DURATION);
-        animDarken.setInterpolator(new OvershootInterpolator());
+        animDarken.setInterpolator(interpolator);
         target.startAnimation(animDarken);
     }
 
@@ -268,8 +273,8 @@ public class DetailActivity extends AppCompatActivity {
         ObjectAnimator animScaleNewY = ObjectAnimator.ofFloat(target, "scaleY", from, to);
         animScaleNewX.setDuration(ANIMATION_DURATION);
         animScaleNewY.setDuration(ANIMATION_DURATION);
-        animScaleNewX.setInterpolator(new OvershootInterpolator());
-        animScaleNewY.setInterpolator(new OvershootInterpolator());
+        animScaleNewX.setInterpolator(interpolator);
+        animScaleNewY.setInterpolator(interpolator);
         animScaleNewX.start();
         animScaleNewY.start();
     }
@@ -279,8 +284,8 @@ public class DetailActivity extends AppCompatActivity {
         ObjectAnimator animTransNewY = ObjectAnimator.ofFloat(target, "translationY", fromHeight, toHeight);
         animTransNewX.setDuration(ANIMATION_DURATION);
         animTransNewY.setDuration(ANIMATION_DURATION);
-        animTransNewX.setInterpolator(new OvershootInterpolator());
-        animTransNewY.setInterpolator(new OvershootInterpolator());
+        animTransNewX.setInterpolator(interpolator);
+        animTransNewY.setInterpolator(interpolator);
         animTransNewX.start();
         animTransNewY.start();
     }
