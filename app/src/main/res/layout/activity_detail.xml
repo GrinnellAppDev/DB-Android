@@ -212,33 +212,4 @@
 
     </android.support.v7.widget.CardView>
 
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        app:backgroundTint="@color/primaryLight"
-        android:src="@drawable/ic_more_white_32px"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="70dp"
-        app:backgroundTint="@color/primaryLight"
-        android:src="@drawable/ic_mail_white_24px"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="140dp"
-        app:backgroundTint="@color/primaryLight"
-        android:src="@drawable/ic_phone_call_white_24px"/>-->
-
 </RelativeLayout>
