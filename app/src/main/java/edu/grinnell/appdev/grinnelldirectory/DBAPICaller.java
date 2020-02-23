@@ -53,6 +53,7 @@ public class DBAPICaller implements SearchCaller {
         String campusPhone, String campusAddress, String homeAddress, String classYear,
         String facStaffOffice, String major, String concentration, String sgaPosition,
         String onHiatus) {
+        // api call
         Call<List<Person>> call = searchEndpoint.advancedSearch(
             lastName,
             firstName,

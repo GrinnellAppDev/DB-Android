@@ -9,6 +9,8 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -74,8 +76,7 @@ dependencies {
     // READING JSON DUMMY DATA FILE
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
-android{ configurations.all { resolutionStrategy.force "junit:junit:4.8.2" } }
-
-
+android { configurations.all { resolutionStrategy.force "junit:junit:4.8.2" } }
