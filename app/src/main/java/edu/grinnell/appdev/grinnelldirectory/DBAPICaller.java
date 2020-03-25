@@ -1,8 +1,11 @@
 package edu.grinnell.appdev.grinnelldirectory;
 
+import android.util.Log;
+
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchAPI;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
+import edu.grinnell.appdev.grinnelldirectory.models.DBRespoonse;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import java.util.List;
 import retrofit2.Call;
@@ -17,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DBAPICaller implements SearchCaller {
 
-    private static final String BASE_URL = "https://www.cs.grinnell.edu/~pandeyan/appdev/";
+    private static final String BASE_URL = "https://appdev.grinnell.edu/api/db/v1/";
 
     private DbSearchAPI searchEndpoint;
     private DbSearchCallback callback;
@@ -32,7 +35,7 @@ public class DBAPICaller implements SearchCaller {
     }
 
     @Override
-    public void simpleSearch(String lastName, String firstName, String major, String classYear) {
+    public void simpleSearch(String lastName, String firstName, String major, String classYear, String cookie) {
         advancedSearch(
             lastName,
             firstName,
@@ -40,37 +43,30 @@ public class DBAPICaller implements SearchCaller {
             "",
             "",
             "",
-            classYear,
-            "",
-            major,
             "",
             "",
-            ""
+             cookie
         );
     }
 
     @Override public void advancedSearch(String lastName, String firstName, String userName,
-        String campusPhone, String campusAddress, String homeAddress, String classYear,
-        String facStaffOffice, String major, String concentration, String sgaPosition,
-        String onHiatus) {
-        Call<List<Person>> call = searchEndpoint.advancedSearch(
+        String phone, String address,String classYear, String major, String sga, String cookie) {
+        Call<DBRespoonse> call = searchEndpoint.advancedSearch(
             lastName,
             firstName,
             userName,
-            campusPhone,
-            campusAddress,
-            homeAddress,
+            phone,
+            address,
             classYear,
-            facStaffOffice,
             major,
-            concentration,
-            sgaPosition,
-            onHiatus
+            sga,
+            cookie
         );
-        call.enqueue(new Callback<List<Person>>() {
+        call.enqueue(new Callback<DBRespoonse>() {
             @Override
-            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+            public void onResponse(Call<DBRespoonse> call, Response<DBRespoonse> response) {
                 if (response.isSuccessful()) {
+                    Log.e("response", response.body().toString());
                     callback.onSuccess(response.body());
                 } else {
                     callback.onServerError(response.code(), response.errorBody());
@@ -78,7 +74,9 @@ public class DBAPICaller implements SearchCaller {
                 }
             }
 
-            @Override public void onFailure(Call<List<Person>> call, Throwable t) {
+            @Override public void onFailure(Call<DBRespoonse> call, Throwable t) {
+                Log.e("error", call.toString());
+                Log.e("error", t.getMessage());
                 callback.onNetworkError(t.toString());
             }
         });

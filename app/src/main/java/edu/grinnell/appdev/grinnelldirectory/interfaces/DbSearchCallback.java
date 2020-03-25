@@ -1,5 +1,6 @@
 package edu.grinnell.appdev.grinnelldirectory.interfaces;
 
+import edu.grinnell.appdev.grinnelldirectory.models.DBRespoonse;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import java.util.List;
 import okhttp3.ResponseBody;
@@ -11,7 +12,7 @@ import okhttp3.ResponseBody;
 
 public interface DbSearchCallback {
 
-    void onSuccess(List<Person> people);
+    void onSuccess(DBRespoonse respoonse);
 
     void onServerError(int code, ResponseBody error);
 

@@ -10,19 +10,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="edu.grinnell.appdev.grinnelldirectory.activities.LoginActivity">
 
+    <WebView
+        android:id="@+id/login_webview"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <EditText
+        android:visibility="invisible"
         android:id="@+id/username"
         android:hint="@string/prompt_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:visibility="invisible"
         android:id="@+id/password"
         android:hint="@string/prompt_password_required"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/username" />
+
+    <TextView
+        android:id="@+id/login_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You need to login to your Grinnell Account to start using Grinnell DB!" />
 
     <Button
         android:id="@+id/login"

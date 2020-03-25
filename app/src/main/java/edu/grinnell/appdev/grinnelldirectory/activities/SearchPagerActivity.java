@@ -1,12 +1,17 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,6 +23,7 @@ import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
+import edu.grinnell.appdev.grinnelldirectory.models.DBRespoonse;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
 import java.io.Serializable;
@@ -32,6 +38,8 @@ import edu.grinnell.appdev.grinnelldirectory.models.User;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
@@ -57,12 +65,20 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     ProgressBar mConnectionProgress;
 
     private User mUser;
+    int expiredCookie;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
+
+        // Prompt to login when user is not logged in
+        if(!isLoggedIn(this)) {
+            showLoginPrompt(this);
+        }else{
+            Log.e("credential", getLoginCredential());
+        }
 
         try {
             mUser = User.getUser(this);
@@ -90,8 +106,8 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_logout:
-                logoutAndRedirect();
+            case R.id.action_login:
+                loginAndRedirect();
                 break;
             case R.id.action_clear:
                 SearchFragmentInterface searchFragmentInterface = getCurrentSearchInterface();
@@ -114,6 +130,10 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
      */
     @OnClick(R.id.search_fab)
     void onClickSearchFab() {
+        if(!isLoggedIn(this)) {
+            showLoginPrompt(this);
+            return;
+        }
         getCurrentSearchInterface().search();
     }
 
@@ -145,7 +165,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         mErrorMessage.setVisibility(View.INVISIBLE);
         mRetryButton.setVisibility(View.INVISIBLE);
         SearchCaller api = new DBAPICaller(this);
-        api.simpleSearch("fakeName", "fakeNAme", "fakeMajor", "0");
+        api.simpleSearch("fakeName", "fakeNAme", "fakeMajor", "0", getLoginCredential());
     }
 
     private void setupUiElements() {
@@ -166,11 +186,22 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         finish();
     }
 
-    @Override public void onSuccess(List<Person> people) {
+    private void loginAndRedirect() {
+        Intent intent = new Intent(this, WebLoginActivity.class);
+        intent.putExtra("EXPIRED_COOKIE", this.expiredCookie);
+        startActivity(intent);
+    }
+
+    @Override public void onSuccess(DBRespoonse response) {
         mConnectionProgress.setVisibility(View.INVISIBLE);
         mTabLayout.setVisibility(View.VISIBLE);
         mViewPager.setVisibility(View.VISIBLE);
         mSearchFab.setVisibility(View.VISIBLE);
+        if(response.getStatus() == 401) {
+            showLoginPrompt(this);
+            this.expiredCookie = 1;
+            eraseCookie(this);
+        }
     }
 
     @Override public void onServerError(int code, ResponseBody error) {
@@ -185,5 +216,49 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         mErrorMessage.setVisibility(View.VISIBLE);
         mRetryButton.setVisibility(View.VISIBLE);
         mErrorMessage.setText(R.string.no_connection);
+        showLoginPrompt(this);
     }
+
+    /*
+        Methods related to detect login information:
+
+        isLoggedIn : check if login cookie is present
+        eraseCookie : remove login cookie
+        getLoginCredential : get the login cookie
+        showLoginPrompt: show alert dialog to let user login
+
+     */
+    private boolean isLoggedIn(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+        //String credential = getLoginCredential();
+        //Log.e("cookie", credential== null? credential:"");
+        return sharedPref.getString(getString(R.string.sharedprefs_login_cookie_key), null) != null;
+    }
+
+    protected String getLoginCredential() {
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(getString(R.string.sharedprefs_login_cookie_key), null);
+    }
+
+    private void eraseCookie(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.sharedprefs_login_cookie_key), null);
+        editor.commit();
+    }
+
+    public static void showLoginPrompt(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("You are not logged in or your login credential is no longer valid! " +
+                "\n Login first to search in Grinnell Database: click on the three dots from upper right corner and select login.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }

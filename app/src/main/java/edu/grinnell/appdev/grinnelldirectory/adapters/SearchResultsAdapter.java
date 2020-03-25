@@ -70,10 +70,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             viewHolder.username.setText("[" + un + "]");
         }
 
-        int classYear = person.getClassYear();
+        String classYearString = person.getClassYear();
+        int classYear = classYearString != null? Integer.parseInt(person.getClassYear()) : 0;
         if (classYear > 0) {
             viewHolder.classYear.setVisibility(View.VISIBLE);
-            viewHolder.classYear.setText(classYear);
+            viewHolder.classYear.setText(Integer.toString(classYear));
         } else {
             viewHolder.classYear.setVisibility(View.GONE);
         }

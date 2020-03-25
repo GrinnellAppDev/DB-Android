@@ -114,7 +114,8 @@ public class DetailActivity extends AppCompatActivity {
     private void setFields() {
         name.setText(getString(R.string.full_name, person.getFirstName(), person.getLastName()));
 
-        int year = person.getClassYear();
+        String yearString = person.getClassYear();
+        int year = yearString != null? Integer.parseInt(person.getClassYear()) : 0;
         if (year == 0) {
             classYear.setText("");
         } else {
@@ -178,6 +179,7 @@ public class DetailActivity extends AppCompatActivity {
             boxNumber.setText(boxNum);
         }
 
+        /*
         String con = person.getMinor();
         if (con == null || con.isEmpty()) {
             concentration.setVisibility(View.GONE);
@@ -189,7 +191,7 @@ public class DetailActivity extends AppCompatActivity {
             borderConcentration.setVisibility(View.VISIBLE);
             concentration.setText(con);
         }
-
+*/
         String imgPath = person.getImgPath();
         if (imgPath == null || imgPath.isEmpty()) {
             // do something

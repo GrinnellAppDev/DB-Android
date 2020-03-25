@@ -1,5 +1,7 @@
 package edu.grinnell.appdev.grinnelldirectory.interfaces;
 
+import android.os.Bundle;
+
 import java.util.List;
 
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
@@ -10,6 +12,8 @@ import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
 @Deprecated
 public interface APICallerInterface {
+
+    void onResume(Bundle savedInstanceState);
 
     void onSearchSuccess(List<Person> people);
 

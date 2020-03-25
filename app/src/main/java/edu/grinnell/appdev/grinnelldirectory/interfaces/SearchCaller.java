@@ -10,22 +10,20 @@ public interface SearchCaller {
         String lastName,
         String firstName,
         String major,
-        String classYear
+        String classYear,
+        String cookie
     );
 
     void advancedSearch(
         String lastName,
         String firstName,
         String userName,
-        String campusPhone,
-        String campusAddress,
-        String homeAddress,
+        String phone,
+        String address,
         String classYear,
-        String facStaffOffice,
         String major,
-        String concentration,
-        String sgaPosition,
-        String onHiatus
+        String sga,
+        String cookie
     );
 
 }

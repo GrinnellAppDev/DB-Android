@@ -12,6 +12,171 @@ import java.util.List;
 public class Person implements Parcelable {
     public static final String PERSON_KEY = "PERSON_KEY";
 
+    private String imgPath;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String phone;
+    private String email;
+    private String address;
+    private String box;
+    private String type;
+    private String title;
+    private String major;
+    private String department;
+    private String classYear;
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getBox() {
+        return box;
+    }
+
+    public void setBox(String box) {
+        this.box = box;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getClassYear() {
+        return classYear;
+    }
+
+    public void setClassYear(String classYear) {
+        this.classYear = classYear;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(imgPath);
+        dest.writeString(lastName);
+        dest.writeString(firstName);
+        dest.writeString(userName);
+        dest.writeString(phone);
+        dest.writeString(address);
+        dest.writeString(classYear);
+        dest.writeString(major);
+        dest.writeString(box);
+        dest.writeString(email);
+        dest.writeString(address);
+
+    }
+
+    protected Person(Parcel in) {
+        imgPath = in.readString();
+        lastName = in.readString();
+        firstName = in.readString();
+        userName = in.readString();
+        phone = in.readString();
+        address = in.readString();
+        classYear = in.readString();
+        major = in.readString();
+        box = in.readString();
+        email = in.readString();
+        address = in.readString();
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
+
+
+    /*
     private String firstName;
     private String lastName;
     private String nickName;
@@ -36,7 +201,9 @@ public class Person implements Parcelable {
     private String position_name;
     private List<String> office_hours;
 
+
     public Person() {}
+
 
     protected Person(Parcel in) {
         firstName = in.readString();
@@ -73,6 +240,7 @@ public class Person implements Parcelable {
             return new Person[size];
         }
     };
+
 
     public String getFirstName() {
         return firstName;
@@ -258,6 +426,7 @@ public class Person implements Parcelable {
         this.office_hours = office_hours;
     }
 
+    /*
     @Override public int describeContents() {
         return 0;
     }
@@ -287,4 +456,5 @@ public class Person implements Parcelable {
         dest.writeString(position_name);
         dest.writeStringList(office_hours);
     }
+    */
 }

@@ -1,13 +1,19 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -33,27 +39,50 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     EditText mPasswordEditText;
     @BindView(R.id.login)
     Button mSignInButton;
+
+    @BindView(R.id.login_textview)
+    TextView mLoginTextview;
+
+    LoginWebViewClient mLoginWebViewClient;
     ProgressDialog mProgressDialog;
 
     private String username;
     private String password;
+    private final String DB_LOGIN_URL = "https://itwebapps.grinnell.edu/Private/asp/campusdirectory/GcDefault.asp";
+    private final String DB_LOGIN_COOKIE = ".AspNet.Cookies";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
         // authenticate user if they are already logged in
-        if (User.isLoggedIn(this)) {
+        if (isLoggedIn(this)) {
+            Intent newActivity = new Intent(this, SearchPagerActivity.class);
+            this.startActivity(newActivity);
+            /*
             try {
                 login(User.getUser(this));
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
             }
+            */
         }
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        this.mLoginWebViewClient = new LoginWebViewClient(this);
+        ButterKnife.bind(this);
         setAnimation();
+        eraseCookie(this);
+    }
+
+    private boolean isLoggedIn(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(getString(R.string.sharedprefs_login_cookie_key), null) != null;
+    }
+
+    private void eraseCookie(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.sharedprefs_login_cookie_key), null);
+        editor.commit();
     }
 
     public void setAnimation() {
@@ -76,10 +105,21 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
      */
     @OnClick(R.id.login)
     void signInClicked(View view) {
+        /*
         username = mUsernameEditText.getText().toString();
         password = mPasswordEditText.getText().toString();
         User user = new User(username, password);
         login(user);
+        */
+        // Hide textview and buttno
+        mSignInButton.setVisibility(View.INVISIBLE);
+        mLoginTextview.setVisibility(View.INVISIBLE);
+    }
+
+
+    @Override
+    public void onResume(Bundle savedInstanceState) {
+
     }
 
     @Override
@@ -179,4 +219,40 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
         intent.putExtra(getString(R.string.calling_class), getString(R.string.login_activity));
         startActivity(intent);
     }
+
+    public class LoginWebViewClient extends WebViewClient {
+
+        Context appcontext;
+
+        public LoginWebViewClient(Context context){
+            this.appcontext = context;
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+            String allCookies = CookieManager.getInstance().getCookie(url);
+            if(allCookies != null){
+                String[] cookies =allCookies.split(";");
+                for (String cookie : cookies ){
+                    if(cookie.contains(DB_LOGIN_COOKIE)){
+                        String[] loginCookie=cookie.split("=");
+                        //saveCookie(loginCookie[1]);
+                        webView.setVisibility(View.INVISIBLE);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private void saveCookie(String cookie) {
+            SharedPreferences sharedPref = appcontext.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.sharedprefs_login_cookie_key), cookie);
+            editor.commit();
+        }
+
+    }
+
 }

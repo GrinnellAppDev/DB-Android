@@ -1,7 +1,9 @@
 package edu.grinnell.appdev.grinnelldirectory.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.grinnell.appdev.grinnelldirectory.activities.SearchPagerActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -26,6 +29,7 @@ import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
+import edu.grinnell.appdev.grinnelldirectory.models.DBRespoonse;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.SimpleResult;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
@@ -93,7 +97,7 @@ public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
 
         SearchCaller api = new DBAPICaller(this);
 
-        api.simpleSearch(lastName, firstName, "", "");
+        api.simpleSearch(lastName, firstName, "", "", getLoginCredential(getContext()));
         startProgressDialog();
     }
 
@@ -128,10 +132,14 @@ public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
         }
     }
 
-    @Override public void onSuccess(List<Person> people) {
+    @Override public void onSuccess(DBRespoonse response) {
         stopProgressDialog();
+        if(response.getStatus() == 401) {
+            SearchPagerActivity.showLoginPrompt(getContext());
+            return;
+        }
         Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-        intent.putExtra(SimpleResult.SIMPLE_KEY, new SimpleResult(people));
+        intent.putExtra(SimpleResult.SIMPLE_KEY, new SimpleResult(response.getContent()));
         startActivity(intent);
     }
 
@@ -152,5 +160,10 @@ public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
     @Override public void onNetworkError(String errorMessage) {
         stopProgressDialog();
         showAlert(networkingError, errorMessage);
+    }
+
+    protected String getLoginCredential(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.sharedprefs_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(getString(R.string.sharedprefs_login_cookie_key), null);
     }
 }

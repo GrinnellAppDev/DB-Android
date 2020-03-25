@@ -76,6 +76,4 @@ dependencies {
 
 }
 
-android{ configurations.all { resolutionStrategy.force "junit:junit:4.8.2" } }
-
-
+android { configurations.all { resolutionStrategy.force "junit:junit:4.8.2" } }

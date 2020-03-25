@@ -7,7 +7,7 @@ import java.util.List;
  * This is required for Gson to deserialize a list of Person objects from json.
  * This class is only used for parsing local dummy data.
  */
-
+@Deprecated
 public class Persons {
 
     private List<Person> persons;
