@@ -10,7 +10,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.security.GeneralSecurityException;
 
-import edu.grinnell.appdev.grinnelldirectory.EncryptionUtils;
+import static edu.grinnell.appdev.grinnelldirectory.EncryptionUtils.decrypt;
+import static edu.grinnell.appdev.grinnelldirectory.EncryptionUtils.encrypt;
 
 /**
  * The User class represents the user of the app.
@@ -64,8 +65,8 @@ public class User {
      */
     public static User getUser(Context context) throws GeneralSecurityException {
         SharedPreferences preferences = getSharedPreferences(context);
-        String username = EncryptionUtils.decrypt(context, preferences.getString(USERNAME, ""));
-        String password = EncryptionUtils.decrypt(context, preferences.getString(PASSWORD, ""));
+        String username = decrypt(context, preferences.getString(USERNAME, ""));
+        String password = decrypt(context, preferences.getString(PASSWORD, ""));
 
         return new User(username, password);
     }
@@ -95,8 +96,8 @@ public class User {
         if (username == null || password == null) {
             return;
         }
-        String encryptedUsername = EncryptionUtils.encrypt(context, username);
-        String encryptedPassword = EncryptionUtils.encrypt(context, password);
+        String encryptedUsername = encrypt(context, username);
+        String encryptedPassword = encrypt(context, password);
         SharedPreferences preferences = getSharedPreferences(context);
         Editor editor = preferences.edit();
         editor.putString(USERNAME, encryptedUsername);

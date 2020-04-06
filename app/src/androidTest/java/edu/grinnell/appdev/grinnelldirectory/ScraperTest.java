@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ScraperTest {
-
     @Test
     public void testAuthentication() throws Exception {
         // TODO: 2/25/17 Implement!
