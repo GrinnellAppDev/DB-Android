@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
-import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
@@ -24,6 +22,7 @@ import butterknife.OnEditorAction;
 import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.activities.SearchResultsActivity;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
@@ -139,18 +138,36 @@ public class SimpleSearchFragment extends Fragment implements DbSearchCallback,
     String serverFailure;
     @Override public void onServerError(int code, ResponseBody error) {
         stopProgressDialog();
-        try {
-            String errorMessage = error.string();
-            showAlert(serverFailure, errorMessage);
-        } catch (IOException e) {
-            showAlert(serverFailure, String.valueOf(code));
-        }
+//        try {
+////            String errorMessage = error.string();
+////            showAlert(serverFailure, errorMessage);
+////        } catch (IOException e) {
+////            showAlert(serverFailure, String.valueOf(code));
+////        }
+        new AlertDialog.Builder(SimpleSearchFragment.this.getContext())
+                .setTitle("Server Error")
+                .setMessage("Please Try Again Later")
+
+                .setPositiveButton("Okay", null)
+
+                //.setNegativeButton("Later", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @BindString(R.string.networking_error)
     String networkingError;
     @Override public void onNetworkError(String errorMessage) {
         stopProgressDialog();
-        showAlert(networkingError, errorMessage);
+        //showAlert(networkingError, errorMessage);
+        new AlertDialog.Builder(SimpleSearchFragment.this.getContext())
+                .setTitle("Server Error")
+                .setMessage("Please Try Again Later")
+
+                .setPositiveButton("Okay", null)
+
+                //.setNegativeButton("Later", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

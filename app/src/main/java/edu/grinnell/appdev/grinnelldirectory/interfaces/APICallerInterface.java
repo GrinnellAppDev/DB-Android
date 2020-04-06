@@ -13,7 +13,7 @@ public interface APICallerInterface {
 
     void onSearchSuccess(List<Person> people);
 
-    void authenticateUserCallSuccess(boolean success, Person person);
+    //void authenticateUserCallSuccess(boolean success, Person person);
 
     void onServerFailure(String fail_message);
 

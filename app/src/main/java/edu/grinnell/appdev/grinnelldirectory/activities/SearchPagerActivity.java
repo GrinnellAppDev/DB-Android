@@ -1,38 +1,39 @@
 package edu.grinnell.appdev.grinnelldirectory.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
-import edu.grinnell.appdev.grinnelldirectory.models.Person;
 
 import java.io.Serializable;
+import java.security.GeneralSecurityException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
 import edu.grinnell.appdev.grinnelldirectory.adapters.SearchPagerAdapter;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
+import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchFragmentInterface;
+import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
 import okhttp3.ResponseBody;
+
+//import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 
 /**
  * Parent activity of the simple and advanced search fragments
@@ -63,6 +64,7 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pager);
         ButterKnife.bind(this);
+
 
         try {
             mUser = User.getUser(this);
@@ -174,16 +176,38 @@ public class SearchPagerActivity extends AppCompatActivity implements Serializab
     }
 
     @Override public void onServerError(int code, ResponseBody error) {
-        mConnectionProgress.setVisibility(View.INVISIBLE);
-        mErrorMessage.setVisibility(View.VISIBLE);
-        mRetryButton.setVisibility(View.VISIBLE);
-        mErrorMessage.setText(R.string.server_failure);
+//        mConnectionProgress.setVisibility(View.INVISIBLE);
+//        mErrorMessage.setVisibility(View.VISIBLE);
+//        mRetryButton.setVisibility(View.VISIBLE);
+//        mErrorMessage.setText(R.string.server_failure);
+        new AlertDialog.Builder(this)
+                .setTitle("Server Error")
+                .setMessage("Please Try Again Later")
+
+                .setPositiveButton("Okay", null)
+
+                //.setNegativeButton("Later", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @Override public void onNetworkError(String errorMessage) {
-        mConnectionProgress.setVisibility(View.INVISIBLE);
-        mErrorMessage.setVisibility(View.VISIBLE);
-        mRetryButton.setVisibility(View.VISIBLE);
-        mErrorMessage.setText(R.string.no_connection);
+        //mConnectionProgress.setVisibility(View.INVISIBLE);
+        //mErrorMessage.setVisibility(View.VISIBLE);
+        //mRetryButton.setVisibility(View.VISIBLE);
+        //mErrorMessage.setText(R.string.no_connection);
+        new AlertDialog.Builder(this)
+                .setTitle("Network Error")
+                .setMessage("Please connect to GrinnellCollege Wifi")
+
+                .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+                    }
+                })
+
+                .setNegativeButton("Later", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

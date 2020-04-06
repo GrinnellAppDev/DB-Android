@@ -1,10 +1,11 @@
 package edu.grinnell.appdev.grinnelldirectory;
 
+import java.util.List;
+
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchAPI;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.DbSearchCallback;
 import edu.grinnell.appdev.grinnelldirectory.interfaces.SearchCaller;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
-import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +49,7 @@ public class DBAPICaller implements SearchCaller {
             ""
         );
     }
+
 
     @Override public void advancedSearch(String lastName, String firstName, String userName,
         String campusPhone, String campusAddress, String homeAddress, String classYear,

@@ -16,17 +16,17 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.grinnell.appdev.grinnelldirectory.DBAPICaller;
 import edu.grinnell.appdev.grinnelldirectory.R;
-import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 import edu.grinnell.appdev.grinnelldirectory.models.Person;
 import edu.grinnell.appdev.grinnelldirectory.models.User;
+
+//import edu.grinnell.appdev.grinnelldirectory.interfaces.APICallerInterface;
 
 /**
  * LoginActivity prompts the user to sign in.
  */
 
-public class LoginActivity extends AppCompatActivity implements APICallerInterface {
+public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.username)
     EditText mUsernameEditText;
     @BindView(R.id.password)
@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
         login(user);
     }
 
-    @Override
     public void onSearchSuccess(List<Person> people) {
         stopProgressDialog();
     }
@@ -96,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     @BindString(R.string.authentication_failure)
     String authenticationFailure;
 
-    @Override
+
     public void authenticateUserCallSuccess(boolean success, Person person) {
         stopProgressDialog();
         if (success) {
@@ -125,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     @BindString(R.string.server_failure)
     String serverFailure;
 
-    @Override
+
     public void onServerFailure(String fail_message) {
         stopProgressDialog();
         showAlert(serverFailure + fail_message);
@@ -139,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements APICallerInterfa
     @BindString(R.string.networking_error)
     String networkingError;
 
-    @Override
+
     public void onNetworkingError(String fail_message) {
         stopProgressDialog();
         showAlert(networkingError + fail_message);
